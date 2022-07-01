@@ -1,0 +1,10 @@
+@import '../sass/typography.scss';
+
+.auth-links {
+    align-items: center;
+    display: grid;
+    font-family: $sans-serif;
+    gap: 1rem;
+    grid-template-columns: auto auto;
+    margin: 0 2rem 0 0;
+}
