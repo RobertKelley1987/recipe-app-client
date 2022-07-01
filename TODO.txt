@@ -1,0 +1,6 @@
+1. Cooking directions are really inconsistent. How can I fix this? Try to brainstorm
+or find a better API.
+2. id 52905 -- chocolate souffle -- duplicate ingredients. Fix this "edge case"... i hate
+this api.
+3. 52992 and 52807 -- use random \r\n\ in middle of sentences. Fix this "edge case" too.
+

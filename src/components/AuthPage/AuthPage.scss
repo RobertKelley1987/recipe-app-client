@@ -1,13 +1,12 @@
-@import '../sass/typography.scss';
-@import '../sass/colors.scss';
-@import '../sass/numbers.scss';
+@import '../../sass/typography.scss';
+@import '../../sass/colors.scss';
+@import '../../sass/numbers.scss';
 
 .auth-page {
     align-items: center;
     display: flex;
     height: calc(100vh - 60px);
     justify-content: center;
-    margin-top: 60px;
     width: 100%;
     &__form-wrapper {
         align-items: flex-start;

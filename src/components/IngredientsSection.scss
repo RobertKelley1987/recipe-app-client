@@ -1,0 +1,20 @@
+@import '../sass/typography';
+
+.ingredients-section {
+    margin: 6rem 0 0 0;
+    width: 100%;
+    &__heading {
+        font-family: $serif;
+        font-size: 3.5rem;
+    }
+    &__list {
+        margin-top: 2rem;
+        columns: 2;
+    }
+    &__list-item {
+        margin-bottom: 2rem;
+        list-style-type: none;
+        font-size: 1.25rem;
+        text-transform: capitalize;
+    }
+}
