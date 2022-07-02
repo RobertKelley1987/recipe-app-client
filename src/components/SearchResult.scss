@@ -1,0 +1,20 @@
+.search-result {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+    &__img {
+        border-radius: 5px;
+        display: inline-flex;
+        height: auto;
+        margin: 0 2rem 0 0;
+        width: 100px;
+    }
+    &__name {
+        display: inline-flex;
+    }
+    &__wrapper {
+        display: flex;
+        align-items: center;
+    }
+}

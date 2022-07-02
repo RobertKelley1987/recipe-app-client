@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import IngredientsSection from './IngredientsSection';
 import PrepSection from './PrepSection';
 import HeartSVG from './SVGs/HeartSVG';
@@ -18,25 +19,31 @@ const renderTags = ({ strTags }) => {
 
 const RecipePage = ({ userId, favorites, setFavorites }) => {
     const [recipe, setRecipe] = useState(null);
+    const { id } = useParams();
+
+    console.log("FAVORITES:");
+    console.log(favorites);
 
     useEffect(() => {
         const getRecipe = async () => {
-            const { data } = await axios.get('https://www.themealdb.com/api/json/v1/1/random.php');
+            if(!id) { return }
+            const slug = id === 'random' ? 'random.php' : `lookup.php?i=${id}`; 
+            const { data } = await axios.get(`https://www.themealdb.com/api/json/v1/1/${slug}`);
             setRecipe(data.meals[0]);
-            console.log(data.meals[0]);
         }
+
         getRecipe();
-    }, []); 
+    }, [id]); 
 
     const addToFavorites = async recipeId => {
-        console.log(favorites);
-        console.log("working");
         const { data } = await axios.post(`/users/${userId}/favorites`, { recipeId: recipeId });
-        console.log(data);
         setFavorites(data.favorites); 
     }
 
     const configHeartClasses = (favorites, recipeId) => {
+        console.log("config heart classes");
+        console.log(favorites);
+        console.log(recipeId);
         let classes = "recipe-page__svg";
         if(favorites.includes(recipeId)) {
             classes += " recipe-page__svg--fav";

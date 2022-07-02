@@ -15,6 +15,10 @@ const AuthLinks = () => {
 }
 
 const Header = ({ userId, setUserId }) => {
+    const Hamburger = () => {
+        
+    }
+
     return (
         <header className="header">
             {userId && <HamburgerSVG className={"header__svg"}/>}

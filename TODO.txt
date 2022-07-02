@@ -2,5 +2,20 @@
 or find a better API.
 2. id 52905 -- chocolate souffle -- duplicate ingredients. Fix this "edge case"... i hate
 this api.
-3. 52992 and 52807 -- use random \r\n\ in middle of sentences. Fix this "edge case" too.
+3. 52992 and 52807 -- both use random \r\n\ in middle of sentences. Fix this "edge case" too.
+4. Having this idea to make the hamburger a realistic looking hamburger (like the food)
+on hover... bad idea??? If so, delete 'RealHamburgerSVG' from SVGs folder.
+5. recipe page and recipe square both require a 'bold-text' class. Find to a way to share it
+or get rid of it.
+6. In ingredients listing, can I fix awkward wording, ex: 'Pinch Salt', 'Sprinkling Thyme', 
+'For Frying Oil', 'To Taste Salt'. Can I replace all with
+'A Pinch Of Salt'?
+7. Inspect for semantic html. Am I just using divs when I could have used something else?
+8. Check SASS for alphabetized properties.
 
+MISC EDGE CASES:
+52954 - hot and sour soup - single STEP declaration at top.
+52802 - fish pie - different numbering. '01., 02.'
+52964 - smoked haddock kedgeree - LS symbol in directions. FIX ME!!!
+53013 - numbered directions, but '1.' is missing from 1st step.
+53056 - croatian lamb peka - looks wierd... not sure how to fix.

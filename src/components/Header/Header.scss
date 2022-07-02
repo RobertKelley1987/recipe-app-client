@@ -23,6 +23,10 @@
     &__svg {
         height: 32px;
         width: 32px;
+        stroke: $green;
         stroke-width: 1px;
+        &:hover {
+            cursor: pointer;
+        }
     }
 }

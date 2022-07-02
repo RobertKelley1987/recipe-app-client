@@ -1,0 +1,52 @@
+@import '../sass/colors.scss';
+@import '../sass/typography.scss';
+
+.list-square {
+    &__img {
+        border-radius: 5px;
+        height: auto;
+        width: 100%;
+    }
+    &__img-placeholder {
+        background-color: white;
+        border: 1px solid $green;
+        border-radius: 5px;
+        display: block;
+        height: 0;
+        padding-bottom: 100%;
+        position: relative;
+        width: 100%;
+    }
+    &__img-placeholder-letter {
+        color: $green;
+        display: flex;
+        font-family: $serif;
+        font-size: 3rem;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+    }
+    &__link {
+        &:hover {
+            color: $green;
+            & .list-square {
+                &__img-placeholder, &__img {
+                    box-shadow: 10px -10px $green;
+                }
+            }
+        }
+    }
+    &__meta-data {
+        font-size: .8rem;
+        margin: .5rem 0 0 0;
+        &--bold {
+            font-weight: 600;
+        }
+    }
+    &__name {
+        font-size: 1.25rem;
+        margin: 1rem 0 0 0;
+    }
+}
