@@ -12,6 +12,11 @@ or get rid of it.
 'A Pinch Of Salt'?
 7. Inspect for semantic html. Am I just using divs when I could have used something else?
 8. Check SASS for alphabetized properties.
+9. Right now... I can add the same list item twice. I should not be able to do that.
+Provide user with an error message, or disable add button, and prevent in back end too.
+10. On sign up page... need to handle error if email is already in the system. Need to handle
+that on the backend too.
+11. Password reset?????
 
 MISC EDGE CASES:
 52954 - hot and sour soup - single STEP declaration at top.

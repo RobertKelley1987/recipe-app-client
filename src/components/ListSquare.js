@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import ImgPlaceholder from './ImgPlaceholder';
 import './ListSquare.scss';
 
 const ListSquare = ({ list }) => {
@@ -19,22 +20,10 @@ const ListSquare = ({ list }) => {
         getImg(list.recipes[0]);
     }, [list]);
 
-    const renderImg = (imgSrc, imgAlt) => {
-        if(imgSrc) {
-            return <img className="list-square__img" src={imgSrc} alt={imgAlt}/>
-        } else {
-            return (
-            <div className="list-square__img-placeholder">
-                <div className="list-square__img-placeholder-letter">l</div>
-            </div>
-            )
-        }
-    }
-
     return (
         <div className="list-square">
             <Link className="list-square__link" to={`/lists/${list._id}`}>
-                {renderImg(imgSrc, imgAlt)}
+                {imgSrc ? <img className="list-square__img" src={imgSrc} alt={imgAlt}/> : <ImgPlaceholder letter='l' />}
                 <h2 className="list-square__name">{list.name}</h2>
                 <p className="list-square__meta-data">{list.recipes.length} Recipes</p>
             </Link>

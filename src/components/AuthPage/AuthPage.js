@@ -1,5 +1,5 @@
 import axios from 'axios'; 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AuthPage.scss';
 import './AuthForm.scss';
@@ -7,14 +7,24 @@ import './AuthForm.scss';
 const AuthPage = ({ title, slug, setUserId }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const { data: { userId } } = await axios.post(slug, { email: email, password: password });
-    setUserId(userId);
-    navigate('/');
+    const { data: { userId, err } } = await axios.post(slug, { email: email, password: password });
+    if(err) {
+      setErrorMessage(err.message)
+    } else {
+      setUserId(userId);
+      navigate('/');
+    }
   }
+
+  // Clear error message if switching from log in to sign in screen, or vice versa
+  useEffect(() => {
+    setErrorMessage('')
+  }, [title])
 
   return (
     <div className="auth-page">
@@ -41,6 +51,7 @@ const AuthPage = ({ title, slug, setUserId }) => {
           />
           <input className="auth-form__button" type="submit" />
         </form>
+        {errorMessage && <p className="auth-page__error-message">{errorMessage}</p>}
       </div>
     </div>
   );

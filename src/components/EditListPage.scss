@@ -5,11 +5,16 @@
     margin: 6rem 0; 
     width: 100%;
     max-width: 800px;
+    &__empty-list {
+        padding: 3rem 0;
+        font-size: 2rem;
+        font-weight: 600;
+        color: $green;
+    }
     &__find-recipes {
         display: block;
         font-size: 1.25rem;
         font-weight: 600;
-        margin: 3rem 0 0 0;
         &:hover {
             color: $green;
             cursor: pointer;
@@ -19,7 +24,7 @@
         display: grid;
         gap: 2rem;
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        margin: 3rem 0 0 0;
+        margin: 3rem 0;
     }
     &__list-name {
         font-size: 3.5rem;

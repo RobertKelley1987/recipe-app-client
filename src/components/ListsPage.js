@@ -17,7 +17,7 @@ const ListsPage = ({ userId, lists }) => {
                 <button onClick={createNewList}>New List</button>
             </header>   
             <section>
-                {lists.map(list => <ListSquare list={list} />)}
+                {lists.map(list => <ListSquare key={list._id} list={list} />)}
             </section>
         </main>
     )
