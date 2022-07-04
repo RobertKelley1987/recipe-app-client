@@ -1,0 +1,24 @@
+@import '../../sass/colors.scss';
+@import '../../sass/typography.scss';
+
+.back-button {
+    align-items: center;
+    display: flex;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 3rem;
+    width: max-content;
+    &:hover {
+        color: $green;
+        cursor: pointer;
+        & svg {
+            stroke: $green;
+        }
+    }
+    &__svg {
+        height: 40px;
+        margin-right: 1rem;
+        stroke: $black;
+        width: 40px;
+    }
+}

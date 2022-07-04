@@ -1,0 +1,8 @@
+@import '../../sass/colors.scss';
+@import '../../sass/typography.scss';
+
+.results-section {
+    &__green-text {
+        color: $green;
+    }
+}

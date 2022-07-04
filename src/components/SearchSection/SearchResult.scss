@@ -1,4 +1,4 @@
-.recipe-result {
+.search-result {
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -10,8 +10,16 @@
         margin: 0 2rem 0 0;
         width: 100px;
     }
+    &__img-placeholder {
+        padding-bottom: 100px;
+        width: 100px;
+        margin-right: 2rem;
+    }
     &__name {
         display: inline-flex;
+    }
+    &__type {
+        text-transform: capitalize;
     }
     &__wrapper {
         display: flex;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import RecipeSquare from './RecipeSquare';
-import SearchSection from './SearchSection';
+import SearchSection from './SearchSection/SearchSection';
 import './EditListPage.scss';
 
 const EditListPage = () => {
@@ -49,7 +49,7 @@ const EditListPage = () => {
             </header>
             {renderListGrid(list)}
             {searchIsVisible 
-                ? <SearchSection listId={listId} list={list} setList={setList} setSearchIsVisible={setSearchIsVisible}/> 
+                ? <SearchSection list={list} listId={listId} setList={setList} setSearchIsVisible={setSearchIsVisible} /> 
                 : <span onClick={() => setSearchIsVisible(true)} className="edit-list-page__find-recipes">Find Recipes</span>
             }
         </main>
