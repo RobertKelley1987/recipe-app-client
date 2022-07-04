@@ -3,6 +3,7 @@ import { useState } from 'react';
 import AddButton from './AddButton';
 import DeleteButton from './DeleteButton';
 import ImgPlaceholder from '../ImgPlaceholder';
+import RecipeLink from './RecipeLink';
 import './SearchResult.scss'; 
 
 const apiCodeLetters = {
@@ -12,12 +13,12 @@ const apiCodeLetters = {
 }
 
 const renderButton = (list, listId, resultId, resultType, setList) => {
-    console.log(list);
     if (resultType === 'recipe') {
         if (list.recipes.includes(resultId)) {
             return <DeleteButton recipeId={resultId} listId={listId} setList={setList} />
-        }
+        } else {
             return <AddButton recipeId={resultId} listId={listId} setList={setList} />
+        }
     }
 }
 
@@ -44,13 +45,13 @@ const SearchResult = ({ list, listId, setList, resultId, resultImg, resultName, 
 
     return (
         <div onClick={() => getFilteredRecipes(resultName)} className="search-result" key={resultId}>
-            <div className="search-result__wrapper">
+            <RecipeLink className="search-result__wrapper" resultType={resultType} url={`/recipes/${resultId}`}>
                 {renderImg (imgError, setImgError, resultImg, resultName)}
                 <div>
                     <h3 className="search-result__name">{resultName}</h3>
                     <p className="search-result__type">{resultType}</p>
                 </div>
-            </div>
+            </RecipeLink>
             {renderButton (list, listId, resultId, resultType, setList)}
         </div>
     )

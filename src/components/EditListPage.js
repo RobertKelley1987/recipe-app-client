@@ -1,15 +1,17 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ListName from './ListName';
 import RecipeSquare from './RecipeSquare';
 import SearchSection from './SearchSection/SearchSection';
 import './EditListPage.scss';
 
-const EditListPage = () => {
+const EditListPage = ({ setLists, userId }) => {
     const [list, setList] = useState(null);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const { id : listId } = useParams();
 
+    // get list data when page first loads
     useEffect(() => {
         const getList = async () => {
             const { data } = await axios.get(`/lists/${listId}`);
@@ -19,8 +21,8 @@ const EditListPage = () => {
         getList();
     }, [listId]);
 
-    // If user has no recipes in this list, make search section visible
     useEffect(() => {
+         // If user has no recipes in this list, make search section visible
         if(list && list.recipes < 1) {
             setSearchIsVisible(true);
         }
@@ -45,7 +47,7 @@ const EditListPage = () => {
     return list && (
         <main className="edit-list-page">
             <header>
-                <h1 className="edit-list-page__list-name">{list.name}</h1>
+                <ListName list={list} listId={listId} setList={setList} setLists={setLists} userId={userId} />
             </header>
             {renderListGrid(list)}
             {searchIsVisible 

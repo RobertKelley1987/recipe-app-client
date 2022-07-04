@@ -26,25 +26,13 @@ const App = () => {
     getSession();
   }, []);
 
-  useEffect(() => {
-    const getUserData = async userId => {
-      if(userId) {
-        const { data } = await axios.get(`/users/${userId}`);
-        setFavorites(data.favorites);
-        setLists(data.lists);
-      }
-    }
-
-    getUserData(userId);
-  }, [userId]);
-
   // Do not show any content until server returns session confirmation.
   const renderHomePage = () => {
     if (isLoading) {
       return 'Loading...';
     // If server returns a user id, show user's home page, otherwise redirect to sign in page.
     } else if (userId) {
-      return <HomePage favorites={favorites} lists={lists} userId={userId} />;
+      return <HomePage favorites={favorites} setFavorites={setFavorites} lists={lists} setLists={setLists} userId={userId} />;
     } else {
       return <Navigate to='/signup' />;
     }
@@ -59,7 +47,7 @@ const App = () => {
           <Route path='/signup' element={<AuthPage title='sign up' slug='/signup' setUserId={setUserId} />} />
           <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
           <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} setFavorites={setFavorites} />} />
-          <Route path='/lists/:id' element={<EditListPage />} />
+          <Route path='/lists/:id' element={<EditListPage userId={userId} setLists={setLists} />} />
           <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
         </Routes>
       </div>

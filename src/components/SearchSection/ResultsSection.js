@@ -43,11 +43,11 @@ const getImgSrc = (result, resultType) => {
 const renderFilteredHeading = (filterType, filteredBy) => {
     switch (filterType) {
         case 'category':
-            return <h2>Results in the <span className="results-section__green-text">{filteredBy}</span> category</h2>;
+            return <h2>Recipes in the <span className="results-section__green-text">{filteredBy}</span> category</h2>;
         case 'cuisine':
-            return <h2>Results from <span className="results-section__green-text">{filteredBy}</span> cuisine</h2>;
+            return <h2>Recipes in <span className="results-section__green-text">{filteredBy}</span> cuisine</h2>;
         case 'ingredient':
-            return <h2>Results with <span className="results-section__green-text">{filteredBy}</span> as an ingredient</h2>
+            return <h2>Recipes with <span className="results-section__green-text">{filteredBy}</span> as an ingredient</h2>
         default:
             return '';
     }

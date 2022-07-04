@@ -49,6 +49,7 @@ const SearchSection = ({ list, listId, setList, setSearchIsVisible }) => {
                     if(item[nameProp].toLowerCase().includes(searchTerm.toLowerCase())) {
                         return item;
                     }
+                    return false;
                 });
                 setItems(results);
             }
@@ -88,7 +89,7 @@ const SearchSection = ({ list, listId, setList, setSearchIsVisible }) => {
 
         // clear timeout each time component re-renders
         return () => clearTimeout(timeoutId);
-    }, [searchTerm]);
+    }, [searchTerm, allCategories, allCuisines, allIngredients]);
 
     const renderSearchResults = filterType => {
         if(!filterType) {
@@ -137,6 +138,7 @@ const SearchSection = ({ list, listId, setList, setSearchIsVisible }) => {
                 <ResultsSection 
                     filterType={filterType}
                     filteredBy={filteredBy} 
+                    list={list}
                     listId={listId} 
                     results={filteredRecipes} 
                     resultType='recipe' 
