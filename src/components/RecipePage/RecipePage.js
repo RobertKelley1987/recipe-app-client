@@ -1,10 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import IngredientsSection from './IngredientsSection';
+import IngredientsSection from '../IngredientsSection';
 import PrepSection from './PrepSection';
-import HeartSVG from './SVGs/HeartSVG';
-import PlusSVG from './SVGs/PlusSVG';
+import HeartSVG from './../SVGs/HeartSVG';
+import PlusSVG from './../SVGs/PlusSVG';
 import './RecipePage.scss';
 
 const renderTags = ({ strTags }) => {

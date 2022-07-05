@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import AddButton from './AddButton';
+import ArrowRightSVG from '../SVGs/ArrowRightSVG';
 import DeleteButton from './DeleteButton';
 import ImgPlaceholder from '../ImgPlaceholder';
 import RecipeLink from './RecipeLink';
@@ -19,6 +20,8 @@ const renderButton = (list, listId, resultId, resultType, setList) => {
         } else {
             return <AddButton recipeId={resultId} listId={listId} setList={setList} />
         }
+    } else {
+        return <ArrowRightSVG className="search-result__svg"/>
     }
 }
 

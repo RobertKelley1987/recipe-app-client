@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
-import CloseSVG from './SVGs/CloseSVG';
+import CloseSVG from './../SVGs/CloseSVG';
 
-const ListNameForm = ({ editingName, setEditingName, list, listId, setList }) => {
+const ListNameForm = ({ editingName, turnEditingNameOff, list, listId, updateList }) => {
     const [listName, setListName] = useState('');
     const nameInput = useRef(null);
     const nameForm = useRef(null);
@@ -17,24 +17,22 @@ const ListNameForm = ({ editingName, setEditingName, list, listId, setList }) =>
     // Close edit name form if you click outside of it
     useEffect(() => {
         const closeForm = e => {
-            console.log('event is happening');
             if (nameInput.current.contains(e.target)) {
                 return
-            } {
-                setEditingName(false);
             }
+            turnEditingNameOff();
         }
 
         document.body.addEventListener('click', closeForm);
 
         return () => document.body.removeEventListener('click', closeForm);
-    }, [editingName]);
+    }, [editingName, turnEditingNameOff]);
 
     // In edit mode, save changes as user types
     useEffect(() => {
         const saveName = async newName => {
             const { data } = await axios.put(`/lists/${listId}`, { name: newName });
-            setList(data.list);
+            updateList(data.list);
         }
 
         let timeoutId = setTimeout(() => {
@@ -44,24 +42,20 @@ const ListNameForm = ({ editingName, setEditingName, list, listId, setList }) =>
         }, 100);
 
         return () => clearTimeout(timeoutId);
-    }, [listName]);
+    }, [listName, listId, updateList]);
 
     // when form firsts loads, set input value to list name
     useEffect(() => {
         setListName(list.name);
-    }, [])
+    }, [list.name])
 
     // Close out editing mode when user hits enter
-    const handleKeyUp = e => {
-        if(e.key === 'Enter') {
-            setEditingName(false);
-        }
-    }
+    const handleKeyUp = e => e.key === 'Enter' && turnEditingNameOff();
 
     return (
         <form ref={nameForm} className="list-name__form" onKeyUp={handleKeyUp} onSubmit={e => e.preventDefault()}>
             <input ref={nameInput} className="list-name__input" onChange={e => setListName(e.target.value)} value={listName} />
-            <CloseSVG className="list-name__svg" handleClick={() => setEditingName(false)}/>
+            <CloseSVG className="list-name__svg" handleClick={turnEditingNameOff} />
         </form>
     )
 }

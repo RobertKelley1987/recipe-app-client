@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ListName from './ListName';
-import RecipeSquare from './RecipeSquare';
-import SearchSection from './SearchSection/SearchSection';
+import RecipeSquare from '../RecipeSquare';
+import SearchSection from './../SearchSection/SearchSection';
 import './EditListPage.scss';
 
 const EditListPage = ({ setLists, userId }) => {
@@ -28,6 +28,8 @@ const EditListPage = ({ setLists, userId }) => {
         }
     }, [list]);
 
+    const updateList = useCallback(newList => setList(newList), []);
+
     const renderListGrid = list => {
         if(list.recipes.length > 0){
             return (
@@ -47,7 +49,7 @@ const EditListPage = ({ setLists, userId }) => {
     return list && (
         <main className="edit-list-page">
             <header>
-                <ListName list={list} listId={listId} setList={setList} setLists={setLists} userId={userId} />
+                <ListName list={list} listId={listId} updateList={updateList} setLists={setLists} userId={userId} />
             </header>
             {renderListGrid(list)}
             {searchIsVisible 

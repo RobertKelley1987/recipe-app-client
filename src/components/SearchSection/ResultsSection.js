@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import SearchResult from './SearchResult';
 import BackButton from './BackButton';
 import './ResultsSection.scss';
@@ -40,16 +39,16 @@ const getImgSrc = (result, resultType) => {
     }
 }
 
-const renderFilteredHeading = (filterType, filteredBy) => {
+const renderHeading = (filterType, filteredBy, resultType) => {
     switch (filterType) {
         case 'category':
-            return <h2>Recipes in the <span className="results-section__green-text">{filteredBy}</span> category</h2>;
+            return <h2 className="results-section__heading">Recipes in the <span className="results-section__green-text">{filteredBy}</span> category</h2>;
         case 'cuisine':
-            return <h2>Recipes in <span className="results-section__green-text">{filteredBy}</span> cuisine</h2>;
+            return <h2 className="results-section__heading">Recipes in <span className="results-section__green-text">{filteredBy}</span> cuisine</h2>;
         case 'ingredient':
-            return <h2>Recipes with <span className="results-section__green-text">{filteredBy}</span> as an ingredient</h2>
+            return <h2 className="results-section__heading">Recipes with <span className="results-section__green-text">{filteredBy}</span> as an ingredient</h2>
         default:
-            return '';
+            return <h2 className="results-section__heading">{resultTypes[resultType].plural}</h2>;
     }
 }
 
@@ -58,9 +57,9 @@ const ResultsSection = props => {
 
     if (results && results.length) {
         return (
-            <Fragment>
+            <div className="results-section">
                 {filterType && <BackButton {...props} />}
-                {filterType ? renderFilteredHeading(filterType, filteredBy) : <h2>{resultTypes[resultType].plural}</h2>}
+                {renderHeading(filterType, filteredBy, resultType)}
                 {results.map(result => {
                     return <SearchResult 
                                 key={result[resultTypes[resultType].idProp]} 
@@ -70,7 +69,7 @@ const ResultsSection = props => {
                                 {...props}
                             />
                 })}
-            </Fragment>
+            </div>
         );
     }
 }

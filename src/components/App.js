@@ -2,11 +2,11 @@ import axios from 'axios';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import AuthPage from './AuthPage/AuthPage';
-import EditListPage from './EditListPage';
+import EditListPage from './EditListPage/EditListPage';
 import Header from './Header/Header';
 import HomePage from './HomePage/HomePage';
 import ListsPage from './ListsPage';
-import RecipePage from './RecipePage';
+import RecipePage from './RecipePage/RecipePage';
 import './App.scss';
 
 const App = () => {
