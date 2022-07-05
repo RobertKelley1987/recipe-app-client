@@ -5,12 +5,12 @@ const getIngredients = recipe => {
 
     while(!outOfIngredients) {
         // Push ingredient with its measurement from recipe onto array
-        ingredientsList.push({ name: recipe[`strIngredient${i}`], qty: recipe[`strMeasure${i}`]});
+        ingredientsList.push({ name: recipe[`strIngredient${i}`], qty: recipe[`strMeasure${i}`] });
 
         // Increment counter
         i++;
 
-        // If next ingredient is an empty string, exit loop
+        // If ingredient is empty OR max ingredients is reached, exit loop
         if(!recipe[`strIngredient${i}`] || i === 20) {
             outOfIngredients = true;
         }

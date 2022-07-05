@@ -21,6 +21,11 @@ that on the backend too.
 the results only showed items starting with that letter.
 13. See Edit list page and edit list name form. Am I using useCallback correctly? I added them
 to make the error messages go away.
+14. On the show page for a recipe -- the category and cuisine meta-data spans should be LINKS
+TO THEIR RESPECTIVE 'browse by' pages, ex: 'browse by category -- american cuisine'
+15. Revisit my INSTRUCTIONS algorithm if I have time. I feel like it's not as great as it could be.
+16. When a user add's a favorite, a little popup should confirm it has been added, or provide
+an error message
 
 MISC EDGE CASES -- RECIPE INSTRUCTIONS:
 52954 - hot and sour soup - single STEP declaration at top.
@@ -28,3 +33,4 @@ MISC EDGE CASES -- RECIPE INSTRUCTIONS:
 52964 - smoked haddock kedgeree - LS symbol in directions. FIX ME!!!
 53013 - numbered directions, but '1.' is missing from 1st step.
 53056 - croatian lamb peka - looks wierd... not sure how to fix.
+52998  - corned beef and cabbage
