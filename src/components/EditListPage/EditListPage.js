@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import DeleteRecipe from './DeleteRecipe';
 import ListName from './ListName';
 import RecipeSquare from '../RecipeSquare';
 import SearchSection from './../SearchSection/SearchSection';
+import './DeleteRecipe.scss';
 import './EditListPage.scss';
 
-const EditListPage = ({ setLists, userId }) => {
-    const [list, setList] = useState(null);
+const EditListPage = ({ list, setList, setLists, userId }) => {
     const [searchIsVisible, setSearchIsVisible] = useState(false);
-    const { id : listId } = useParams();
+    const { listId } = useParams();
 
     // get list data when page first loads
     useEffect(() => {
@@ -34,7 +35,14 @@ const EditListPage = ({ setLists, userId }) => {
         if(list.recipes.length > 0){
             return (
                 <div className="edit-list-page__list-grid">
-                    {list.recipes.map(recipeId => <RecipeSquare key={recipeId} recipeId={recipeId} />)}
+                    {list.recipes.map(recipeId => {
+                        return <RecipeSquare 
+                                    key={recipeId} 
+                                    recipeId={recipeId} 
+                                    editPage={true} 
+                                    listId={listId} 
+                                />
+                    })}
                 </div>
             );
         } else {

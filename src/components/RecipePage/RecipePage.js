@@ -37,6 +37,16 @@ const RecipePage = ({ userId, favorites, setFavorites }) => {
         getRecipe();
     }, [id]); 
 
+    useEffect(() => {
+        let timeoutId;
+
+        if(successMessage) {
+            timeoutId = setTimeout(() => setSuccessMessage(''), 3000);
+        }
+
+        return () => clearTimeout(timeoutId); 
+    }, [successMessage])
+
     const addToFavorites = async recipeId => {
         const { data } = await axios.post(`/users/${userId}/favorites`, { recipeId: recipeId });
         setFavorites(data.favorites); 
@@ -64,8 +74,7 @@ const RecipePage = ({ userId, favorites, setFavorites }) => {
         <Fragment>
             {renderModal(modalIsVisible, recipe.idMeal, userId)}
             <main className="recipe-page">
-                <p className="recipe-page__success-message">{successMessage}</p>
-                {console.log("ID MEAL TEST: " + recipe.idMeal)}
+                {successMessage && <p className="recipe-page__success-message">{successMessage}</p>}
                 <header className="recipe-page__header">
                     <img alt="completed recipe" className="recipe-page__img" src={recipe.strMealThumb}></img>
                     <div className="recipe-page__header-wrapper">

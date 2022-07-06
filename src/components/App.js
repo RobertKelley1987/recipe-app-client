@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { Fragment, useEffect, useState } from 'react';
 import AuthPage from './AuthPage/AuthPage';
+import DeleteRecipe from './EditListPage/DeleteRecipe';
 import EditListPage from './EditListPage/EditListPage';
 import Header from './Header/Header';
 import HomePage from './HomePage/HomePage';
@@ -14,6 +15,9 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState([]);
   const [lists, setLists] = useState([]);
+  const [list, setList] = useState(null);
+  const location = useLocation();
+  const backgroundLocation = location.state && location.state.backgroundLocation;
 
   useEffect(() => {
     // On initial load, make request to server with cookie to check if user is logged in
@@ -39,19 +43,23 @@ const App = () => {
   }
 
   return (
-    <BrowserRouter>
+    <Fragment>
       <Header userId={userId} setUserId={setUserId} />
       <div className="app">
-        <Routes>
+        <Routes location = { backgroundLocation || location }>
           <Route path='/' element={renderHomePage()} />
           <Route path='/signup' element={<AuthPage title='sign up' slug='/signup' setUserId={setUserId} />} />
           <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
           <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} setFavorites={setFavorites} />} />
-          <Route path='/lists/:id' element={<EditListPage userId={userId} setLists={setLists} />} />
+          <Route path='/lists/:listId' element={<EditListPage list={list} setList={setList} userId={userId} setLists={setLists} />} />
           <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
         </Routes>
+
+        {backgroundLocation && <Routes>
+            <Route path='lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList}/>} />
+        </Routes>}
       </div>
-    </BrowserRouter>
+    </Fragment>
   );
 }
 

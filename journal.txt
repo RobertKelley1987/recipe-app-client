@@ -9,3 +9,7 @@ event listener kept loading before element was actually shown on screen.
 Took me an hour to figure out I could add 'stop propogation' to the element
 that was causing the same state change to trigger twice. This was in the 
 ListName / ListNameForm components.
+
+7/6
+Added success and error messages to add recipe to list feature on recipe show page.
+Added apology text for ingredient filters with no recipes... is there a better way yo handle that???

@@ -3,11 +3,17 @@
 
 .results-section {
     margin: 0 0 3rem 0;
+    &__apology {
+        font-size: 2rem;
+        font-weight: 600;
+        color: $green;
+    }
     &__green-text {
         color: $green;
     }
     &__heading {
         font-family: $serif;
         font-size: 2.5rem;
+        text-transform: lowercase;
     }
 }

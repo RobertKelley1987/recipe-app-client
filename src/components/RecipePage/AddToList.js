@@ -1,21 +1,36 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import CloseSVG from '../SVGs/CloseSVG';
 import './AddToList.scss';
 
-const List = ({ list, recipeId, setModalIsVisible, setSuccessMessage }) => {
+const renderErrorMessage = (errorMessage, setErrorMessage) => {
+    if(errorMessage) {
+        return (
+            <div className="add-to-list__error-message" onClick={() => setErrorMessage('')}>
+                <CloseSVG className="add-to-list__error-svg" />
+                <p className="add-to-list__error-text">{errorMessage}</p>
+            </div>
+        )
+    }    
+}
+
+const List = ({ list, recipeId, setModalIsVisible, setErrorMessage, setSuccessMessage }) => {
     const handleClick = async () => {
-        const { data } = await axios.post(`/lists/${list._id}/recipes`, { recipeId: recipeId});
-        if(data.list._id) {
-            setSuccessMessage(`Recipe added to ${data.list.name}`);
+        const { data } = await axios.post(`/lists/${list._id}/recipes`, { recipeId: recipeId });
+        if(data.err) {
+            setErrorMessage('Recipe is already included in this list');
+        } else {
+            setSuccessMessage(`Recipe added!`);
             setModalIsVisible(false);
         }
     }
 
-    return <li onClick={handleClick}>{list.name}</li>
+    return <li className="add-to-list__list" onClick={handleClick}>{list.name}</li>
 }
 
 const AddToList = ({ recipeId, setModalIsVisible, setSuccessMessage, userId }) => {
     const [lists, setLists] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
 
     // Get all list data when component first loads and save to component's state
     useEffect(() => {
@@ -29,9 +44,18 @@ const AddToList = ({ recipeId, setModalIsVisible, setSuccessMessage, userId }) =
 
     return lists && (
         <div className="add-to-list">
-            <h2>Add To List</h2>
+            <h2 className="add-to-list__heading">Add To List</h2>
+            {renderErrorMessage(errorMessage, setErrorMessage)}
             <ul>
-                {lists.map(list => <List list={list} recipeId={recipeId} setModalIsVisible={setModalIsVisible} setSuccessMessage={setSuccessMessage} />)}
+                {lists.map(list => {
+                    return <List 
+                                list={list} 
+                                recipeId={recipeId}
+                                setErrorMessage={setErrorMessage} 
+                                setModalIsVisible={setModalIsVisible} 
+                                setSuccessMessage={setSuccessMessage} 
+                            />
+                })}
             </ul>
         </div>
     );

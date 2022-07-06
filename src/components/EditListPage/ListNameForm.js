@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import CloseSVG from './../SVGs/CloseSVG';
 
-const ListNameForm = ({ editingName, turnEditingNameOff, list, listId, updateList }) => {
+const ListNameForm = ({ editingName, turnOffEditMode, list, listId, updateList }) => {
     const [listName, setListName] = useState('');
     const nameInput = useRef(null);
     const nameForm = useRef(null);
@@ -20,13 +20,13 @@ const ListNameForm = ({ editingName, turnEditingNameOff, list, listId, updateLis
             if (nameInput.current.contains(e.target)) {
                 return
             }
-            turnEditingNameOff();
+            turnOffEditMode();
         }
 
         document.body.addEventListener('click', closeForm);
 
         return () => document.body.removeEventListener('click', closeForm);
-    }, [editingName, turnEditingNameOff]);
+    }, [editingName, turnOffEditMode]);
 
     // In edit mode, save changes as user types
     useEffect(() => {
@@ -47,15 +47,15 @@ const ListNameForm = ({ editingName, turnEditingNameOff, list, listId, updateLis
     // when form firsts loads, set input value to list name
     useEffect(() => {
         setListName(list.name);
-    }, [list.name])
+    }, []);
 
     // Close out editing mode when user hits enter
-    const handleKeyUp = e => e.key === 'Enter' && turnEditingNameOff();
+    const handleKeyUp = e => e.key === 'Enter' && turnOffEditMode();
 
     return (
         <form ref={nameForm} className="list-name__form" onKeyUp={handleKeyUp} onSubmit={e => e.preventDefault()}>
             <input ref={nameInput} className="list-name__input" onChange={e => setListName(e.target.value)} value={listName} />
-            <CloseSVG className="list-name__svg" handleClick={turnEditingNameOff} />
+            <CloseSVG className="list-name__svg" handleClick={turnOffEditMode} />
         </form>
     )
 }

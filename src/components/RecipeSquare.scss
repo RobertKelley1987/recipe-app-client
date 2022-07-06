@@ -3,18 +3,22 @@
 
 .recipe-square {
     font-family: $sans-serif;
+    height: fit-content;
+    position: relative;
+    &__delete-button {
+        display: none;
+        height: 30px;
+        left: 0;
+        margin: .5rem 0 0 .5rem;
+        position: absolute;
+        stroke-width: 1.5px;
+        top: 0;
+        width: 30px;
+    }
     &__img {
         border-radius: 5px;
         height: auto;
         width: 100%;
-    }
-    &__link {
-        &:hover {
-            color: $green;
-            & img {
-                box-shadow: 10px -10px $green;
-            }
-        }
     }
     &__meta-data {
         font-size: .8rem;
@@ -26,5 +30,17 @@
     &__name {
         font-size: 1.25rem;
         margin: 1rem 0 0 0;
+    }
+    &:hover {
+        .recipe-square__link {
+            color: $green;
+        }
+        & img {
+            box-shadow: 10px -10px $green;
+        }
+        & .recipe-square__delete-button {
+            display: block;
+            stroke: $green;
+        }
     }
 }
