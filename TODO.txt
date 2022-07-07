@@ -26,6 +26,11 @@ TO THEIR RESPECTIVE 'browse by' pages, ex: 'browse by category -- american cuisi
 15. Revisit my INSTRUCTIONS algorithm if I have time. I feel like it's not as great as it could be.
 16. When a user add's a favorite, a little popup should confirm it has been added, or provide
 an error message
+17. does my add recipe to list method need to be formatted the same way as my delete recipe
+route??? Talking about react routes, not the back end.
+18. If I get to the show page for a recipe from a list, there should be a "back to list" button 
+or "back" button.
+19. RecipeSquares, ListSquares and now CategorySquares ... make this one component.
 
 MISC EDGE CASES -- RECIPE INSTRUCTIONS:
 52954 - hot and sour soup - single STEP declaration at top.

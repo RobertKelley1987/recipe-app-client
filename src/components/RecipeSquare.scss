@@ -30,6 +30,7 @@
     &__name {
         font-size: 1.25rem;
         margin: 1rem 0 0 0;
+        text-transform: capitalize;
     }
     &:hover {
         .recipe-square__link {

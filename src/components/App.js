@@ -2,6 +2,8 @@ import axios from 'axios';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { Fragment, useEffect, useState } from 'react';
 import AuthPage from './AuthPage/AuthPage';
+import CategoryPage from './CategoryPage';
+import CategoriesPage from './CategoriesPage';
 import DeleteRecipe from './EditListPage/DeleteRecipe';
 import EditListPage from './EditListPage/EditListPage';
 import Header from './Header/Header';
@@ -53,6 +55,8 @@ const App = () => {
           <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} setFavorites={setFavorites} />} />
           <Route path='/lists/:listId' element={<EditListPage list={list} setList={setList} userId={userId} setLists={setLists} />} />
           <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
+          <Route path='/categories' element={<CategoriesPage />} />
+          <Route path='categories/:categoryName' element={<CategoryPage />} />
         </Routes>
 
         {backgroundLocation && <Routes>

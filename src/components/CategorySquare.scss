@@ -1,0 +1,25 @@
+@import '../sass/colors';
+@import '../sass/typography';
+
+.category-square {
+    font-family: $sans-serif;
+    height: fit-content;
+    &__img {
+        border-radius: 5px;
+        height: auto;
+        width: 100%;
+    }
+    &__link:hover {
+        color: $green;
+    }
+    &__name {
+        font-size: 1.25rem;
+        margin: 1rem 0 0 0;
+        text-transform: capitalize;
+    }
+    &:hover {
+        & img {
+            box-shadow: 10px -10px $green;
+        }
+    }
+}

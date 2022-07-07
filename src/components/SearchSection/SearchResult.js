@@ -7,7 +7,7 @@ import ImgPlaceholder from '../ImgPlaceholder';
 import RecipeLink from './RecipeLink';
 import './SearchResult.scss'; 
 
-const apiCodeLetters = {
+const API_CODE_LETTERS = {
     'ingredient': 'i',
     'category': 'c',
     'cuisine': 'a'
@@ -39,7 +39,7 @@ const SearchResult = ({ list, listId, setList, resultId, resultImg, resultName, 
     const getFilteredRecipes = async (name) => {
         if(resultType !== 'recipe') {
             const slugName = name.toLowerCase().replace(/ /g, '_');
-            const { data } = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?${apiCodeLetters[resultType]}=${slugName}`);
+            const { data } = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?${API_CODE_LETTERS[resultType]}=${slugName}`);
             setFilteredRecipes(data.meals);
             setFilteredBy(name);
             setFilterType(resultType);

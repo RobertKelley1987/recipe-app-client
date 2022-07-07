@@ -1,0 +1,23 @@
+@import '../sass/colors.scss';
+@import '../sass/typography.scss';
+
+.filtered-page {
+    margin: 6rem 0;
+    max-width: 800px;
+    min-width: 800px;
+    &__heading {
+        font-family: $serif;
+        font-size: 3.5rem;
+        font-weight: 500;
+        margin: 0 0 3rem 0;
+        text-transform: lowercase;
+    }
+    &__green-text {
+        color: $green;
+    }
+    &__grid {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
