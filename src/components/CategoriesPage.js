@@ -3,7 +3,7 @@ import axios from 'axios';
 import BrowseByPage from './BrowseByPage';
 
 const CategoriesPage = () => {
-    const [categories, setCategories] = useState('');
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         const getCategories = async () => {

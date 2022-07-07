@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import CategorySquares from '../CategorySquares';
+import CuisineSquares from '../CuisineSquares';
 import GridSection from './GridSection';
 import ListSquares from '../ListSquares';
 import RecipeSquares from '../RecipeSquares';
@@ -10,6 +11,8 @@ import './WelcomeSection.scss';
 
 const HomePage = ({ favorites, lists, setFavorites, setLists, userId }) => {
     const [categories, setCategories] = useState([]);
+    const [cuisines, setCuisines] = useState([]);
+
 
     useEffect(() => {
         const getUserData = async userId => {
@@ -26,8 +29,14 @@ const HomePage = ({ favorites, lists, setFavorites, setLists, userId }) => {
             setCategories(data.categories);
         }
 
+        const getCuisines = async () => {
+            const { data } = await axios.get('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
+            setCuisines(data.meals);
+        }
+
         getUserData(userId);
         getCategories();
+        getCuisines();
     }, [userId]);
 
     return (
@@ -41,6 +50,9 @@ const HomePage = ({ favorites, lists, setFavorites, setLists, userId }) => {
             </GridSection>
             <GridSection slug='categories' title='browse by category'>
                 {categories && <CategorySquares categories={categories.slice(0, 4)} />}
+            </GridSection>
+            <GridSection slug='cuisines' title='browse by cuisine'>
+                {cuisines && <CuisineSquares cuisines={cuisines.slice(0, 4)} />}
             </GridSection>
         </main>
     )

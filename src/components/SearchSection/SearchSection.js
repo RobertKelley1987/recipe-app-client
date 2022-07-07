@@ -9,16 +9,16 @@ const SearchSection = ({ list, listId, setList, setSearchIsVisible }) => {
     const [allIngredients, setAllIngredients] = useState([]);
     const [allCategories, setAllCategories] = useState([]);
     const [allCuisines, setAllCuisines] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [recipeResults, setRecipeResults] = useState([]);
+    const [categoryResults, setCategoryResults] = useState([]);
     const [cuisineResults, setCuisineResults] = useState([]);
     const [ingredientResults, setIngredientResults] = useState([]);
-    const [categoryResults, setCategoryResults] = useState([]);
-    const [filteredRecipes, setFilteredRecipes] = useState([]);
     // track whether results are being filtered by ingredient, category or cuisine
     const [filterType, setFilterType] = useState('');
     // track specific item recipes are being filtered by, ex: chili powder
     const [filteredBy, setFilteredBy] = useState('')
+    const [filteredRecipes, setFilteredRecipes] = useState([]);
+    const [recipeResults, setRecipeResults] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect (() => {
         // get a complete list of an item type from api and store in app's state

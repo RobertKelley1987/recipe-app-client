@@ -1,0 +1,11 @@
+@import '../sass/colors';
+@import '../sass/typography';
+
+.footer {
+    background-color: $green;
+    color: white;
+    font-family: $sans-serif;
+    justify-self: flex-end;
+    padding: 1rem;
+    width: 100%;
+}

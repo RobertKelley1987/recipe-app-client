@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './CategorySquare.scss';
 
-const CategorySquare = ({ categoryName, categoryImg }) => {
+const CategorySquare = ({ categoryName }) => {
     const [recipe, setRecipe] = useState(null);
 
     useEffect(() => {

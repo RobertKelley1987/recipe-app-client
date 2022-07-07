@@ -4,8 +4,11 @@ import { Fragment, useEffect, useState } from 'react';
 import AuthPage from './AuthPage/AuthPage';
 import CategoryPage from './CategoryPage';
 import CategoriesPage from './CategoriesPage';
+import CuisinePage from './CuisinePage';
+import CuisinesPage from './CuisinesPage';
 import DeleteRecipe from './EditListPage/DeleteRecipe';
 import EditListPage from './EditListPage/EditListPage';
+import Footer from './Footer';
 import Header from './Header/Header';
 import HomePage from './HomePage/HomePage';
 import ListsPage from './ListsPage';
@@ -47,21 +50,26 @@ const App = () => {
   return (
     <Fragment>
       <Header userId={userId} setUserId={setUserId} />
-      <div className="app">
-        <Routes location = { backgroundLocation || location }>
-          <Route path='/' element={renderHomePage()} />
-          <Route path='/signup' element={<AuthPage title='sign up' slug='/signup' setUserId={setUserId} />} />
-          <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
-          <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} setFavorites={setFavorites} />} />
-          <Route path='/lists/:listId' element={<EditListPage list={list} setList={setList} userId={userId} setLists={setLists} />} />
-          <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
-          <Route path='/categories' element={<CategoriesPage />} />
-          <Route path='categories/:categoryName' element={<CategoryPage />} />
-        </Routes>
+      <div className="app__container">
+        <div className="app">
+          <Routes location = { backgroundLocation || location }>
+            <Route path='/' element={renderHomePage()} />
+            <Route path='/signup' element={<AuthPage title='sign up' slug='/signup' setUserId={setUserId} />} />
+            <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
+            <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} setFavorites={setFavorites} />} />
+            <Route path='/lists/:listId' element={<EditListPage list={list} setList={setList} userId={userId} setLists={setLists} />} />
+            <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
+            <Route path='/categories' element={<CategoriesPage />} />
+            <Route path='/categories/:categoryName' element={<CategoryPage />} />
+            <Route path='/cuisines' element={<CuisinesPage />} />
+            <Route path='/cuisines/:cuisineName' element={<CuisinePage />} />
+          </Routes>
 
-        {backgroundLocation && <Routes>
-            <Route path='lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList}/>} />
-        </Routes>}
+          {backgroundLocation && <Routes>
+              <Route path='lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList}/>} />
+          </Routes>}
+        </div>
+        <Footer />
       </div>
     </Fragment>
   );
