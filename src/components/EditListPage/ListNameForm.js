@@ -32,6 +32,7 @@ const ListNameForm = ({ editingName, turnOffEditMode, list, listId, updateList }
     useEffect(() => {
         const saveName = async newName => {
             const { data } = await axios.put(`/lists/${listId}`, { name: newName });
+            console.log(data.list.recipes);
             updateList(data.list);
         }
 

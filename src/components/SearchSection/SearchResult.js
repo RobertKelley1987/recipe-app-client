@@ -13,12 +13,13 @@ const API_CODE_LETTERS = {
     'cuisine': 'a'
 }
 
-const renderButton = (list, listId, resultId, resultType, updateList) => {
+const renderButton = (list, listId, resultId, resultName, resultType, updateList) => {
     if (resultType === 'recipe') {
-        if (list.recipes.includes(resultId)) {
+        
+        if (list.recipes.findIndex(recipe => recipe.apiId === resultId) !== -1) {
             return <DeleteButton recipeId={resultId} listId={listId} updateList={updateList} />
         } else {
-            return <AddButton recipeId={resultId} listId={listId} updateList={updateList} />
+            return <AddButton recipeId={resultId} recipeName={resultName} listId={listId} updateList={updateList} />
         }
     } else {
         return <ArrowRightSVG className="search-result__svg"/>
@@ -55,7 +56,7 @@ const SearchResult = ({ list, listId, updateList, resultId, resultImg, resultNam
                     <p className="search-result__type">{resultType}</p>
                 </div>
             </RecipeLink>
-            {renderButton (list, listId, resultId, resultType, updateList)}
+            {renderButton (list, listId, resultId, resultName, resultType, updateList)}
         </div>
     )
 }

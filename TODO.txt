@@ -14,7 +14,7 @@ or get rid of it.
 8. Check SASS for alphabetized properties.
 9. Right now... I can add the same list item twice. I should not be able to do that.
 Provide user with an error message, or disable add button, and prevent in back end too.
-11. Password reset?????
+10. Need to be able to delete an entire list
 12. SEARCH SECTION: If I have time, it would be nice if when I search using 1 letter only, 
 the results only showed items starting with that letter.
 13. See Edit list page and edit list name form. Am I using useCallback correctly? I added them

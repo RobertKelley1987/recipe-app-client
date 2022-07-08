@@ -1,7 +1,7 @@
-@import '../sass/colors';
-@import '../sass/typography';
+@import '../../sass/colors';
+@import '../../sass/typography';
 
-.img-square-link {
+.square {
     font-family: $sans-serif;
     height: fit-content;
     position: relative;
@@ -16,7 +16,7 @@
         text-transform: capitalize;
     }
     &:hover {
-        .recipe-square__link {
+        .square__link {
             color: $green;
         }
         & img {

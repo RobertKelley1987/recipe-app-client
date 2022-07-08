@@ -18,12 +18,17 @@ const HomePage = ({ favorites, lists, updateFavorites, updateLists, userId }) =>
     }, []);
 
     useEffect(() => {
-        const getUserData = async userId => {
+        const getFavorites = async userId => {
             if(userId) {
-                const { data } = await axios.get(`/users/${userId}`);
+                const { data } = await axios.get(`/users/${userId}/favorites`);
                 updateFavorites(data.favorites);
-                updateLists(data.lists);
+            }
+        }
 
+        const getLists = async userId => {
+            if(userId) {
+                const { data } = await axios.get(`/users/${userId}/lists`);
+                updateLists(data.lists);
             }
         }
 
@@ -37,7 +42,8 @@ const HomePage = ({ favorites, lists, updateFavorites, updateLists, userId }) =>
             setCuisines(data.meals);
         }
 
-        getUserData(userId);
+        getFavorites(userId);
+        getLists(userId);
         getCategories();
         getCuisines();
     }, [updateFavorites, updateLists, userId]);

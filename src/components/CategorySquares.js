@@ -1,4 +1,4 @@
-import Square from "./Square";
+import Square from "./Square/Square";
 
 const CategorySquares = ({ categories }) => {
     return categories.map(category => {

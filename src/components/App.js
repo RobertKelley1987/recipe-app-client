@@ -36,6 +36,7 @@ const App = () => {
       // once data is returned from server, set loading status to false
       setIsLoading(false);
     }
+
     getSession();
   }, []);
 
@@ -70,7 +71,7 @@ const App = () => {
             <Route path='/' element={renderHomePage()} />
             <Route path='/signup' element={<AuthPage title='sign up' slug='/signup' setUserId={setUserId} />} />
             <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
-            <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} setFavorites={setFavorites} />} />
+            <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} updateFavorites={updateFavorites} />} />
             <Route path='/lists/:listId' element={<EditListPage list={list} updateList={updateList} userId={userId} setLists={setLists} />} />
             <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
             <Route path='/categories' element={<CategoriesPage />} />

@@ -1,9 +1,11 @@
 import axios from 'axios';
 import './Button.scss';
 
-const AddButton = ({ recipeId, listId, updateList }) => {
+const AddButton = ({ recipeId, recipeName, listId, updateList }) => {
     const addToList = async recipeId => {
-        const { data } = await axios.post(`/lists/${listId}/recipes`, { recipeId: recipeId });
+        console.log(recipeId);
+        console.log(recipeName);
+        const { data } = await axios.post(`/lists/${listId}/recipes`, { recipe: { apiId: recipeId, name: recipeName } });
         updateList(data.list);
     }
 

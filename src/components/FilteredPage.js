@@ -59,7 +59,9 @@ const FilteredPage = ({ filterName, filterType, recipes }) => {
     return (
         <main className="filtered-page">
             <h1 className="filtered-page__heading">
-                {filterType} - <span className="filtered-page__green-text">{filterName}</span>
+                {filterType} 
+                {filterName && ' - '}
+                {filterName && <span className="filtered-page__green-text">{filterName}</span>}
             </h1>
             {renderSearchbar(searchVisible, filterTerm, filterType, setSearchVisible, setFilterTerm)}
             {renderRecipes(displayRecipes)}

@@ -20,26 +20,39 @@ const renderTags = ({ strTags }) => {
     }
 }
 
-const RecipePage = ({ userId, favorites, setFavorites }) => {
+const RecipePage = ({ favorites, updateFavorites, userId }) => {
     const [recipe, setRecipe] = useState(null);
     const [modalIsVisible, setModalIsVisible] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const { id } = useParams();
 
+    console.log(favorites);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
+    // Fetch recipe data on initial load
     useEffect(() => {
-        const getRecipe = async () => {
+        const getRecipe = async id => {
             if(!id) { return }
             const slug = id === 'random' ? 'random.php' : `lookup.php?i=${id}`; 
             const { data } = await axios.get(`https://www.themealdb.com/api/json/v1/1/${slug}`);
             setRecipe(data.meals[0]);
         }
 
-        getRecipe();
+        getRecipe(id);
     }, [id]); 
+
+    // Fetch favorites data on initial load
+    useEffect(() => {
+        const getFavorites = async userId => {
+            const { data } = await axios(`/users/${userId}/favorites`);
+            updateFavorites(data.favorites);
+        }
+
+        getFavorites(userId);
+    }, [userId, updateFavorites])
 
     useEffect(() => {
         let timeoutId;
@@ -49,26 +62,26 @@ const RecipePage = ({ userId, favorites, setFavorites }) => {
         }
 
         return () => clearTimeout(timeoutId); 
-    }, [successMessage])
+    }, [successMessage]);
 
-    const addToFavorites = async recipeId => {
-        const { data } = await axios.post(`/users/${userId}/favorites`, { recipeId: recipeId });
-        setFavorites(data.favorites); 
+    const addToFavorites = async (recipeId, recipeName) => {
+        const { data } = await axios.post(`/users/${userId}/favorites`, { recipe: { apiId: recipeId, name: recipeName } });
+        updateFavorites(data.favorites); 
     }
 
     const configHeartClasses = (favorites, recipeId) => {
         let classes = "recipe-page__svg";
-        if(favorites.includes(recipeId)) {
+        if(favorites.findIndex(fav => fav.apiId === recipeId) !== -1) {
             classes += " recipe-page__svg--fav";
         }
         return classes;
     }
 
-    const renderModal = (isVisible, recipeId, userId) => {
+    const renderModal = (isVisible, recipeId, recipeName, userId) => {
         if (isVisible) {
             return (
                 <Modal onDismiss={() => setModalIsVisible(false)}>
-                    <AddToList recipeId={recipeId} userId={userId} setModalIsVisible={setModalIsVisible} setSuccessMessage={setSuccessMessage} />
+                    <AddToList recipeId={recipeId} recipeName={recipeName} userId={userId} setModalIsVisible={setModalIsVisible} setSuccessMessage={setSuccessMessage} />
                 </Modal>
             );
         }
@@ -76,7 +89,7 @@ const RecipePage = ({ userId, favorites, setFavorites }) => {
 
     return recipe && (
         <Fragment>
-            {renderModal(modalIsVisible, recipe.idMeal, userId)}
+            {renderModal(modalIsVisible, recipe.idMeal, recipe.strMeal, userId)}
             <main className="recipe-page">
                 {successMessage && <p className="recipe-page__success-message">{successMessage}</p>}
                 <header className="recipe-page__header">
@@ -85,11 +98,11 @@ const RecipePage = ({ userId, favorites, setFavorites }) => {
                         <h1 className="recipe-page__name">{recipe.strMeal}</h1>
                         <div className="recipe-page__svg-wrapper">
                             <HeartSVG 
-                                handleClick={() => addToFavorites(recipe.idMeal)} 
+                                handleClick={() => addToFavorites(recipe.idMeal, recipe.strMeal)} 
                                 className={configHeartClasses(favorites, recipe.idMeal)} 
                             />
                             <PlusSVG 
-                                handleClick={() => { console.log('click'); setModalIsVisible(true); }}
+                                handleClick={() => setModalIsVisible(true)}
                                 className="recipe-page__svg" 
                             />
                         </div>

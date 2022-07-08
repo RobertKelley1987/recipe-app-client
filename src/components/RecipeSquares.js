@@ -1,11 +1,14 @@
-import Square from './Square';
+import Square from './Square/Square';
 
 const RecipeSquares = ({ recipes }) => {
     return recipes.map(recipe => {
-        // if the list is from the database, use id prop. 
-        // Otherwise recipe is a string representing the id. 
-        let recipeId = recipe.idMeal ? recipe.idMeal : recipe;
-        
+        // if one theses 2 id props exists, use that number. 
+        // Otherwise recipe is likely a string representing the id.
+        let objId = recipe.idMeal || recipe.apiId;
+        let recipeId = objId ? objId : recipe;
+
+        console.log(recipeId);
+
         return <Square 
                     key={recipeId} 
                     linkURL={`/recipes/${recipeId}`} 

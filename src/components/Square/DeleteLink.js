@@ -1,5 +1,5 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
-import CloseSVG from './SVGs/CloseSVG';
+import CloseSVG from '../SVGs/CloseSVG';
 import './DeleteLink.scss';
 
 
