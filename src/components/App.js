@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import AuthPage from './AuthPage/AuthPage';
 import CategoryPage from './CategoryPage';
 import CategoriesPage from './CategoriesPage';
@@ -24,6 +24,10 @@ const App = () => {
   const location = useLocation();
   const backgroundLocation = location.state && location.state.backgroundLocation;
 
+  const updateList = useCallback(newList => setList(newList), [setList]);
+  const updateFavorites = useCallback(newFavorites => setFavorites(newFavorites), []);
+  const updateLists = useCallback(newLists => setLists(newLists), []);
+
   useEffect(() => {
     // On initial load, make request to server with cookie to check if user is logged in
     const getSession = async () => {
@@ -41,7 +45,13 @@ const App = () => {
       return 'Loading...';
     // If server returns a user id, show user's home page, otherwise redirect to sign in page.
     } else if (userId) {
-      return <HomePage favorites={favorites} setFavorites={setFavorites} lists={lists} setLists={setLists} userId={userId} />;
+      return <HomePage 
+                favorites={favorites} 
+                lists={lists} 
+                updateFavorites={updateFavorites}
+                updateLists={updateLists} 
+                userId={userId} 
+              />;
     } else {
       return <Navigate to='/signup' />;
     }
@@ -49,15 +59,19 @@ const App = () => {
 
   return (
     <Fragment>
-      <Header userId={userId} setUserId={setUserId} />
-      <div className="app__container">
-        <div className="app">
+
+      <div className="app">
+
+        <Header userId={userId} setUserId={setUserId} />
+
+        <div className="app__content">
+        
           <Routes location = { backgroundLocation || location }>
             <Route path='/' element={renderHomePage()} />
             <Route path='/signup' element={<AuthPage title='sign up' slug='/signup' setUserId={setUserId} />} />
             <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
             <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} setFavorites={setFavorites} />} />
-            <Route path='/lists/:listId' element={<EditListPage list={list} setList={setList} userId={userId} setLists={setLists} />} />
+            <Route path='/lists/:listId' element={<EditListPage list={list} updateList={updateList} userId={userId} setLists={setLists} />} />
             <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
             <Route path='/categories' element={<CategoriesPage />} />
             <Route path='/categories/:categoryName' element={<CategoryPage />} />
@@ -68,9 +82,13 @@ const App = () => {
           {backgroundLocation && <Routes>
               <Route path='lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList}/>} />
           </Routes>}
+
         </div>
+
         <Footer />
+
       </div>
+
     </Fragment>
   );
 }

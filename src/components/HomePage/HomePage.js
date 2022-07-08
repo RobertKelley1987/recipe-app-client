@@ -9,17 +9,20 @@ import WelcomeSection from './WelcomeSection';
 import './HomePage.scss';
 import './WelcomeSection.scss';
 
-const HomePage = ({ favorites, lists, setFavorites, setLists, userId }) => {
+const HomePage = ({ favorites, lists, updateFavorites, updateLists, userId }) => {
     const [categories, setCategories] = useState([]);
     const [cuisines, setCuisines] = useState([]);
 
+    useEffect(() => {
+        window.scrollTo(0,0);
+    }, []);
 
     useEffect(() => {
         const getUserData = async userId => {
             if(userId) {
                 const { data } = await axios.get(`/users/${userId}`);
-                setFavorites(data.favorites);
-                setLists(data.lists);
+                updateFavorites(data.favorites);
+                updateLists(data.lists);
 
             }
         }
@@ -37,7 +40,7 @@ const HomePage = ({ favorites, lists, setFavorites, setLists, userId }) => {
         getUserData(userId);
         getCategories();
         getCuisines();
-    }, [userId]);
+    }, [updateFavorites, updateLists, userId]);
 
     return (
         <main className="home-page">

@@ -5,7 +5,7 @@ import CloseSVG from '../SVGs/CloseSVG';
 import SearchSVG from '../SVGs/SearchSVG';
 import './SearchSection.scss';
 
-const SearchSection = ({ list, listId, setList, setSearchIsVisible }) => {
+const SearchSection = ({ list, listId, setSearchIsVisible, updateList }) => {
     const [allIngredients, setAllIngredients] = useState([]);
     const [allCategories, setAllCategories] = useState([]);
     const [allCuisines, setAllCuisines] = useState([]);
@@ -107,7 +107,7 @@ const SearchSection = ({ list, listId, setList, setSearchIsVisible }) => {
                         results={recipeResults} 
                         resultType='recipe' 
                         searchTerm={searchTerm} 
-                        setList={setList} 
+                        updateList={updateList}
                     />
                     {/* Ingredient results */}
                     <ResultsSection 
@@ -146,7 +146,7 @@ const SearchSection = ({ list, listId, setList, setSearchIsVisible }) => {
                     setFilteredBy={setFilteredBy}
                     setFilterType={setFilterType} 
                     setFilteredRecipes={setFilteredRecipes} 
-                    setList={setList} 
+                    updateList={updateList} 
                 />
             )
         }

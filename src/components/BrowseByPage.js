@@ -10,7 +10,7 @@ const BrowseByPage = ({ filterType, items }) => {
             <div className="browse-by-page__links">
                 {items && items.map(item => {
                     let name = getResultName(item, filterType), id = getResultId(item, filterType);
-                    return <Link id={id} to={`/${PLURAL_TYPES[filterType]}/${name}`} className="browse-by-page__link">{name}</Link>
+                    return <Link key={id} to={`/${PLURAL_TYPES[filterType]}/${name}`} className="browse-by-page__link">{name}</Link>
                 })}           
             </div>
         </main>

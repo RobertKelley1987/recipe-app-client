@@ -8,14 +8,12 @@ on hover... bad idea??? If so, delete 'RealHamburgerSVG' from SVGs folder.
 5. recipe page and recipe square both require a 'bold-text' class. Find to a way to share it
 or get rid of it.
 6. In ingredients listing, can I fix awkward wording, ex: 'Pinch Salt', 'Sprinkling Thyme', 
-'For Frying Oil', 'To Taste Salt'. Can I replace all with
+'For Frying Oil', 'To Taste Salt', 'Garnish Parsley'. Can I replace all with
 'A Pinch Of Salt'?
 7. Inspect for semantic html. Am I just using divs when I could have used something else?
 8. Check SASS for alphabetized properties.
 9. Right now... I can add the same list item twice. I should not be able to do that.
 Provide user with an error message, or disable add button, and prevent in back end too.
-10. On sign up page... need to handle error if email is already in the system. Need to handle
-that on the backend too.
 11. Password reset?????
 12. SEARCH SECTION: If I have time, it would be nice if when I search using 1 letter only, 
 the results only showed items starting with that letter.
@@ -30,7 +28,7 @@ an error message
 route??? Talking about react routes, not the back end.
 18. If I get to the show page for a recipe from a list, there should be a "back to list" button 
 or "back" button.
-19. RecipeSquares, ListSquares and now CategorySquares ... make this one component.
+19. Error handling for new list feature on lists page.
 
 MISC EDGE CASES -- RECIPE INSTRUCTIONS:
 52954 - hot and sour soup - single STEP declaration at top.

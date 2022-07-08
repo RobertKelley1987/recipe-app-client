@@ -13,12 +13,12 @@ const API_CODE_LETTERS = {
     'cuisine': 'a'
 }
 
-const renderButton = (list, listId, resultId, resultType, setList) => {
+const renderButton = (list, listId, resultId, resultType, updateList) => {
     if (resultType === 'recipe') {
         if (list.recipes.includes(resultId)) {
-            return <DeleteButton recipeId={resultId} listId={listId} setList={setList} />
+            return <DeleteButton recipeId={resultId} listId={listId} updateList={updateList} />
         } else {
-            return <AddButton recipeId={resultId} listId={listId} setList={setList} />
+            return <AddButton recipeId={resultId} listId={listId} updateList={updateList} />
         }
     } else {
         return <ArrowRightSVG className="search-result__svg"/>
@@ -33,7 +33,7 @@ const renderImg = (imgError, setImgError, resultImg, resultName) => {
     }
 }
 
-const SearchResult = ({ list, listId, setList, resultId, resultImg, resultName, resultType, setFilteredRecipes, setFilteredBy, setFilterType }) => {
+const SearchResult = ({ list, listId, updateList, resultId, resultImg, resultName, resultType, setFilteredRecipes, setFilteredBy, setFilterType }) => {
     const [imgError, setImgError] = useState(false);
 
     const getFilteredRecipes = async (name) => {
@@ -55,7 +55,7 @@ const SearchResult = ({ list, listId, setList, resultId, resultImg, resultName, 
                     <p className="search-result__type">{resultType}</p>
                 </div>
             </RecipeLink>
-            {renderButton (list, listId, resultId, resultType, setList)}
+            {renderButton (list, listId, resultId, resultType, updateList)}
         </div>
     )
 }

@@ -1,28 +1,33 @@
 import { useEffect, useState } from 'react';
-import RecipeSquare from './RecipeSquare';
-import './FilteredPage.scss';
-import SearchSVG from './SVGs/SearchSVG';
 import CloseSVG from './SVGs/CloseSVG';
+import RecipeSquares from './RecipeSquares';
+import SearchSVG from './SVGs/SearchSVG';
+import './FilteredPage.scss';
+
 
 const renderRecipes = recipes => {
-    if (!recipes) {
+    if (recipes.length < 1) {
         return <div>Loading...</div>
     } else {
-        return recipes.map(({ idMeal }) => <RecipeSquare key={idMeal} recipeId={idMeal} editPage={false}/>);
+        return (
+            <div className="filtered-page__grid">
+                <RecipeSquares recipes={recipes} />
+            </div>
+        );
     }
 }
 
-const renderSearchbar = (filterOn, filterTerm, filterType, setFilterOn, setFilterTerm) => {
-    const searchSVG = <SearchSVG className="filtered-page__svg filtered-page__svg--search" handleClick={() => setFilterOn(true)}/>;
+const renderSearchbar = (searchVisible, filterTerm, filterType, setSearchVisible, setFilterTerm) => {
+    const searchSVG = <SearchSVG className="filtered-page__svg filtered-page__svg--search" handleClick={() => setSearchVisible(true)}/>;
 
-    if (filterOn) {
+    if (searchVisible) {
         return (
             <div className="filtered-page__searchbar-wrapper">
                 <div className="filtered-page__searchbar">
                     {searchSVG}
                     <input className="filtered-page__input" onChange={e => setFilterTerm(e.target.value)} placeholder={`Search in ${filterType}`} type="text" value={filterTerm}/>
                 </div>
-                <CloseSVG className="filtered-page__svg filtered-page__svg--close" handleClick={() => setFilterOn(false)}/>
+                <CloseSVG className="filtered-page__svg filtered-page__svg--close" handleClick={() => setSearchVisible(false)}/>
             </div>
         )
     } else {
@@ -33,7 +38,11 @@ const renderSearchbar = (filterOn, filterTerm, filterType, setFilterOn, setFilte
 const FilteredPage = ({ filterName, filterType, recipes }) => {
     const [filterTerm, setFilterTerm] = useState('');
     const [filteredRecipes, setFilteredRecipes] = useState([]);
-    const [filterOn, setFilterOn] = useState(false);
+    const [searchVisible, setSearchVisible] = useState(false);
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+    }, [])
 
     useEffect(() => {
         let timeoutId = setTimeout(() => {
@@ -42,8 +51,9 @@ const FilteredPage = ({ filterName, filterType, recipes }) => {
         }, 400);
 
         return () => clearTimeout(timeoutId);
-    }, [filterTerm]);
+    }, [filterTerm, recipes]);
 
+    // If user has typed a filter term in the search bar, show filtered results
     let displayRecipes = filterTerm ? filteredRecipes : recipes;
 
     return (
@@ -51,10 +61,8 @@ const FilteredPage = ({ filterName, filterType, recipes }) => {
             <h1 className="filtered-page__heading">
                 {filterType} - <span className="filtered-page__green-text">{filterName}</span>
             </h1>
-            {renderSearchbar(filterOn, filterTerm, filterType, setFilterOn, setFilterTerm)}
-            <div className="filtered-page__grid">
-                {renderRecipes(displayRecipes)}
-            </div>
+            {renderSearchbar(searchVisible, filterTerm, filterType, setSearchVisible, setFilterTerm)}
+            {renderRecipes(displayRecipes)}
         </main>
     )
 }

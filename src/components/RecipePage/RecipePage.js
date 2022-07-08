@@ -27,6 +27,10 @@ const RecipePage = ({ userId, favorites, setFavorites }) => {
     const { id } = useParams();
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const getRecipe = async () => {
             if(!id) { return }
             const slug = id === 'random' ? 'random.php' : `lookup.php?i=${id}`; 

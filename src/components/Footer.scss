@@ -4,7 +4,9 @@
 .footer {
     background-color: $green;
     color: white;
+    flex-shrink: 0;
     font-family: $sans-serif;
+    height: 50px;
     justify-self: flex-end;
     padding: 1rem;
     width: 100%;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import ListSquare from './ListSquare';
+import ListSquares from './ListSquares';
 
 const ListsPage = ({ userId, lists }) => {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const ListsPage = ({ userId, lists }) => {
                 <button onClick={createNewList}>New List</button>
             </header>   
             <section>
-                {lists.map(list => <ListSquare key={list._id} list={list} />)}
+                <ListSquares lists={lists} />
             </section>
         </main>
     )

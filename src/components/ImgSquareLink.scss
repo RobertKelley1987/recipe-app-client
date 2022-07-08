@@ -1,31 +1,14 @@
 @import '../sass/colors';
 @import '../sass/typography';
 
-.recipe-square {
+.img-square-link {
     font-family: $sans-serif;
     height: fit-content;
     position: relative;
-    &__delete-button {
-        display: none;
-        height: 30px;
-        left: 0;
-        margin: .5rem 0 0 .5rem;
-        position: absolute;
-        stroke-width: 1.5px;
-        top: 0;
-        width: 30px;
-    }
     &__img {
         border-radius: 5px;
         height: auto;
         width: 100%;
-    }
-    &__meta-data {
-        font-size: .8rem;
-        margin: .5rem 0 0 0;
-        &--bold {
-            font-weight: 600;
-        }
     }
     &__name {
         font-size: 1.25rem;
@@ -39,7 +22,7 @@
         & img {
             box-shadow: 10px -10px $green;
         }
-        & .recipe-square__delete-button {
+        & .delete-link {
             display: block;
             stroke: $green;
         }
