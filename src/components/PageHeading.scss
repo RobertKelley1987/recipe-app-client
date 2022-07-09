@@ -1,0 +1,12 @@
+@import '../sass/colors.scss';
+@import '../sass/typography.scss';
+
+.page-heading {
+    color: $black;
+    font-family: $serif;
+    font-size: 3.5rem;
+    text-transform: lowercase;
+    &--green-text {
+        color: $green;
+    }
+}

@@ -6,15 +6,16 @@ export const PROP_NAMES = {
         idProp: 'idMeal',
         nameProp: 'strMeal',
     },
+    // using name prop as id prop -- no id is returned from api for list of all categories
     'category': {
-        idProp: 'idCategory',
+        idProp: 'strCategory',
         nameProp: 'strCategory',
     },
     'ingredient': {
         idProp: 'idIngredient',
         nameProp: 'strIngredient',
     },
-    // using name prop as id prop -- no id exists in api for areas / cuisines
+    // using name prop as id prop -- no id is returned from api for list of all cuisines
     'cuisine': {
         idProp: 'strArea', 
         nameProp: 'strArea',

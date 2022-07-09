@@ -1,5 +1,6 @@
 // filter a list to include items starting with a specified letter
 export const filterByFirstLetter = (items, letter, nameProp) => {
+    console.log(items);
     return items.filter(item => item[nameProp][0].toLowerCase() === letter.toLowerCase());
 }
 

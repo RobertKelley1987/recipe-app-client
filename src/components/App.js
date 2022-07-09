@@ -2,19 +2,17 @@ import axios from 'axios';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import AuthPage from './AuthPage/AuthPage';
-import CategoryPage from './CategoryPage';
-import CategoriesPage from './CategoriesPage';
-import CuisinePage from './CuisinePage';
-import CuisinesPage from './CuisinesPage';
+import PageWithSearch from './PageWithSearch';
 import DeleteRecipe from './EditListPage/DeleteRecipe';
 import EditListPage from './EditListPage/EditListPage';
 import FavoritesPage from './FavoritesPage';
 import Footer from './Footer';
 import Header from './Header/Header';
 import HomePage from './HomePage/HomePage';
-import IngredientsPage from './IngredientsPage';
+import LinksList from './LinksList';
 import ListsPage from './ListsPage';
 import RecipePage from './RecipePage/RecipePage';
+import RecipeSquares from './RecipeSquares';
 import SearchPage from './SearchPage';
 import './App.scss';
 
@@ -78,11 +76,12 @@ const App = () => {
             <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} updateFavorites={updateFavorites} />} />
             <Route path='/lists/:listId' element={<EditListPage list={list} updateList={updateList} userId={userId} setLists={setLists} />} />
             <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
-            <Route path='/categories' element={<CategoriesPage />} />
-            <Route path='/categories/:categoryName' element={<CategoryPage />} />
-            <Route path='/cuisines' element={<CuisinesPage />} />
-            <Route path='/cuisines/:cuisineName' element={<CuisinePage />} />
-            <Route path='/ingredients' element={<IngredientsPage />} />
+            <Route path='/categories' element={<PageWithSearch filterType='category' resultType='category' listComponent={LinksList} />} />
+            <Route path='/categories/:name' element={<PageWithSearch filterType='category' resultType='recipe' listComponent={RecipeSquares} />} />
+            <Route path='/cuisines' element={<PageWithSearch filterType='cuisine' resultType='cuisine' listComponent={LinksList} />} />
+            <Route path='/cuisines/:name' element={<PageWithSearch filterType='cuisine' resultType='recipe' listComponent={RecipeSquares} />} />
+            <Route path='/ingredients' element={<PageWithSearch filterType='ingredient' resultType='ingredient' listComponent={LinksList} />} />
+            <Route path='/ingredients/:name' element={<PageWithSearch filterType='ingredient' resultType='recipe' listComponent={RecipeSquares} />} />
             <Route path='/favorites' element={<FavoritesPage favorites={favorites} />} />
           </Routes>
 

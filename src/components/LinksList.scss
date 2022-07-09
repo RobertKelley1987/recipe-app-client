@@ -1,0 +1,15 @@
+@import '../sass/colors.scss';
+@import '../sass/typography.scss';
+
+.links-list {
+    display: grid;
+    gap: 3rem;
+    grid-template-columns: 1fr 1fr;
+    &__link {
+        font-size: 2.5rem;
+        font-weight: 600;
+        &:hover {
+            color: $green;
+        }
+    }
+}
