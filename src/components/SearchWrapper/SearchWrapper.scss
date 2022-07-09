@@ -1,7 +1,8 @@
 @import '../../sass/colors';
 @import '../../sass/typography';
 
-.search-section {
+.search-wrapper {
+    max-width: 800px;
     &__input {
         border: none;
         color: $black;

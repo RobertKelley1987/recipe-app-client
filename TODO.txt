@@ -8,7 +8,7 @@ on hover... bad idea??? If so, delete 'RealHamburgerSVG' from SVGs folder.
 5. recipe page and recipe square both require a 'bold-text' class. Find to a way to share it
 or get rid of it.
 6. In ingredients listing, can I fix awkward wording, ex: 'Pinch Salt', 'Sprinkling Thyme', 
-'For Frying Oil', 'To Taste Salt', 'Garnish Parsley'. Can I replace all with
+'For Frying Oil', 'To Taste Salt', 'Garnish Parsley' 'To Serve Naan Bread'. Can I replace all with
 'A Pinch Of Salt'?
 7. Inspect for semantic html. Am I just using divs when I could have used something else?
 8. Check SASS for alphabetized properties.
@@ -29,6 +29,9 @@ route??? Talking about react routes, not the back end.
 18. If I get to the show page for a recipe from a list, there should be a "back to list" button 
 or "back" button.
 19. Error handling for new list feature on lists page.
+20. search section should be a main tag on the seach page and a section tag otherwise... how do i do that?
+21. categories page, ingredients page and cuisines page should all share the same component.
+22. CONSISTENT FUNCTION FORMATTING!!!!!
 
 MISC EDGE CASES -- RECIPE INSTRUCTIONS:
 52954 - hot and sour soup - single STEP declaration at top.

@@ -1,0 +1,9 @@
+@import '../../sass/colors';
+@import '../../sass/typography';
+
+.empty-message {
+    color: $green;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 3rem 0 0 0;
+}

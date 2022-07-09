@@ -26,8 +26,6 @@ const RecipePage = ({ favorites, updateFavorites, userId }) => {
     const [successMessage, setSuccessMessage] = useState('');
     const { id } = useParams();
 
-    console.log(favorites);
-
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -111,7 +109,7 @@ const RecipePage = ({ favorites, updateFavorites, userId }) => {
                         {renderTags(recipe)}
                     </div>
                 </header>
-                <IngredientsSection recipe={recipe}/>
+                <IngredientsSection recipe={recipe} />
                 <PrepSection recipe={recipe} />
             </main>
         </Fragment>

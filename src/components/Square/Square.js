@@ -34,7 +34,7 @@ const Square = ({ listLength, linkURL, searchURL, squareType, title }) => {
                 <h2 className="square__name">{title ? title : recipe.strMeal}</h2>
                 <MetaData 
                     category={squareType === 'recipe' && recipe.strCategory} 
-                    cuisine={squareType === 'recipe' && recipe.strCategory} 
+                    cuisine={squareType === 'recipe' && recipe.strArea} 
                     listLength={listLength} 
                 />
             </Link>

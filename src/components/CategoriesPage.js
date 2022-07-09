@@ -14,7 +14,7 @@ const CategoriesPage = () => {
         getCategories();
     }, [])
 
-    return <BrowseByPage filterType='category' items={categories} />
+    return <BrowseByPage filterType='category' allItems={categories} filteredResults={[]}/>
 }
 
 export default CategoriesPage;

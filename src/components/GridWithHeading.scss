@@ -1,15 +1,9 @@
-@import '../../sass/colors';
-@import '../../sass/typography';
+@import '../sass/colors';
+@import '../sass/typography';
 
-.grid-section {
+.grid-with-heading {
     width: 100%;
     margin: 6rem 0 0 0;
-    &__grid {
-        display: grid;
-        gap: 2rem;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        margin: 3rem 0 0 0;
-    }
     &__heading {
         display: inline-block;
         font-family: $serif;

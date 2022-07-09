@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ListName from './ListName';
 import RecipeSquares from '../RecipeSquares';
-import SearchSection from './../SearchSection/SearchSection';
+import SearchWrapper from '../SearchWrapper/SearchWrapper';
 import './DeleteRecipe.scss';
 import './EditListPage.scss';
 
 
 const EditListPage = ({ list, updateList, setLists, userId }) => {
+    // track whether search section is visible on screen
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const { listId } = useParams();
 
@@ -50,16 +51,21 @@ const EditListPage = ({ list, updateList, setLists, userId }) => {
         }
     }
 
+    const renderSearch = (list, searchIsVisible, setSearchIsVisible, updateList) => {
+        if(searchIsVisible) { 
+            return <SearchWrapper list={list} updateList={updateList} setSearchIsVisible={setSearchIsVisible} />;
+        } else {
+            return <span onClick={() => setSearchIsVisible(true)} className="edit-list-page__find-recipes">Find Recipes</span>;
+        }
+    }
+
     return list && (
         <main className="edit-list-page">
             <header>
-                <ListName list={list} listId={listId} updateList={updateList} setLists={setLists} userId={userId} />
+                <ListName list={list} updateList={updateList} setLists={setLists} userId={userId} />
             </header>
             {renderListGrid(list)}
-            {searchIsVisible 
-                ? <SearchSection list={list} listId={listId} updateList={updateList} setSearchIsVisible={setSearchIsVisible} /> 
-                : <span onClick={() => setSearchIsVisible(true)} className="edit-list-page__find-recipes">Find Recipes</span>
-            }
+            {renderSearch(list, searchIsVisible, setSearchIsVisible, updateList)}
         </main>
     )
 }

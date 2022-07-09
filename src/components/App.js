@@ -8,11 +8,14 @@ import CuisinePage from './CuisinePage';
 import CuisinesPage from './CuisinesPage';
 import DeleteRecipe from './EditListPage/DeleteRecipe';
 import EditListPage from './EditListPage/EditListPage';
+import FavoritesPage from './FavoritesPage';
 import Footer from './Footer';
 import Header from './Header/Header';
 import HomePage from './HomePage/HomePage';
+import IngredientsPage from './IngredientsPage';
 import ListsPage from './ListsPage';
 import RecipePage from './RecipePage/RecipePage';
+import SearchPage from './SearchPage';
 import './App.scss';
 
 const App = () => {
@@ -71,6 +74,7 @@ const App = () => {
             <Route path='/' element={renderHomePage()} />
             <Route path='/signup' element={<AuthPage title='sign up' slug='/signup' setUserId={setUserId} />} />
             <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
+            <Route path='/recipes/search' element={<SearchPage list={list} allLists={lists} updateList={updateList} updateLists={updateLists} />} />
             <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} updateFavorites={updateFavorites} />} />
             <Route path='/lists/:listId' element={<EditListPage list={list} updateList={updateList} userId={userId} setLists={setLists} />} />
             <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
@@ -78,6 +82,8 @@ const App = () => {
             <Route path='/categories/:categoryName' element={<CategoryPage />} />
             <Route path='/cuisines' element={<CuisinesPage />} />
             <Route path='/cuisines/:cuisineName' element={<CuisinePage />} />
+            <Route path='/ingredients' element={<IngredientsPage />} />
+            <Route path='/favorites' element={<FavoritesPage favorites={favorites} />} />
           </Routes>
 
           {backgroundLocation && <Routes>

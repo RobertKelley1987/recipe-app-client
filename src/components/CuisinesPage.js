@@ -14,7 +14,7 @@ const CuisinesPage = () => {
         getCuisines();
     }, [])
 
-    return <BrowseByPage filterType='cuisine' items={cuisines} />
+    return <BrowseByPage filterType='cuisine' items={cuisines} />;
 }
 
 export default CuisinesPage;
