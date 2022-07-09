@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ListName from './ListName';
-import RecipeSquares from '../RecipeSquares';
+import Squares from '../Squares';
 import SearchWrapper from '../SearchWrapper/SearchWrapper';
 import './DeleteRecipe.scss';
 import './EditListPage.scss';
@@ -39,7 +39,7 @@ const EditListPage = ({ list, updateList, setLists, userId }) => {
         if(list.recipes.length > 0){
             return (
                 <div className="edit-list-page__list-grid">
-                    <RecipeSquares recipes={list.recipes} />
+                    <Squares recipes={list.recipes} resultType='recipe' />
                 </div>
             );
         } else {

@@ -42,9 +42,10 @@ const PageWithSearch = props => {
     useEffect(() => { 
         const getItems = async () => {
             const { data } = await axios.get(configURL(filterType, resultType));
-            // test if results are going to be ingredients
+            // Test if results are going to be ingredients
             if(resultType === 'ingredient') {
-                // sort ingredients by name before saving to component state
+                // Sort ingredients by name before saving to component state
+                // The other result types seem to alphabetize automatically... but not this one.
                 let sortedIngredients = data.meals.sort((a, b) => sortIngredients(a, b));
                 setAllItems(sortedIngredients);
             } else {
@@ -101,7 +102,9 @@ const PageWithSearch = props => {
         setFirstLetter('');
         setFilterTerm('');
         setSearchVisible(false);
-    }, [name])
+    }, [name]);
+
+    console.log("INSIDE PAGE SEARCH: " + resultType)
 
     return (
         <main className="page-w-search">
@@ -116,7 +119,7 @@ const PageWithSearch = props => {
                 />
             </div>
             {letterFilterVisible && <LetterFilter resultType={resultType} firstLetter={firstLetter} setFirstLetter={setFirstLetter} />}
-            <PageResults filterTerm={filterTerm} filterType={filterType} firstLetter={firstLetter} items={filteredResults} {...props} />         
+            <PageResults {...props} filterTerm={filterTerm} filterType={filterType} firstLetter={firstLetter} items={filteredResults} />         
         </main>
     )
 }

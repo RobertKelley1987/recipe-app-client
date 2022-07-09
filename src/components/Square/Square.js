@@ -7,7 +7,7 @@ import MetaData from './MetaData';
 import './Square.scss';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 
-const Square = ({ listLength, linkURL, searchURL, squareType, title }) => {
+const Square = ({ listLength, linkURL, searchURL, resultType, title }) => {
     const [recipe, setRecipe] = useState(null);
 
     useEffect(() => {
@@ -33,8 +33,8 @@ const Square = ({ listLength, linkURL, searchURL, squareType, title }) => {
                 <div className="square__placeholder"></div>
                 <h2 className="square__name">{title ? title : recipe.strMeal}</h2>
                 <MetaData 
-                    category={squareType === 'recipe' && recipe.strCategory} 
-                    cuisine={squareType === 'recipe' && recipe.strArea} 
+                    category={resultType === 'recipe' && recipe.strCategory} 
+                    cuisine={resultType === 'recipe' && recipe.strArea} 
                     listLength={listLength} 
                 />
             </Link>

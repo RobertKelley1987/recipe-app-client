@@ -12,7 +12,7 @@ import HomePage from './HomePage/HomePage';
 import LinksList from './LinksList';
 import ListsPage from './ListsPage';
 import RecipePage from './RecipePage/RecipePage';
-import RecipeSquares from './RecipeSquares';
+import Squares from './Squares';
 import SearchPage from './SearchPage';
 import './App.scss';
 
@@ -77,11 +77,11 @@ const App = () => {
             <Route path='/lists/:listId' element={<EditListPage list={list} updateList={updateList} userId={userId} setLists={setLists} />} />
             <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
             <Route path='/categories' element={<PageWithSearch filterType='category' resultType='category' listComponent={LinksList} />} />
-            <Route path='/categories/:name' element={<PageWithSearch filterType='category' resultType='recipe' listComponent={RecipeSquares} />} />
+            <Route path='/categories/:name' element={<PageWithSearch filterType='category' resultType='recipe' listComponent={Squares} />} />
             <Route path='/cuisines' element={<PageWithSearch filterType='cuisine' resultType='cuisine' listComponent={LinksList} />} />
-            <Route path='/cuisines/:name' element={<PageWithSearch filterType='cuisine' resultType='recipe' listComponent={RecipeSquares} />} />
+            <Route path='/cuisines/:name' element={<PageWithSearch filterType='cuisine' resultType='recipe' listComponent={Squares} />} />
             <Route path='/ingredients' element={<PageWithSearch filterType='ingredient' resultType='ingredient' listComponent={LinksList} />} />
-            <Route path='/ingredients/:name' element={<PageWithSearch filterType='ingredient' resultType='recipe' listComponent={RecipeSquares} />} />
+            <Route path='/ingredients/:name' element={<PageWithSearch filterType='ingredient' resultType='recipe' listComponent={Squares} />} />
             <Route path='/favorites' element={<FavoritesPage favorites={favorites} />} />
           </Routes>
 

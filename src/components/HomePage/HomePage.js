@@ -1,11 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import CategorySquares from '../CategorySquares';
-import CuisineSquares from '../CuisineSquares';
 import EmptyMessage from './EmptyMessage';
 import GridWithHeading from '../GridWithHeading';
-import ListSquares from '../ListSquares';
-import RecipeSquares from '../RecipeSquares';
+import Squares from '../Squares';
 import WelcomeSection from './WelcomeSection';
 import './HomePage.scss';
 import './WelcomeSection.scss';
@@ -60,17 +57,17 @@ const HomePage = ({ favorites, lists, updateFavorites, updateLists, userId }) =>
             <WelcomeSection />
             <GridWithHeading showLink={favorites.length > 0} slug='favorites' title='your favorites'>
                 {/* If user has no favorites, display empty message. Otherwise display favorites. */}
-                {favorites.length < 1 ? <EmptyMessage resultType='favorite'/> : <RecipeSquares recipes={favorites.slice(0, 4)} />}
+                {favorites.length < 1 ? <EmptyMessage resultType='favorite'/> : <Squares items={favorites.slice(0, 4)} resultType='recipe' />}
             </GridWithHeading>
             <GridWithHeading showLink={lists.length > 0} slug='lists' title='your lists'>
                 {/* If user has no lists, display empty message. Otherwise display favorites. */}
-                {lists.length < 1 ? <EmptyMessage resultType='list'/> : <ListSquares lists={lists.slice(0, 4)} />}
+                {lists.length < 1 ? <EmptyMessage resultType='list'/> : <Squares items={lists.slice(0, 4)} resultType='list' />}
             </GridWithHeading>
             <GridWithHeading slug='categories' title='browse by category'>
-                {categories && <CategorySquares categories={categories.slice(0, 4)} />}
+                {categories && <Squares items={categories.slice(0, 4)} resultType='category' />}
             </GridWithHeading>
             <GridWithHeading slug='cuisines' title='browse by cuisine'>
-                {cuisines && <CuisineSquares cuisines={cuisines.slice(0, 4)} />}
+                {cuisines && <Squares items={cuisines.slice(0, 4)} resultType='cuisine' />}
             </GridWithHeading>
         </main>
     )

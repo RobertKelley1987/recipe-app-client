@@ -3,5 +3,6 @@ export const PLURAL_TYPES = {
     recipe: 'recipes',
     category: 'categories',
     ingredient: 'ingredients',
-    cuisine: 'cuisines'
+    cuisine: 'cuisines',
+    list: 'lists'
 }

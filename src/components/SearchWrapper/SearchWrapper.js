@@ -80,8 +80,10 @@ const SearchSection = ({ allLists, isSearchPage, list, setSearchIsVisible, updat
 
                 // if term is one letter, only show recipes starting with that letter
                 if(searchTerm.length === 1) {
-                    results = filterByFirstLetter(recipes.meals, searchTerm, 'strMeal');
+                    results = filterByFirstLetter(results, searchTerm, 'strMeal');
                 }
+
+                console.log(results);
 
                 setRecipeResults(results)
             }
