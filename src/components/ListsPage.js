@@ -1,14 +1,18 @@
 import axios from 'axios';
+import { useEffect, useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
-import Squares from './Squares';
+import Squares from './Squares/Squares';
 
 const ListsPage = ({ userId, lists }) => {
+    const [errorMessage, setErrorMessage] = useState(); 
     const navigate = useNavigate();
 
     const createNewList = async () => {
         const { data } = await axios.post(`/users/${userId}/lists`);
         if(data.listId) {
             navigate(`/lists/${data.listId}`); 
+        } else {
+            setErrorMessage('There was an error');
         }
     }
 

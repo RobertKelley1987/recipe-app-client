@@ -4,5 +4,6 @@ export const PLURAL_TYPES = {
     category: 'categories',
     ingredient: 'ingredients',
     cuisine: 'cuisines',
-    list: 'lists'
+    list: 'lists',
+    favorite: 'favorites'
 }

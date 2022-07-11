@@ -15,7 +15,8 @@ const API_CODE_LETTERS = {
 
 const renderButton = (list, resultId, resultName, resultType, updateList) => {
     if (resultType === 'recipe') {
-        if (list.recipes.findIndex(recipe => recipe.apiId === resultId) !== -1) {
+        let recipeIsOnList = list.recipes.findIndex(recipe => recipe.apiId === resultId) !== -1;
+        if (recipeIsOnList) {
             return <DeleteButton recipeId={resultId} listId={list._id} updateList={updateList} />
         } else {
             return <AddButton recipeId={resultId} recipeName={resultName} listId={list._id} updateList={updateList} />
@@ -49,7 +50,7 @@ const SearchResult = ({ list, updateList, resultId, resultImg, resultName, resul
 
     return (
         <div onClick={() => getFilteredRecipes(resultName)} className="search-result" key={resultId}>
-            <RecipeLink className="search-result__wrapper" url={`/recipes/${resultId}`}>
+            <RecipeLink className="search-result__wrapper" resultType={resultType} url={`/recipes/${resultId}`}>
                 {renderImg (imgError, setImgError, resultImg, resultName)}
                 <div>
                     <h3 className="search-result__name">{resultName}</h3>

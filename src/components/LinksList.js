@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { getResultId, getResultName } from './util/parse-api-results';
+import { getResultId, getResultName } from './util/parse-result-props';
 import { PLURAL_TYPES } from './util/plural-types';
 import './LinksList.scss';
 

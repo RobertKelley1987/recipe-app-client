@@ -1,4 +1,4 @@
-import { getResultId, getResultName, getResultImg } from '../util/parse-api-results';
+import { getResultId, getResultName, getResultImg } from '../util/parse-result-props';
 import SearchResult from './SearchResult';
 
 const SearchResults = props => {

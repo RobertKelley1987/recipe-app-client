@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import GridWithHeading from '../GridWithHeading';
-import Squares from '../Squares';
+import Squares from '../Squares/Squares';
 import './SearchPageResults.scss';
 
 
@@ -16,9 +16,9 @@ const SearchPageResults = props => {
             <SearchPageSection showResults={recipeResults && recipeResults.length > 0} title="recipes">
                 <Squares items={recipeResults} />
             </SearchPageSection>
-            {/* <SearchPageSection showResults={ingredientResults.length > 0} title="ingredients"> */}
-                {/* <Squares items={ingredientResults} /> */}
-            {/* </SearchPageSection> */}
+            <SearchPageSection showResults={ingredientResults.length > 0} title="ingredients">
+                <Squares items={ingredientResults} />
+            </SearchPageSection>
             <SearchPageSection showResults={categoryResults.length > 0} title="categories">
                 <Squares items={categoryResults} />
             </SearchPageSection>

@@ -1,60 +1,28 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'; 
 import { filterByFirstLetter, filterBySearchTerm } from './util/filter-functions';
 import { PLURAL_TYPES } from './util/plural-types';
-import { PROP_NAMES } from './util/parse-api-results';
-import { URL_CODE_LETTERS } from './util/url-code-letters';
-import { sortIngredients } from './util/sort-functions';
+import { PROP_NAMES } from './util/parse-result-props';
 import PageResults from './PageResults';
 import LetterFilter from './LetterFilter';
 import PageHeading from './PageHeading';
 import Searchbar from './Searchbar';
-import './PageWithSearch.scss';
+import './PageWithFilter.scss';
 
 const configHeadingClasses = searchVisible => {
-    let classNames = 'page-w-search__heading-w-svg';
-    return searchVisible ? classNames += ' page-w-search__heading-w-svg--column' : classNames;
+    let classNames = 'page-w-filter__heading-w-svg';
+    return searchVisible ? classNames += ' page-w-filter__heading-w-svg--column' : classNames;
 }
 
-const PageWithSearch = props => {
+const PageWithFilter = props => {
     let initialLetterFilter = props.resultType === 'ingredient' ? 'A' : '';
-
-    const [allItems, setAllItems] = useState([]);
     const [firstLetter, setFirstLetter] = useState(initialLetterFilter);
     const [filteredResults, setFilteredResults] = useState([]);
     const [filterTerm, setFilterTerm] = useState('');
     const [letterFilterVisible, setLetterFilterVisible] = useState(true);
     const [searchVisible, setSearchVisible] = useState(false);
-
     const { name } = useParams();
-
-    const { filterType, resultType } = props;
-
-    const configURL = (filterType, resultType) => {
-        if(resultType !== 'recipe') {
-            return `https://www.themealdb.com/api/json/v1/1/list.php?${URL_CODE_LETTERS[filterType]}=list`;
-        } else {
-            return `https://www.themealdb.com/api/json/v1/1/filter.php?${URL_CODE_LETTERS[filterType]}=${name}`
-        }
-    }
-
-    useEffect(() => { 
-        const getItems = async () => {
-            const { data } = await axios.get(configURL(filterType, resultType));
-            // Test if results are going to be ingredients
-            if(resultType === 'ingredient') {
-                // Sort ingredients by name before saving to component state
-                // The other result types seem to alphabetize automatically... but not this one.
-                let sortedIngredients = data.meals.sort((a, b) => sortIngredients(a, b));
-                setAllItems(sortedIngredients);
-            } else {
-                setAllItems(data.meals);
-            }
-        }
-        
-        getItems();
-    }, [filterType, resultType]);
+    const { filterType, allItems, resultType } = props;
 
     // update filtered results after a letter in the letter filter is selected
     useEffect(() => {
@@ -67,9 +35,9 @@ const PageWithSearch = props => {
             const filteredResults = filterByFirstLetter(allItems, firstLetter, PROP_NAMES[resultType].nameProp);
             setFilteredResults(filteredResults);
         }
-    }, [firstLetter, allItems]);
+    }, [firstLetter, allItems, resultType]);
 
-    // update filtered results as user updates search term
+    // update filtered results as user updates input element
     useEffect(() => {
         let timeoutId;
 
@@ -82,7 +50,7 @@ const PageWithSearch = props => {
         
         // clear timeout on each re-render
         return () => clearTimeout(timeoutId);
-    }, [filterTerm, allItems]);
+    }, [filterTerm, allItems, resultType]);
 
     // Hide first letter filter when search bar is visible.
     // Likewise, make letter filter visible if search bar is not visible.
@@ -94,7 +62,7 @@ const PageWithSearch = props => {
             setFirstLetter(initialLetterFilter);
             setLetterFilterVisible(true);
         }
-    }, [searchVisible]);
+    }, [searchVisible, initialLetterFilter]);
 
     // If user navigates to a more specific filter, clear search term and letter filter, 
     // then hide search bar
@@ -104,10 +72,8 @@ const PageWithSearch = props => {
         setSearchVisible(false);
     }, [name]);
 
-    console.log("INSIDE PAGE SEARCH: " + resultType)
-
     return (
-        <main className="page-w-search">
+        <main className="page-w-filter">
             <div className={configHeadingClasses(searchVisible)}>
                 <PageHeading filterType={filterType} filterName={name} resultType={resultType} />
                 <Searchbar 
@@ -124,4 +90,4 @@ const PageWithSearch = props => {
     )
 }
 
-export default PageWithSearch;
+export default PageWithFilter;

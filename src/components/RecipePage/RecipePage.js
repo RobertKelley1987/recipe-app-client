@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import AddToList from './AddToList';
 import IngredientsSection from './IngredientsSection';
 import PrepSection from './PrepSection';
@@ -20,11 +20,12 @@ const renderTags = ({ strTags }) => {
     }
 }
 
-const RecipePage = ({ favorites, updateFavorites, userId }) => {
+const RecipePage = ({ favorites, randomRecipe, updateFavorites, userId }) => {
     const [recipe, setRecipe] = useState(null);
     const [modalIsVisible, setModalIsVisible] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -34,8 +35,18 @@ const RecipePage = ({ favorites, updateFavorites, userId }) => {
     useEffect(() => {
         const getRecipe = async id => {
             if(!id) { return }
+
+            // If user navigated to the random recipe page, use random recipe url.
+            // Otherwise get specific recipe using recipe id provided.
             const slug = id === 'random' ? 'random.php' : `lookup.php?i=${id}`; 
             const { data } = await axios.get(`https://www.themealdb.com/api/json/v1/1/${slug}`);
+            
+            // If user selected a random recipe, navigate to correct page using id from api,
+            // so they can return to the same recipe using the back button
+            if(id === 'random') {
+                navigate( `/recipes/${data.meals[0].idMeal}`, { replace: true });
+            }
+
             setRecipe(data.meals[0]);
         }
 
@@ -52,6 +63,7 @@ const RecipePage = ({ favorites, updateFavorites, userId }) => {
         getFavorites(userId);
     }, [userId, updateFavorites])
 
+    // Hide success message from adding recipe to a list after three seconds
     useEffect(() => {
         let timeoutId;
 
@@ -104,8 +116,12 @@ const RecipePage = ({ favorites, updateFavorites, userId }) => {
                                 className="recipe-page__svg" 
                             />
                         </div>
-                        <p className="recipe-page__meta-data"><span className="bold-text">Category</span> - {recipe.strCategory}</p>
-                        <p className="recipe-page__meta-data"><span className="bold-text">Cuisine</span> - {recipe.strArea}</p>
+                        <Link className="recipe-page__meta-data" to={`/categories/${recipe.strCategory}`}>
+                            <span className="recipe-page__meta-data--bold">Category</span> - {recipe.strCategory}
+                        </Link>
+                        <Link className="recipe-page__meta-data" to={`/cuisines/${recipe.strArea}`}>
+                            <span className="recipe-page__meta-data--bold">Cuisine</span> - {recipe.strArea}
+                        </Link>
                         {renderTags(recipe)}
                     </div>
                 </header>

@@ -1,7 +1,9 @@
 import './PageHeading.scss';
 
 const PageHeading = ({ filterType, filterName, resultType }) => {
-    if(resultType !== 'recipe') {
+    if (filterType === 'favorite') {
+        return <h1 className="page-heading">your favorites</h1>
+    } else if (resultType !== 'recipe') {
         return <h1 className="page-heading">Browse by {filterType}</h1>
     } else {
         return (

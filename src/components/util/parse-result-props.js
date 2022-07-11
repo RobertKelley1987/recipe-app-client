@@ -1,4 +1,5 @@
 import { URL_CODE_LETTERS } from "./url-code-letters";
+import { PLURAL_TYPES } from "./plural-types";
 
 // Each type of api result (category, cuisine, recipe) uses 
 // unique prop names. This object provides a lookup to access
@@ -25,6 +26,10 @@ export const PROP_NAMES = {
     'list': {
         idProp: '_id',
         nameProp: 'name'
+    },
+    'favorite': {
+        idProp: 'apiId',
+        nameProp: 'name'
     }
 }
 
@@ -39,6 +44,7 @@ export const getResultId = (result, resultType) => {
 }
 
 export const getResultName = (result, resultType) => {
+    console.log(result[PROP_NAMES[resultType].nameProp]);
     return result[PROP_NAMES[resultType].nameProp]; 
 }
 
@@ -54,11 +60,18 @@ export const getResultImg = (result, resultType) => {
 }
 
 export const getApiURL = (result, resultType) => {
-    if (resultType === 'recipe') {
+    if (resultType === 'recipe' || resultType === 'favorite') {
         return `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${getResultId(result, resultType)}`;
     } else if (resultType === 'list') {
-        return `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${result.recipes[0].apiId}`;
+        return result.recipes.length > 0 ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${result.recipes[0].apiId}` : null;
     } else {
         return `https://www.themealdb.com/api/json/v1/1/filter.php?${URL_CODE_LETTERS[resultType]}=${getResultId(result, resultType)}`;
     }
+}
+
+export const getLinkURL = (result, resultType) => {
+    if(resultType === 'favorite') {
+        return `/recipes/${getResultId(result, resultType)}`
+    }
+    return `/${PLURAL_TYPES[resultType]}/${getResultId(result, resultType)}`
 }

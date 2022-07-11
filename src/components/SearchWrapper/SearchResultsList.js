@@ -2,18 +2,18 @@ import { Fragment } from 'react';
 import BackButton from './BackButton';
 import ResultsSection from './ResultsSection';
 
-const ListSearchResults = props => {
+const SearchResultsList = props => {
     if(!props.filterType) {
         return (
             <Fragment>
                 {/* Recipe results */}
-                <ResultsSection results={props.recipeResults} resultType='recipe' {...props} />
+                <ResultsSection results={props.recipeResults} {...props} resultType='recipe' />
                 {/* Ingredient results */}
-                <ResultsSection results={props.ingredientResults} resultType='ingredient' {...props} />
+                <ResultsSection results={props.ingredientResults} {...props} resultType='ingredient' />
                 {/* Category results */}
-                <ResultsSection results={props.categoryResults} resultType='category' {...props} />
+                <ResultsSection results={props.categoryResults} {...props} resultType='category' />
                 {/* Cuisine results */}
-                <ResultsSection results={props.cuisineResults} resultType='cuisine' {...props} />
+                <ResultsSection results={props.cuisineResults} {...props} resultType='cuisine' />
             </Fragment>
         );
     } else {
@@ -21,10 +21,10 @@ const ListSearchResults = props => {
             <Fragment>
                 <BackButton clearFilter={props.clearFilter} />
                 {/* Filtered recipe results */}
-                <ResultsSection results={props.filteredRecipes} resultType='recipe' {...props} />
+                <ResultsSection results={props.filteredRecipes} {...props} resultType='recipe' />
             </Fragment>
         )
     }
 }
 
-export default ListSearchResults;
+export default SearchResultsList;

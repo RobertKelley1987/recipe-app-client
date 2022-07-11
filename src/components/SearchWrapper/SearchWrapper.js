@@ -2,18 +2,10 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { filterByFirstLetter, filterBySearchTerm } from '../util/filter-functions';
 import CloseSVG from '../SVGs/CloseSVG';
-import ListSearchResults from './ListSearchResults';
-import SearchPageResults from './SearchPageResults';
 import SearchSVG from '../SVGs/SearchSVG';
 import './SearchWrapper.scss';
 
-const SearchSection = ({ allLists, isSearchPage, list, setSearchIsVisible, updateList }) => {
-    // list of all categories from api
-    const [allCategories, setAllCategories] = useState([]);
-    // list of all cuisines from api
-    const [allCuisines, setAllCuisines] = useState([]);
-    // list of all ingredients from api
-    const [allIngredients, setAllIngredients] = useState([]);
+const SearchSection = props => {
     // categories matching search term
     const [categoryResults, setCategoryResults] = useState([]);
     // cuisnies matching search term
@@ -36,6 +28,8 @@ const SearchSection = ({ allLists, isSearchPage, list, setSearchIsVisible, updat
     // ref to search bar element as a point to scroll back to after a filter is applied
     const searchEl = useRef(null);
 
+    const { allCategories, allCuisines, allIngredients, allLists, isSearchPage, list, setSearchIsVisible, updateList } = props;
+
     // HELPER FUNCTIONS
     const clearAllResults = () => {
         setRecipeResults([]);
@@ -56,19 +50,7 @@ const SearchSection = ({ allLists, isSearchPage, list, setSearchIsVisible, updat
         setFilterType(filterType);
     }
 
-    useEffect (() => {
-        // get a complete list of an item type from api and store in app's state
-        const getAllItems = async (urlSlug, propName, setAllItems) => { 
-            const { data } = await axios.get(`https://www.themealdb.com/api/json/v1/1/${urlSlug}`); 
-            setAllItems(data[propName]);
-        }
-
-        // get all ingredients, categories and cuisine types and save to app state
-        getAllItems ('list.php?i=list', 'meals', setAllIngredients);
-        getAllItems ('categories.php', 'categories', setAllCategories);
-        getAllItems ('list.php?a=list', 'meals', setAllCuisines);
-    }, []);
-
+    // Get results as user types in the search input
     useEffect (() => {
         const getResults = async searchTerm => {
 
@@ -83,8 +65,6 @@ const SearchSection = ({ allLists, isSearchPage, list, setSearchIsVisible, updat
                     results = filterByFirstLetter(results, searchTerm, 'strMeal');
                 }
 
-                console.log(results);
-
                 setRecipeResults(results)
             }
 
@@ -94,7 +74,7 @@ const SearchSection = ({ allLists, isSearchPage, list, setSearchIsVisible, updat
             filterBySearchTerm (allCategories, setCategoryResults, 'strCategory', searchTerm);
             filterBySearchTerm (allCuisines, setCuisineResults, 'strArea', searchTerm);
             
-            // if on search page, get list results as well
+            // if on search page, also get list results form app server
             isSearchPage && filterBySearchTerm (allLists, setListResults, 'name', searchTerm);
         }
 
@@ -114,32 +94,8 @@ const SearchSection = ({ allLists, isSearchPage, list, setSearchIsVisible, updat
         return () => clearTimeout(timeoutId);
     }, [searchTerm, allCategories, allCuisines, allIngredients, allLists]);
 
-    const renderSearchResults = isSearchPage => {
-        if(isSearchPage) {
-            return <SearchPageResults 
-                        categoryResults={categoryResults}
-                        cuisineResults={cuisineResults} 
-                        listResults={listResults}
-                        recipeResults={recipeResults}
-                    />
-        } else {
-            return <ListSearchResults 
-                        categoryResults={categoryResults}
-                        clearFilter={clearFilter}
-                        cuisineResults={cuisineResults}                    
-                        filterType={filterType}
-                        filteredBy={filteredBy} 
-                        filteredRecipes={filteredRecipes}
-                        ingredientResults={ingredientResults}
-                        list={list}
-                        recipeResults={recipeResults}
-                        searchEl={searchEl} 
-                        setFilter={setFilter} 
-                        searchTerm={searchTerm} 
-                        updateList={updateList}
-                    />
-        }
-    }
+    // Component passed to Search Wrapper to display search results
+    const DisplayResults = props.displayResults;
 
     return (
         <div className="search-wrapper">
@@ -151,7 +107,22 @@ const SearchSection = ({ allLists, isSearchPage, list, setSearchIsVisible, updat
                 <CloseSVG className="search-wrapper__svg" handleClick={() => setSearchIsVisible(false)} />
             </div>
             <div className="search-wrapper__results">
-                {renderSearchResults(isSearchPage)}
+                <DisplayResults 
+                    categoryResults={categoryResults}
+                    clearFilter={clearFilter}
+                    cuisineResults={cuisineResults}                    
+                    filterType={filterType}
+                    filteredBy={filteredBy} 
+                    filteredRecipes={filteredRecipes}
+                    ingredientResults={ingredientResults}
+                    list={list}
+                    listResults={listResults}
+                    recipeResults={recipeResults}
+                    searchEl={searchEl} 
+                    setFilter={setFilter} 
+                    searchTerm={searchTerm} 
+                    updateList={updateList}
+                />
             </div>
         </div>
     )
