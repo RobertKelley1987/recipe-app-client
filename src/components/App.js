@@ -10,7 +10,7 @@ import Footer from './Footer';
 import Header from './Header/Header';
 import HomePage from './HomePage/HomePage';
 import LinksList from './LinksList';
-import ListsPage from './ListsPage';
+import NewListLink from './NewListLink';
 import RecipePage from './RecipePage/RecipePage';
 import RecipesPage from './RecipesPage';
 import Squares from './Squares/Squares';
@@ -122,9 +122,9 @@ const App = () => {
             <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
             <Route path='/favorites' element={<PageWithFilter allItems={favorites} filterType='favorite' resultType='favorite' url={`/users/${userId}/favorites`} listComponent={Squares} />} />
             <Route path='/search' element={<SearchPage allCategories={categories} allCuisines={cuisines} allIngredients={ingredients} allLists={lists} list={list} updateList={updateList} updateLists={updateLists} />} />
-            <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} updateFavorites={updateFavorites} />} />
+            <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} updateFavorites={updateFavorites} lists={lists} updateLists={updateLists} />} />
             <Route path='/lists/:listId' element={<EditListPage allCategories={categories} allCuisines={cuisines} allIngredients={ingredients} list={list} updateList={updateList} userId={userId} setLists={setLists} />} />
-            <Route path='/lists' element={<ListsPage userId={userId} lists={lists} />} />
+            <Route path='/lists' element={<PageWithFilter allItems={lists} filterType='list' resultType='list' userId={userId} listComponent={Squares} newListLink={NewListLink} />} />
             <Route path='/categories' element={<PageWithFilter allItems={categories} filterType='category' resultType='category' listComponent={LinksList} />} />
             <Route path='/categories/:name' element={<RecipesPage filterType='category' />} />
             <Route path='/cuisines' element={<PageWithFilter allItems={cuisines} filterType='cuisine' resultType='cuisine' listComponent={LinksList} />} />

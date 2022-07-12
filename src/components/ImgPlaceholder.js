@@ -11,7 +11,7 @@ const configClassNames = className => {
 const ImgPlaceholder = ({ letter, className }) => {
     return (
         <div className={configClassNames(className)}>
-            <div className="img-placeholder__letter">{letter}</div>
+            <div className="img-placeholder__letters">rf</div>
         </div>
     )
 }

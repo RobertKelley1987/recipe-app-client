@@ -1,8 +1,9 @@
 import './PageHeading.scss';
+import { PLURAL_TYPES } from './util/plural-types';
 
 const PageHeading = ({ filterType, filterName, resultType }) => {
-    if (filterType === 'favorite') {
-        return <h1 className="page-heading">your favorites</h1>
+    if (filterType === 'favorite' || filterType === 'list') {
+        return <h1 className="page-heading">your {PLURAL_TYPES[filterType]}</h1>
     } else if (resultType !== 'recipe') {
         return <h1 className="page-heading">Browse by {filterType}</h1>
     } else {

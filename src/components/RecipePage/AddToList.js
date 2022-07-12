@@ -1,18 +1,9 @@
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
-import CloseSVG from '../SVGs/CloseSVG';
+import { useEffect, useState } from 'react';
+import ErrorMessage from '../ErrorMessage'; 
+import Modal from '../Modal';
+import NewListInput from './NewListInput';
 import './AddToList.scss';
-
-const renderErrorMessage = (errorMessage, setErrorMessage) => {
-    if(errorMessage) {
-        return (
-            <div className="add-to-list__error-message" onClick={() => setErrorMessage('')}>
-                <CloseSVG className="add-to-list__error-svg" />
-                <p className="add-to-list__error-text">{errorMessage}</p>
-            </div>
-        )
-    }    
-}
 
 const List = ({ list, recipeId, recipeName, setModalIsVisible, setErrorMessage, setSuccessMessage }) => {
     const handleClick = async () => {
@@ -28,66 +19,62 @@ const List = ({ list, recipeId, recipeName, setModalIsVisible, setErrorMessage, 
     return <li className="add-to-list__list" onClick={handleClick}>{list.name}</li>
 }
 
-const AddToList = ({ recipeId, recipeName, setModalIsVisible, setSuccessMessage, userId }) => {
-    const [lists, setLists] = useState([]);
+const AddToList = ({ lists, modalIsVisible, recipeId, recipeName, setModalIsVisible, setSuccessMessage, updateLists, userId }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [newListInputVisible, setNewListInputVisible] = useState(false);
-    const [newListName, setNewListName] = useState('');
-    const newListInput = useRef();
 
     // Get all list data when component first loads and save to component's state
     useEffect(() => {
         const getLists = async () => {
             const { data } = await axios.get(`/users/${userId}/lists`);
-            setLists(data.lists);
+            if(data.err) {
+                setErrorMessage('Failed to fetch lists from server. Please try again later.')
+            }
+            updateLists(data.lists);
         }
 
         getLists();
-    }, [userId]);
+    }, [userId, updateLists]);
 
-    // When new list input becomes visible, add focus to it
-    useEffect(() => {
-        if(newListInputVisible) {
-            newListInput.current.focus();
-        }
-    }, [newListInputVisible])
-
-    const handleSubmit = async e => {
-        console.log("USER ID: " + userId);
-        e.preventDefault();
-        const { data } = await axios.post(`/users/${userId}/lists`, { name: newListName });
-        if(data.lists) {
-            setLists(data.lists);
-        } else {
-            setErrorMessage('Failed to create new list')
-        }
+    const closeModal = () => {
+        // Set modal state to closed
+        setModalIsVisible(false);
+        // Also set new list input state to closed
         setNewListInputVisible(false);
+        // Clear any error message displayed before closing
+        setErrorMessage('');
     }
 
-    return lists && (
-        <div className="add-to-list">
-            <h2 className="add-to-list__heading">Add To List</h2>
-            {renderErrorMessage(errorMessage, setErrorMessage)}
-            <ul>
-                {lists.map(list => {
-                    return <List 
-                                list={list} 
-                                recipeId={recipeId}
-                                recipeName={recipeName}
-                                setErrorMessage={setErrorMessage} 
-                                setModalIsVisible={setModalIsVisible} 
-                                setSuccessMessage={setSuccessMessage} 
-                            />
-                })}
-            </ul>
-            {!newListInputVisible 
-                ? <button onClick={() => setNewListInputVisible(true)}>New List</button>
-                : <form onSubmit={handleSubmit}>
-                    <input ref={newListInput} onChange={e => setNewListName(e.target.value)} value={newListName} />
-                </form>
-            }
-        </div>
-    );
+    if (modalIsVisible && lists) {
+        return (
+            <Modal onDismiss={closeModal}>
+                <div className="add-to-list">
+                    <h2 className="add-to-list__heading">Add To List</h2>
+                    <NewListInput 
+                        newListInputVisible={newListInputVisible} 
+                        setErrorMessage={setErrorMessage} 
+                        setNewListInputVisible={setNewListInputVisible}
+                        updateLists={updateLists} 
+                        userId={userId} 
+                    />
+                    <ErrorMessage errorMessage={errorMessage} setErrorMessage={setErrorMessage} />
+                    <ul className="add-to-list__lists">
+                        {lists.map(list => {
+                            return <List 
+                                        list={list} 
+                                        recipeId={recipeId}
+                                        recipeName={recipeName}
+                                        setErrorMessage={setErrorMessage} 
+                                        setModalIsVisible={setModalIsVisible} 
+                                        setSuccessMessage={setSuccessMessage} 
+                                    />
+                        })}
+                    </ul>
+                    {!newListInputVisible && <button className="add-to-list__button" onClick={() => setNewListInputVisible(true)}>New List</button>}
+                </div>
+            </Modal>
+        );
+    }
 }
 
 export default AddToList;

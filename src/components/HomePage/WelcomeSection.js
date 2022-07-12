@@ -12,7 +12,7 @@ const WelcomeSection = () => {
                 </h1>
                 <div className="welcome-section__button-wrapper">
                     <Link className="welcome-section__button" to="/recipes/random">Random Recipe</Link>
-                    <Link className="welcome-section__button" to="/recipes/search">Search Recipes</Link>
+                    <Link className="welcome-section__button" to="/search">Search Recipes</Link>
                 </div>
             </div>
         </header>

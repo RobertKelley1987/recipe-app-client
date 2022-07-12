@@ -15,7 +15,7 @@ export const PROP_NAMES = {
         nameProp: 'strCategory',
     },
     'ingredient': {
-        idProp: 'idIngredient',
+        idProp: 'strIngredient',
         nameProp: 'strIngredient',
     },
     // using name prop as id prop -- no id is returned from api for list of all cuisines
@@ -44,11 +44,10 @@ export const getResultId = (result, resultType) => {
 }
 
 export const getResultName = (result, resultType) => {
-    console.log(result[PROP_NAMES[resultType].nameProp]);
     return result[PROP_NAMES[resultType].nameProp]; 
 }
 
-export const getResultImg = (result, resultType) => {
+export const getResultImgSmall = (result, resultType) => {
     switch (resultType) {
         case 'recipe':
             return `${result.strMealThumb}/preview`;
@@ -59,10 +58,21 @@ export const getResultImg = (result, resultType) => {
     }
 }
 
+export const getResultImgLarge = (result, resultType) => {
+    switch (resultType) {
+        case 'recipe':
+            return `${result.strMealThumb}`;
+        case 'ingredient':
+            return `https://www.themealdb.com/images/ingredients/${result.strIngredient}-Small.png`;
+        default:
+            return '';
+    }
+}
+
 export const getApiURL = (result, resultType) => {
     if (resultType === 'recipe' || resultType === 'favorite') {
         return `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${getResultId(result, resultType)}`;
-    } else if (resultType === 'list') {
+    } else if (resultType === 'list' && result.recipes) {
         return result.recipes.length > 0 ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${result.recipes[0].apiId}` : null;
     } else {
         return `https://www.themealdb.com/api/json/v1/1/filter.php?${URL_CODE_LETTERS[resultType]}=${getResultId(result, resultType)}`;

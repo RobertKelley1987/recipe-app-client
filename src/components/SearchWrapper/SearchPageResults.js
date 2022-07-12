@@ -14,16 +14,16 @@ const SearchPageResults = props => {
     return (
         <Fragment>
             <SearchPageSection showResults={recipeResults && recipeResults.length > 0} title="recipes">
-                <Squares items={recipeResults} />
+                <Squares items={recipeResults} resultType='recipe'/>
             </SearchPageSection>
             <SearchPageSection showResults={ingredientResults.length > 0} title="ingredients">
-                <Squares items={ingredientResults} />
+                <Squares items={ingredientResults} resultType='ingredient' />
             </SearchPageSection>
             <SearchPageSection showResults={categoryResults.length > 0} title="categories">
-                <Squares items={categoryResults} />
+                <Squares items={categoryResults} resultType='category' />
             </SearchPageSection>
             <SearchPageSection showResults={cuisineResults.length > 0} title="cuisines">
-                <Squares items={cuisineResults} />
+                <Squares items={cuisineResults} resultType='cuisine' />
             </SearchPageSection>
         </Fragment>
     );

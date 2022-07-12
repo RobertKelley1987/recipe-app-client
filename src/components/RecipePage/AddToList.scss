@@ -4,32 +4,26 @@
 .add-to-list {
     background-color: white;
     border-radius: 5px;
-    max-width: 400px;
+    max-height: 400px;
+    max-width: 350px;
+    overflow: auto;  
     padding: 1rem;
-    &__error-message {
-        align-items: center;
-        background-color: pink;
+    &__button {
+        background-color: $green;
+        border: 1px solid $green;
         border-radius: 5px;
-        bottom: 0;
-        color: red;
-        font-size: 1rem;
-        font-weight: 500;
+        color: white;
         display: flex;
-        margin: 0 2rem 2rem 0;
-        padding: 1rem;
-        position: fixed;
-        right: 0;
+        font-size: 1rem;
+        font-weight: bold;
+        padding: .75rem;
+        margin: 1rem 0 0 0;
         &:hover {
+            background-color: white;
+            color: $green;
             cursor: pointer;
         }
     }
-    &__error-svg {
-        height: 23px;
-        margin: 0 .25rem 0 -.25rem;
-        stroke-width: 1.5px;
-        width: 23px;
-    }
-    &
     &__heading {
         color: $green;
         font-family: $serif;
@@ -41,7 +35,7 @@
     &__list {
         font-size: 1.25rem;
         font-weight: bold;
-        margin: 0 0 .5rem 0;
+        margin: 0 0 .75rem 0;
         list-style-type: none;
         &:hover {
             color: $green;

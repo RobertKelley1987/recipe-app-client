@@ -6,7 +6,6 @@ import IngredientsSection from './IngredientsSection';
 import PrepSection from './PrepSection';
 import HeartSVG from './../SVGs/HeartSVG';
 import PlusSVG from './../SVGs/PlusSVG';
-import Modal from '../Modal';
 import './RecipePage.scss';
 
 const renderTags = ({ strTags }) => {
@@ -20,7 +19,7 @@ const renderTags = ({ strTags }) => {
     }
 }
 
-const RecipePage = ({ favorites, randomRecipe, updateFavorites, userId }) => {
+const RecipePage = ({ favorites, lists, updateFavorites, updateLists, userId }) => {
     const [recipe, setRecipe] = useState(null);
     const [modalIsVisible, setModalIsVisible] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
@@ -87,19 +86,18 @@ const RecipePage = ({ favorites, randomRecipe, updateFavorites, userId }) => {
         return classes;
     }
 
-    const renderModal = (isVisible, recipeId, recipeName, userId) => {
-        if (isVisible) {
-            return (
-                <Modal onDismiss={() => setModalIsVisible(false)}>
-                    <AddToList recipeId={recipeId} recipeName={recipeName} userId={userId} setModalIsVisible={setModalIsVisible} setSuccessMessage={setSuccessMessage} />
-                </Modal>
-            );
-        }
-    }
-
     return recipe && (
         <Fragment>
-            {renderModal(modalIsVisible, recipe.idMeal, recipe.strMeal, userId)}
+            <AddToList 
+                lists={lists}
+                modalIsVisible={modalIsVisible}
+                recipeId={recipe.idMeal} 
+                recipeName={recipe.strMeal} 
+                setModalIsVisible={setModalIsVisible} 
+                setSuccessMessage={setSuccessMessage} 
+                updateLists={updateLists}
+                userId={userId} 
+            />
             <main className="recipe-page">
                 {successMessage && <p className="recipe-page__success-message">{successMessage}</p>}
                 <header className="recipe-page__header">

@@ -27,6 +27,9 @@ const EditListPage = props => {
         }
 
         getList(listId);
+
+        // Clear list data when component unmounts
+        return () => updateList(null);
     }, [listId, updateList]);
 
     // Make search section visible if user's list is empty

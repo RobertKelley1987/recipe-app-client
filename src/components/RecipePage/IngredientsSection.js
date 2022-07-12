@@ -26,7 +26,7 @@ const IngredientsSection = ({ recipe }) => {
             <ul className="ingredients-section__list">
                 {getIngredients(recipe).map(ingredient => {
                     return (
-                        <li className="ingredients-section__list-item" key={ingredient.name}>
+                        <li className="ingredients-section__list-item" key={`${ingredient.qty}-${ingredient.name}`}>
                             <span className="ingredients-section__list-text">{`${ingredient.qty} ${ingredient.name}`}</span>
                         </li>
                     )

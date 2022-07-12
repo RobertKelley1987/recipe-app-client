@@ -21,7 +21,6 @@
         align-items: center;
         border-bottom: 1px solid $black;
         display: flex;
-        margin: 0 1rem 0 0;
         width: 100%;
     }
     &__searchbar-wrapper {
@@ -32,6 +31,9 @@
     &__svg {
         height: 50px;
         width: 50px;
+        &--close {
+            margin: 0 0 0 1rem;
+        }
         &:hover {
             cursor: pointer;
             color: $green;

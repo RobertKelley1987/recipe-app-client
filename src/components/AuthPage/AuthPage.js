@@ -8,13 +8,16 @@ const AuthPage = ({ title, slug, setUserId }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setSubmitting(true);
     const { data: { userId, err } } = await axios.post(slug, { email: email, password: password });
     if(err) {
-      setErrorMessage(err.message)
+      setErrorMessage(err.message);
+      setSubmitting(false);
     } else {
       setUserId(userId);
       navigate('/');
@@ -49,7 +52,7 @@ const AuthPage = ({ title, slug, setUserId }) => {
             type="password"  
             value={password} 
           />
-          <input className="auth-form__button" type="submit" />
+          <input className="auth-form__button" disabled={submitting} type="submit" value="Submit" />
         </form>
         {errorMessage && <p className="auth-page__error-message">{errorMessage}</p>}
       </div>

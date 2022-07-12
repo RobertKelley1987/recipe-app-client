@@ -27,7 +27,7 @@ const HomePage = ({ categories, cuisines, favorites, lists, updateLists, userId 
     return (
         <main className="home-page">
             <WelcomeSection />
-            <GridWithHeading showLink={favorites.length > 0} slug='favorites' title='your favorites'>
+            <GridWithHeading showLink={favorites && favorites.length > 0} slug='favorites' title='your favorites'>
                 {/* If user has no favorites, display empty message. Otherwise display favorites. */}
                 {favorites.length < 1 ? <EmptyMessage message='You have not saved any favorites.' /> : <Squares items={favorites.slice(0, 4)} resultType='recipe' />}
             </GridWithHeading>

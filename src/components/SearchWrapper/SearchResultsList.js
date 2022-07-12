@@ -1,9 +1,16 @@
 import { Fragment } from 'react';
+import EmptyMessage from '../EmptyMessage';
 import BackButton from './BackButton';
 import ResultsSection from './ResultsSection';
 
+const isEmpty = arr => !arr || arr.length < 1;
+
 const SearchResultsList = props => {
-    if(!props.filterType) {
+    if (props.searchTerm && isEmpty(props.categoryResults) && isEmpty(props.cuisineResults) && isEmpty(props.ingredientResults) && isEmpty(props.recipeResults)) {
+        return <EmptyMessage message="There are no results for your search term." />
+    }
+
+    if (!props.filterType) {
         return (
             <Fragment>
                 {/* Recipe results */}

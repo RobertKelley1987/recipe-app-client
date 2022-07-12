@@ -1,4 +1,4 @@
-import { getResultId, getResultName, getResultImg } from '../util/parse-result-props';
+import { getResultId, getResultName, getResultImgSmall } from '../util/parse-result-props';
 import SearchResult from './SearchResult';
 
 const SearchResults = props => {
@@ -8,7 +8,7 @@ const SearchResults = props => {
         return <SearchResult 
                     key={getResultId(result, resultType)} 
                     resultId={getResultId(result, resultType)} 
-                    resultImg={getResultImg(result, resultType)}
+                    resultImg={getResultImgSmall(result, resultType)}
                     resultName={getResultName(result, resultType)}
                     {...props}
                 />

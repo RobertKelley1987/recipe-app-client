@@ -7,20 +7,36 @@
     position: relative;
     &__img {
         border-radius: 5px;
+        display: inline-block;
         height: auto;
+        padding: 0;
         width: 100%;
+        &--ingredient {
+            padding: 1.5rem;
+        }
     }
     &__name {
         font-size: 1.25rem;
         margin: 1rem 0 0 0;
         text-transform: capitalize;
+        word-break: break-word;
     }
     &:hover {
-        a {
+        .square__name, a, .meta-data {
             color: $green;
         }
-        & img {
+        & img, & .img-placeholder {
             box-shadow: 10px -10px $green;
+        }
+        & .img-placeholder {
+                background-color: white;
+                .img-placeholder__letters {
+                    color: $green;
+                }
+        }
+        & .square__img--ingredient {
+            border: 1px solid $green;
+            padding: calc(1.5rem - 1px);
         }
         & .delete-link {
             display: block;

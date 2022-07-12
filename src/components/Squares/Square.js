@@ -23,16 +23,24 @@ const Square = ({ listLength, linkURL, searchURL, resultType, title }) => {
         getRecipe(searchURL);
     }, [searchURL]);
 
+    const imgSrc = (recipe, resultType, title) => {
+        if(resultType === 'ingredient') {
+            return `https://www.themealdb.com/images/ingredients/${title}.png`
+        } else {
+            return recipe && recipe.strMealThumb;
+        }
+    }
+
     return (
         <div className="square">
             <DeleteLink recipeId={recipe && recipe.idMeal} />
             <Link className="square__link" to={linkURL}>
                 {searchURL ? <LazyLoadImage 
                     alt={recipe && recipe.strMeal} 
-                    className="square__img" 
+                    className={resultType === 'ingredient' ? 'square__img square__img--ingredient' : 'square__img'} 
                     effect="opacity"
-                    src={recipe && recipe.strMealThumb}
-                /> : <ImgPlaceholder letter={resultType.slice(0, 1)}/>}
+                    src={imgSrc(recipe, resultType, title)}
+                /> : <ImgPlaceholder />}
                 <h2 className="square__name">{title ? title : recipe && recipe.strMeal}</h2>
             </Link>
             <MetaData 

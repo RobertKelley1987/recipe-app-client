@@ -16,7 +16,7 @@ const ListName = props => {
     const turnOffEditMode = useCallback(() => setEditingName(false), []);
 
     if (!editingName) {
-        return <h1 onClick={turnOnEditMode} className="list-name__name">{list.name ? list.name : 'Untitled List'}</h1>
+        return <h1 onClick={turnOnEditMode} className="list-name__name">{list.name}</h1>
     } else {
         return <ListNameForm editingName={editingName} turnOffEditMode={turnOffEditMode} {...props} />
     }

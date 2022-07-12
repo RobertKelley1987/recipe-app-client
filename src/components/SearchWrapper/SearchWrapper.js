@@ -104,7 +104,7 @@ const SearchSection = props => {
                     <SearchSVG className="search-wrapper__svg"/>
                     <input className="search-wrapper__input" placeholder="search" onChange={e => setSearchTerm(e.target.value)} type="text" value={searchTerm}/>
                 </div>
-                <CloseSVG className="search-wrapper__svg" handleClick={() => setSearchIsVisible(false)} />
+                {!isSearchPage && <CloseSVG className="search-wrapper__svg search-wrapper__svg--close" handleClick={() => setSearchIsVisible(false)} />}
             </div>
             <div className="search-wrapper__results">
                 <DisplayResults 

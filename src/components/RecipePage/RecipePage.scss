@@ -32,6 +32,8 @@
         &--tags {
             white-space: normal;
         }
+    }
+    & a.recipe-page__meta-data {
         &:hover {
             color: $green;
             cursor: pointer;

@@ -8,10 +8,6 @@ on hover... bad idea??? If so, delete 'RealHamburgerSVG' from SVGs folder.
 * Inspect for semantic html. Am I just using divs when I could have used something else?
 * Check SASS for alphabetized properties.
 * Need to be able to delete an entire list
-* See Edit list page and edit list name form. Am I using useCallback correctly? I added them
-to make the error messages go away.
-* On the show page for a recipe -- the category and cuisine meta-data spans should be LINKS
-TO THEIR RESPECTIVE 'browse by' pages, ex: 'browse by category -- american cuisine'
 * Revisit my INSTRUCTIONS algorithm if I have time. I feel like it's not as great as it could be.
 * does my add recipe to list route in the routes component need to be formatted the same way as my delete recipe
 route??? Talking about react routes, not the back end.
@@ -20,9 +16,10 @@ or "back" button.
 * Error handling for new list feature on lists page.
 * search section should be surrounded by a main tag on the seach page and a section tag otherwise... how do i do that?
 * CONSISTENT SPACES FORMATTING!!!!! --> ex: if() versus if ()
-* When I leave the search page, then I hit the back button... my old search results should be there.
-Or my old searchTerm should be in the component state. What's happening there?
 * When I browse recipes... do I need to show the favorites heart in the square component?
+* I need a 3 dots symbol and a fav symbol with each recipe
+* Add error message component to auth page.
+*ERROR HANDLING
 
 MISC EDGE CASES -- RECIPE INSTRUCTIONS:
 52954 - hot and sour soup - single STEP declaration at top.

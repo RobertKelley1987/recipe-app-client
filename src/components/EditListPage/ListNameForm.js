@@ -45,9 +45,12 @@ const ListNameForm = ({ editingName, turnOffEditMode, list, listId, updateList }
         return () => clearTimeout(timeoutId);
     }, [listName, listId, updateList]);
 
-    // when form firsts loads, set input value to list name
     useEffect(() => {
+        // Set input value to list name when form first renders
         setListName(list.name);
+
+        // Clear list name when component unmounts
+        return () => setListName('');
     }, []);
 
     // Close out editing mode when user hits enter
