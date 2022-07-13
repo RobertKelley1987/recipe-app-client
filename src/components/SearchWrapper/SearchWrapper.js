@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { filterByFirstLetter, filterBySearchTerm } from '../util/filter-functions';
-import CloseSVG from '../SVGs/CloseSVG';
-import SearchSVG from '../SVGs/SearchSVG';
+import Searchbar from '../Searchbar';
 import './SearchWrapper.scss';
 
-const SearchSection = props => {
+const SearchWrapper = props => {
     // categories matching search term
     const [categoryResults, setCategoryResults] = useState([]);
     // cuisnies matching search term
@@ -73,7 +72,7 @@ const SearchSection = props => {
             filterBySearchTerm (allIngredients, setIngredientResults, 'strIngredient', searchTerm);
             filterBySearchTerm (allCategories, setCategoryResults, 'strCategory', searchTerm);
             filterBySearchTerm (allCuisines, setCuisineResults, 'strArea', searchTerm);
-            
+        
             // if on search page, also get list results form app server
             isSearchPage && filterBySearchTerm (allLists, setListResults, 'name', searchTerm);
         }
@@ -98,14 +97,14 @@ const SearchSection = props => {
     const DisplayResults = props.displayResults;
 
     return (
-        <div className="search-wrapper">
-            <div className="search-wrapper__searchbar-wrapper">
-                <div ref={searchEl} className="search-wrapper__searchbar">
-                    <SearchSVG className="search-wrapper__svg"/>
-                    <input className="search-wrapper__input" placeholder="search" onChange={e => setSearchTerm(e.target.value)} type="text" value={searchTerm}/>
-                </div>
-                {!isSearchPage && <CloseSVG className="search-wrapper__svg search-wrapper__svg--close" handleClick={() => setSearchIsVisible(false)} />}
-            </div>
+        <div ref={searchEl} className="search-wrapper">
+            <Searchbar 
+                placeholder="search" 
+                searchIsVisible={true} 
+                searchTerm={searchTerm} 
+                setSearchIsVisible={setSearchIsVisible} 
+                setSearchTerm={setSearchTerm} 
+            />
             <div className="search-wrapper__results">
                 <DisplayResults 
                     categoryResults={categoryResults}
@@ -128,4 +127,4 @@ const SearchSection = props => {
     )
 }
 
-export default SearchSection;
+export default SearchWrapper;

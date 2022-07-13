@@ -8,10 +8,10 @@ const Squares = props => {
         <div className="squares">
             {items.map(item => {
                 return <Square 
+                            {...props}
                             key={getResultId(item, resultType)} 
                             linkURL={getLinkURL(item, resultType)} 
                             listLength={item.recipes && item.recipes.length} 
-                            resultType={resultType}
                             searchURL={getApiURL(item, resultType)}
                             title={getResultName(item, resultType)}
                         />

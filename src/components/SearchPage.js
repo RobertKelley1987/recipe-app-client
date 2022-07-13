@@ -1,4 +1,4 @@
-import SearchPageResults from './SearchWrapper/SearchPageResults';
+import SearchPageResults from './SearchPageResults';
 import SearchWrapper from './SearchWrapper/SearchWrapper';
 import './SearchPage.scss';
 

@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
-import GridWithHeading from '../GridWithHeading';
-import Squares from '../Squares/Squares';
+import GridWithHeading from './GridWithHeading';
+import Squares from './Squares/Squares';
 import './SearchPageResults.scss';
 
 

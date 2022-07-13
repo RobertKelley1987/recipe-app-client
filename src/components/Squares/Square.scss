@@ -21,10 +21,21 @@
         text-transform: capitalize;
         word-break: break-word;
     }
-    &:hover {
-        .square__name, a, .meta-data {
-            color: $green;
+    &__options {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin: .75rem 0 0 0;
+    }
+    &__svg {
+        height: 26px;
+        stroke-width: 1.5px;
+        width: 26px;
+        &--fav {
+            fill: $black;
         }
+    }
+    &:hover {
         & img, & .img-placeholder {
             box-shadow: 10px -10px $green;
         }
@@ -38,8 +49,11 @@
             border: 1px solid $green;
             padding: calc(1.5rem - 1px);
         }
-        & .delete-link {
-            display: block;
+        & .square__name, & a, & .meta-data {
+            color: $green;
+        }
+        & .square__svg {
+            fill: $green;
             stroke: $green;
         }
     }

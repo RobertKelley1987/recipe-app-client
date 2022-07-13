@@ -19,7 +19,7 @@ const renderTags = ({ strTags }) => {
     }
 }
 
-const RecipePage = ({ favorites, lists, updateFavorites, updateLists, userId }) => {
+const RecipePage = props => {
     const [recipe, setRecipe] = useState(null);
     const [modalIsVisible, setModalIsVisible] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
@@ -52,16 +52,6 @@ const RecipePage = ({ favorites, lists, updateFavorites, updateLists, userId }) 
         getRecipe(id);
     }, [id]); 
 
-    // Fetch favorites data on initial load
-    useEffect(() => {
-        const getFavorites = async userId => {
-            const { data } = await axios(`/users/${userId}/favorites`);
-            updateFavorites(data.favorites);
-        }
-
-        getFavorites(userId);
-    }, [userId, updateFavorites])
-
     // Hide success message from adding recipe to a list after three seconds
     useEffect(() => {
         let timeoutId;
@@ -73,30 +63,15 @@ const RecipePage = ({ favorites, lists, updateFavorites, updateLists, userId }) 
         return () => clearTimeout(timeoutId); 
     }, [successMessage]);
 
-    const addToFavorites = async (recipeId, recipeName) => {
-        const { data } = await axios.post(`/users/${userId}/favorites`, { recipe: { apiId: recipeId, name: recipeName } });
-        updateFavorites(data.favorites); 
-    }
-
-    const configHeartClasses = (favorites, recipeId) => {
-        let classes = "recipe-page__svg";
-        if(favorites.findIndex(fav => fav.apiId === recipeId) !== -1) {
-            classes += " recipe-page__svg--fav";
-        }
-        return classes;
-    }
-
     return recipe && (
         <Fragment>
             <AddToList 
-                lists={lists}
+                {...props}
                 modalIsVisible={modalIsVisible}
                 recipeId={recipe.idMeal} 
                 recipeName={recipe.strMeal} 
                 setModalIsVisible={setModalIsVisible} 
                 setSuccessMessage={setSuccessMessage} 
-                updateLists={updateLists}
-                userId={userId} 
             />
             <main className="recipe-page">
                 {successMessage && <p className="recipe-page__success-message">{successMessage}</p>}
@@ -105,14 +80,8 @@ const RecipePage = ({ favorites, lists, updateFavorites, updateLists, userId }) 
                     <div className="recipe-page__header-wrapper">
                         <h1 className="recipe-page__name">{recipe.strMeal}</h1>
                         <div className="recipe-page__svg-wrapper">
-                            <HeartSVG 
-                                handleClick={() => addToFavorites(recipe.idMeal, recipe.strMeal)} 
-                                className={configHeartClasses(favorites, recipe.idMeal)} 
-                            />
-                            <PlusSVG 
-                                handleClick={() => setModalIsVisible(true)}
-                                className="recipe-page__svg" 
-                            />
+                            <HeartSVG {...props} className="recipe-page__svg" recipe={recipe} />
+                            <PlusSVG className="recipe-page__svg"  handleClick={() => setModalIsVisible(true)} />
                         </div>
                         <Link className="recipe-page__meta-data" to={`/categories/${recipe.strCategory}`}>
                             <span className="recipe-page__meta-data--bold">Category</span> - {recipe.strCategory}

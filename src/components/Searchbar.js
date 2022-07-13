@@ -4,29 +4,30 @@ import CloseSVG from './SVGs/CloseSVG';
 import SearchSVG from './SVGs/SearchSVG';
 import './Searchbar.scss';
 
-const Searchbar = ({ filterTerm, placeholder, searchVisible, setFilterTerm, setSearchVisible }) => {
-    const searchSVG = <SearchSVG className="searchbar__svg searchbar__svg--search" handleClick={() => setSearchVisible(true)}/>;
+const Searchbar = ({ extraMargin, filterTerm, placeholder, searchIsVisible, setSearchTerm, setSearchIsVisible }) => {
+    const searchSVG = <SearchSVG className="searchbar__svg searchbar__svg--search" handleClick={() => setSearchIsVisible(true)}/>;
     const searchInput = useRef(null);
 
     // Run these events when the component mounts and unmounts
     useEffect(() => {
         // Add focus to input when searchbar becomes visible
-        if(searchVisible) {
+        if(searchIsVisible) {
             searchInput.current.focus();
         }
 
         // When component unmounts, clear filter term
-        return () => setFilterTerm(''); 
-    }, [searchVisible]);
+        return () => setSearchTerm(''); 
+    }, [searchIsVisible]);
 
-    if (searchVisible) {
+    if (searchIsVisible) {
         return (
-            <div className="searchbar__wrapper">
+            <div className={extraMargin ? "searchbar__wrapper searchbar__wrapper--extra-margin" : "searchbar__wrapper"}>
                 <div className="searchbar">
                     {searchSVG}
-                    <input ref={searchInput} className="searchbar__input" onChange={e => setFilterTerm(e.target.value)} placeholder={placeholder} type="text" value={filterTerm}/>
+                    <input ref={searchInput} className="searchbar__input" onChange={e => setSearchTerm(e.target.value)} placeholder={placeholder} type="text" value={filterTerm} />
                 </div>
-                <CloseSVG className="searchbar__svg searchbar__svg--close" handleClick={() => setSearchVisible(false)}/>
+                {/* If component is passed a method to set search mode to off, return a close search button */}
+                {setSearchIsVisible && <CloseSVG className="searchbar__svg searchbar__svg--close" handleClick={() => setSearchIsVisible(false)} />}
             </div>
         )
     } else {

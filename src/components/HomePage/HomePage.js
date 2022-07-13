@@ -29,16 +29,16 @@ const HomePage = ({ categories, cuisines, favorites, lists, updateLists, userId 
             <WelcomeSection />
             <GridWithHeading showLink={favorites && favorites.length > 0} slug='favorites' title='your favorites'>
                 {/* If user has no favorites, display empty message. Otherwise display favorites. */}
-                {favorites.length < 1 ? <EmptyMessage message='You have not saved any favorites.' /> : <Squares items={favorites.slice(0, 4)} resultType='recipe' />}
+                {favorites.length < 1 ? <EmptyMessage message='You have not saved any favorites.' /> : <Squares favorites={favorites} items={favorites.slice(0, 4)} resultType='recipe' />}
             </GridWithHeading>
-            <GridWithHeading showLink={lists.length > 0} slug='lists' title='your lists'>
+            <GridWithHeading showLink={lists && lists.length > 0} slug='lists' title='your lists'>
                 {/* If user has no lists, display empty message. Otherwise display favorites. */}
                 {lists.length < 1 ? <EmptyMessage message='You have not created any recipe lists.' /> : <Squares items={lists.slice(0, 4)} resultType='list' />}
             </GridWithHeading>
-            <GridWithHeading slug='categories' title='browse by category'>
+            <GridWithHeading showLink={true} slug='categories' title='browse by category'>
                 {categories && <Squares items={categories.slice(0, 4)} resultType='category' />}
             </GridWithHeading>
-            <GridWithHeading slug='cuisines' title='browse by cuisine'>
+            <GridWithHeading showLink={true} slug='cuisines' title='browse by cuisine'>
                 {cuisines && <Squares items={cuisines.slice(0, 4)} resultType='cuisine' />}
             </GridWithHeading>
         </main>

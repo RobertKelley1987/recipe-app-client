@@ -2,7 +2,7 @@ import SearchResultsList from '../SearchWrapper/SearchResultsList';
 import SearchWrapper from '../SearchWrapper/SearchWrapper';
 import './Search.scss';
 
-const EditListPageSearch = props => {
+const Search = props => {
     const { searchIsVisible, setSearchIsVisible } = props;
     
     // Test if search is visible
@@ -15,4 +15,4 @@ const EditListPageSearch = props => {
     }
 }
 
-export default EditListPageSearch;
+export default Search;

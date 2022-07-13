@@ -3,23 +3,24 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import DeleteLink from './DeleteLink';
+import ImgPlaceholder from '../ImgPlaceholder';
 import MetaData from './MetaData';
+import Options from './Options';
 import './Square.scss';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
-import ImgPlaceholder from '../ImgPlaceholder';
 
-const Square = ({ listLength, linkURL, searchURL, resultType, title }) => {
+const Square = props => {
     const [recipe, setRecipe] = useState(null);
+    const { listLength, linkURL, searchURL, resultType, title } = props;
 
     useEffect(() => {
         const getRecipe = async searchURL => {
             if(searchURL) {
                 const { data } = await axios.get(searchURL);
-                setRecipe(data.meals[0]);
+                data.meals && setRecipe(data.meals[0]);
             } 
         }
 
-       
         getRecipe(searchURL);
     }, [searchURL]);
 
@@ -31,7 +32,7 @@ const Square = ({ listLength, linkURL, searchURL, resultType, title }) => {
         }
     }
 
-    return (
+    return recipe && (
         <div className="square">
             <DeleteLink recipeId={recipe && recipe.idMeal} />
             <Link className="square__link" to={linkURL}>
@@ -49,6 +50,7 @@ const Square = ({ listLength, linkURL, searchURL, resultType, title }) => {
                 listLength={listLength} 
                 resultType={resultType}
             />
+            <Options {...props} recipe={recipe} />
         </div>
     );
 }

@@ -9,11 +9,13 @@ import PageHeading from './PageHeading';
 import Searchbar from './Searchbar';
 import './PageWithFilter.scss';
 
-const configHeadingClasses = searchVisible => {
+// Function to configure class names for heading element
+const configHeadingClasses = searchIsVisible => {
     let classNames = 'page-w-filter__heading-w-svg';
-    return searchVisible ? classNames += ' page-w-filter__heading-w-svg--column' : classNames;
+    return searchIsVisible ? classNames += ' page-w-filter__heading-w-svg--column' : classNames;
 }
 
+// Function to configure placeholder phrase for search bar
 const configPlaceholder = (filterType, resultType) => {
     if(resultType === filterType) {
         return `search all ${PLURAL_TYPES[filterType]}`;
@@ -28,10 +30,15 @@ const PageWithFilter = props => {
     const [firstLetter, setFirstLetter] = useState(initialLetterFilter);
     const [filteredResults, setFilteredResults] = useState([]);
     const [filterTerm, setFilterTerm] = useState('');
-    const [letterFilterVisible, setLetterFilterVisible] = useState(true);
-    const [searchVisible, setSearchVisible] = useState(false);
+    const [letterFilterIsVisible, setLetterFilterIsVisible] = useState(true);
+    const [searchIsVisible, setSearchIsVisible] = useState(false);
     const { name } = useParams();
     const { filterType, allItems, resultType, userId } = props;
+
+    // Scroll to top of page on initial render
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     // Update filtered results after a letter in the letter filter is selected
     useEffect(() => {
@@ -66,21 +73,21 @@ const PageWithFilter = props => {
     // Hide first letter filter when search bar is visible.
     // Likewise, make letter filter visible if search bar is not visible.
     useEffect(() => {
-        if(searchVisible) {
+        if(searchIsVisible) {
             setFirstLetter('');
-            setLetterFilterVisible(false);
+            setLetterFilterIsVisible(false);
         } else {
             setFirstLetter(initialLetterFilter);
-            setLetterFilterVisible(true);
+            setLetterFilterIsVisible(true);
         }
-    }, [searchVisible, initialLetterFilter]);
+    }, [searchIsVisible, initialLetterFilter]);
 
-    // If user navigates to a more specific filter, clear search term and letter filter, 
-    // then hide search bar
+    // If user navigates to a more specific filtered results page, clear search term and 
+    // letter filter, then hide search bar
     useEffect(() => {
         setFirstLetter('');
         setFilterTerm('');
-        setSearchVisible(false);
+        setSearchIsVisible(false);
     }, [name]);
 
     // Create new list link component passed from props
@@ -88,18 +95,19 @@ const PageWithFilter = props => {
 
     return (
         <main className="page-w-filter">
-            <div className={configHeadingClasses(searchVisible)}>
+            <header className={configHeadingClasses(searchIsVisible)}>
                 <PageHeading filterType={filterType} filterName={name} resultType={resultType} />
                 <Searchbar 
-                    filterTerm={filterTerm} 
+                    extraMargin={true}
+                    searchTerm={filterTerm} 
                     placeholder={configPlaceholder(filterType, resultType)} 
-                    searchVisible={searchVisible} 
-                    setFilterTerm={setFilterTerm} 
-                    setSearchVisible={setSearchVisible} 
+                    searchIsVisible={searchIsVisible} 
+                    setSearchTerm={setFilterTerm} 
+                    setSearchIsVisible={setSearchIsVisible} 
                 />
-            </div>
+            </header>
             {NewListLink && <NewListLink setErrorMessage={setErrorMessage} userId={userId} />}
-            {letterFilterVisible && <LetterFilter resultType={resultType} firstLetter={firstLetter} setFirstLetter={setFirstLetter} />}
+            {letterFilterIsVisible && <LetterFilter resultType={resultType} firstLetter={firstLetter} setFirstLetter={setFirstLetter} />}
             <PageResults {...props} filterTerm={filterTerm} filterType={filterType} firstLetter={firstLetter} items={filteredResults} />         
         </main>
     )

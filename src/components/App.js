@@ -99,6 +99,7 @@ const App = () => {
                 cuisines={cuisines}
                 favorites={favorites} 
                 lists={lists}
+                updateFavorites={updateFavorites}
                 updateLists={updateLists}
                 userId={userId} 
               />;
@@ -120,17 +121,111 @@ const App = () => {
             <Route path='/' element={renderHomePage()} />
             <Route path='/signup' element={<AuthPage title='sign up' slug='/signup' setUserId={setUserId} />} />
             <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
-            <Route path='/favorites' element={<PageWithFilter allItems={favorites} filterType='favorite' resultType='favorite' url={`/users/${userId}/favorites`} listComponent={Squares} />} />
-            <Route path='/search' element={<SearchPage allCategories={categories} allCuisines={cuisines} allIngredients={ingredients} allLists={lists} list={list} updateList={updateList} updateLists={updateLists} />} />
-            <Route path='/recipes/:id' element={<RecipePage userId={userId} favorites={favorites} updateFavorites={updateFavorites} lists={lists} updateLists={updateLists} />} />
-            <Route path='/lists/:listId' element={<EditListPage allCategories={categories} allCuisines={cuisines} allIngredients={ingredients} list={list} updateList={updateList} userId={userId} setLists={setLists} />} />
-            <Route path='/lists' element={<PageWithFilter allItems={lists} filterType='list' resultType='list' userId={userId} listComponent={Squares} newListLink={NewListLink} />} />
-            <Route path='/categories' element={<PageWithFilter allItems={categories} filterType='category' resultType='category' listComponent={LinksList} />} />
-            <Route path='/categories/:name' element={<RecipesPage filterType='category' />} />
-            <Route path='/cuisines' element={<PageWithFilter allItems={cuisines} filterType='cuisine' resultType='cuisine' listComponent={LinksList} />} />
-            <Route path='/cuisines/:name' element={<RecipesPage filterType='cuisine' />} />
-            <Route path='/ingredients' element={<PageWithFilter allItems={ingredients} filterType='ingredient' resultType='ingredient' listComponent={LinksList} />} />
-            <Route path='/ingredients/:name' element={<RecipesPage filterType='ingredient' />} />
+            <Route path='/favorites' element={
+              <PageWithFilter 
+                allItems={favorites} 
+                favorites={favorites} 
+                filterType='favorite' 
+                resultType='favorite' 
+                updateFavorites={updateFavorites} 
+                userId={userId} 
+                url={`/users/${userId}/favorites`} 
+                listComponent={Squares} 
+              />
+            } />
+            <Route path='/search' element={
+              <SearchPage 
+                allCategories={categories} 
+                allCuisines={cuisines} 
+                allIngredients={ingredients} 
+                allLists={lists} 
+                favorites={favorites}
+                list={list} 
+                updateFavorites={updateFavorites}
+                updateList={updateList} 
+                updateLists={updateLists} 
+                userId={userId} 
+              />
+            } />
+            <Route path='/recipes/:id' element={
+              <RecipePage 
+                favorites={favorites}
+                lists={lists} 
+                updateFavorites={updateFavorites}  
+                updateLists={updateLists}
+                userId={userId}
+              />
+            } />
+            <Route path='/lists/:listId' element={
+              <EditListPage 
+                allCategories={categories} 
+                allCuisines={cuisines} 
+                allIngredients={ingredients} 
+                favorites={favorites} 
+                list={list} 
+                updateFavorites={updateFavorites} 
+                updateList={updateList} 
+                userId={userId} 
+              />
+            } />
+            <Route path='/lists' element={
+              <PageWithFilter 
+                allItems={lists} 
+                filterType='list' 
+                resultType='list' 
+                userId={userId} 
+                listComponent={Squares} 
+                newListLink={NewListLink} 
+              />
+            } />
+            <Route path='/categories/:name' element={
+              <RecipesPage 
+                favorites={favorites} 
+                filterType='category' 
+                updateFavorites={updateFavorites} 
+                userId={userId} 
+              /> 
+            } />
+            <Route path='/categories' element={
+              <PageWithFilter 
+                allItems={categories} 
+                filterType='category' 
+                resultType='category' 
+                listComponent={LinksList} 
+              />
+            } />
+            <Route path='/cuisines/:name' element={
+              <RecipesPage 
+                favorites={favorites} 
+                filterType='cuisine' 
+                updateFavorites={updateFavorites} 
+                userId={userId} 
+              />
+            } />
+            <Route path='/cuisines' element={
+              <PageWithFilter 
+                allItems={cuisines} 
+                filterType='cuisine' 
+                resultType='cuisine' 
+                listComponent={LinksList} 
+              />
+            } />
+            <Route path='/ingredients/:name' element={
+              <RecipesPage 
+                favorites={favorites} 
+                filterType='ingredient' 
+                updateFavorites={updateFavorites} 
+                userId={userId} 
+              />
+            } />
+            <Route path='/ingredients' element={
+              <PageWithFilter 
+                allItems={ingredients} 
+                filterType='ingredient' 
+                resultType='ingredient' 
+                listComponent={LinksList} 
+              />
+            } />
           </Routes>
 
           {backgroundLocation && <Routes>
