@@ -1,26 +1,39 @@
 import axios from 'axios';
 
-const configClassNames = (className, favorites, recipe) => {
-    // Test if recipe is in user's favorites list
-    let recipeIsFavorite = favorites && favorites.findIndex(fav => fav.apiId === recipe.idMeal) !== -1;
+const configClassNames = (className, recipeIsFavorite) => {
     // If recipe is on that list, append class name to fill heart svg
     return !recipeIsFavorite ? className : `${className} ${className}--fav`; 
 }
 
-const toggleFavoriteStatus = async (recipe, updateFavorites, userId) => {
+const toggleFavoriteStatus = async (recipe, recipeIsFavorite, setErrorMessage, setSuccessMessage, updateFavorites, userId) => {
     // Add or remove recipe from favorites depending on current favorite status 
     const { data } = await axios.post(`/users/${userId}/favorites`, { recipe: { apiId: recipe.idMeal, name: recipe.strMeal } });
-    // Update app state to reflect change
-    updateFavorites(data.favorites); 
+    // Test for server error
+    if(data.err) {
+        // Display error message
+        setErrorMessage('Failed to change favorite status for recipe');
+    } else {
+        // Update app state to reflect change
+        updateFavorites(data.favorites); 
+        // Display appropriate success message
+        let successMessage = recipeIsFavorite ? 'Recipe removed from favorites.' : 'Recipe added to favorites!';
+        setSuccessMessage(successMessage);
+    }
 }
 
-const HeartSVG = ({ className, favorites, recipe, updateFavorites, userId }) => {
-    console.log(favorites);
-    return recipe && (
+const HeartSVG = ({ className, favorites, recipe, setErrorMessage, setSuccessMessage, updateFavorites, userId }) => {
+    if(!recipe) {
+        return
+    }
+    
+    // Test if recipe is in user's favorites list
+    let recipeIsFavorite = favorites && favorites.findIndex(fav => fav.apiId === recipe.idMeal) !== -1;
+
+    return (
         <svg 
-            className={configClassNames(className, favorites, recipe)} 
+            className={configClassNames(className, recipeIsFavorite)} 
             fill="none" 
-            onClick={() => toggleFavoriteStatus(recipe, updateFavorites, userId)} 
+            onClick={() => toggleFavoriteStatus(recipe, recipeIsFavorite, setErrorMessage, setSuccessMessage, updateFavorites, userId)} 
             stroke="currentColor" 
             strokeLinecap="round" 
             strokeLinejoin="round"

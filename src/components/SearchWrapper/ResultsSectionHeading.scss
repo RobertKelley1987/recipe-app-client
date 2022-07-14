@@ -1,0 +1,12 @@
+@import '../../sass/colors.scss';
+@import '../../sass/typography.scss';
+
+.results-section-heading {
+    font-family: $serif;
+    font-size: 2.5rem;
+    margin: 0 0 3rem 0;
+    text-transform: lowercase;
+    &__green-text {
+        color: $green;
+    }
+}

@@ -1,0 +1,75 @@
+@import '../../sass/colors.scss';
+@import '../../sass/typography.scss';
+
+.recipe-page {
+    color: $black;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: $sans-serif;
+    margin: 6rem 0 0 0;
+    max-width: 800px;
+    &__header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+    }
+    &__img {
+        border-radius: 5px;
+        height: auto;
+        width: 100%;
+    }
+    &__meta-data {
+        display: block;
+        font-size: 1.25rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+        text-transform: capitalize;
+        white-space: nowrap;
+        &--bold {
+            font-weight: bold;
+        }
+        &--tags {
+            white-space: normal;
+        }
+    }
+    & a.recipe-page__meta-data {
+        &:hover {
+            color: $green;
+            cursor: pointer;
+        }
+    }
+    &__name {
+        color: $black;
+        font-family: $serif;
+        font-size: 3.5rem;
+        margin: 0 0 1rem 0;
+        text-transform: lowercase;
+    }
+    &__svg {
+        height: 45px;
+        stroke: $black;
+        stroke-width: 1.5px;
+        width: 45px;
+        &:hover {
+            cursor: pointer;
+            stroke: $green;
+            fill: white;
+        }
+        &--fav {
+            fill: $green;
+            stroke: $green;
+        }
+    }
+    &__svg-wrapper {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 1rem;
+        margin: 0 0 1.25rem 0;
+        width: min-content;
+    }
+}
+
+.bold-text {
+    font-weight: 600;
+}

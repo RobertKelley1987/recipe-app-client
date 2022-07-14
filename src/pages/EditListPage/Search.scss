@@ -1,0 +1,15 @@
+@import '../../sass/colors.scss';
+@import '../../sass/typography.scss';
+
+.search {
+    &__link {
+        display: block;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 3rem 0 0 0;
+        &:hover {
+            color: $green;
+            cursor: pointer;
+        }
+    }
+}

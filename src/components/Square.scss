@@ -1,0 +1,57 @@
+@import '../sass/colors';
+@import '../sass/typography';
+
+.square {
+    font-family: $sans-serif;
+    height: fit-content;
+    position: relative;
+    &__img {
+        border-radius: 5px;
+        display: inline-block;
+        height: auto;
+        padding: 0;
+        width: 100%;
+        &--ingredient {
+            padding: 1.5rem;
+        }
+    }
+    &__meta-data {
+        display: block;
+        font-size: .8rem;
+        margin: .5rem 0 0 0;
+        &--bold {
+            font-weight: 600;
+        }
+    }
+    &__name {
+        font-size: 1.25rem;
+        margin: 1rem 0 0 0;
+        text-transform: capitalize;
+        word-break: break-word;
+        &--list {
+            text-transform: unset;
+        }
+    }
+    &:hover {
+        & img, & .img-placeholder {
+            box-shadow: 10px -10px $green;
+        }
+        & .img-placeholder {
+                background-color: white;
+                .img-placeholder__letters {
+                    color: $green;
+                }
+        }
+        & .square__img--ingredient {
+            border: 1px solid $green;
+            padding: calc(1.5rem - 1px);
+        }
+        & .square__name, & .square__meta-data, & a {
+            color: $green;
+        }
+        & svg {
+            fill: $green;
+            stroke: $green;
+        }
+    }
+}

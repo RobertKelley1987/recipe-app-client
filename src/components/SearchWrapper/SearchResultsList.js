@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import EmptyMessage from '../EmptyMessage';
 import BackButton from './BackButton';
+import RecipeResultsSection from './RecipeResultsSection';
 import ResultsSection from './ResultsSection';
 
 const isEmpty = arr => !arr || arr.length < 1;
@@ -14,13 +15,13 @@ const SearchResultsList = props => {
         return (
             <Fragment>
                 {/* Recipe results */}
-                <ResultsSection results={props.recipeResults} {...props} resultType='recipe' />
+                <RecipeResultsSection {...props} results={props.recipeResults} />
                 {/* Ingredient results */}
-                <ResultsSection results={props.ingredientResults} {...props} resultType='ingredient' />
+                <ResultsSection {...props} results={props.ingredientResults} resultType='ingredient' />
                 {/* Category results */}
-                <ResultsSection results={props.categoryResults} {...props} resultType='category' />
+                <ResultsSection {...props} results={props.categoryResults} resultType='category' />
                 {/* Cuisine results */}
-                <ResultsSection results={props.cuisineResults} {...props} resultType='cuisine' />
+                <ResultsSection {...props} results={props.cuisineResults} resultType='cuisine' />
             </Fragment>
         );
     } else {
@@ -28,7 +29,7 @@ const SearchResultsList = props => {
             <Fragment>
                 <BackButton clearFilter={props.clearFilter} />
                 {/* Filtered recipe results */}
-                <ResultsSection results={props.filteredRecipes} {...props} resultType='recipe' />
+                <RecipeResultsSection {...props} results={props.filteredRecipes} resultType='recipe' />
             </Fragment>
         )
     }

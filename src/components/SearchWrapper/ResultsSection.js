@@ -1,19 +1,7 @@
-import { PLURAL_TYPES } from '../util/plural-types';
-import SearchResults from './SearchResults';
+import { getResultImg, PROP_NAMES } from '../../util/parse-result-props';
+import ResultsSectionHeading from './ResultsSectionHeading';
+import SearchResult from './SearchResult';
 import './ResultsSection.scss';
-
-const renderHeading = (filterType, filteredBy, resultType) => {
-    switch (filterType) {
-        case 'category':
-            return <h2 className="results-section__heading">recipes in the <span className="results-section__green-text">{filteredBy}</span> category</h2>;
-        case 'cuisine':
-            return <h2 className="results-section__heading">recipes in <span className="results-section__green-text">{filteredBy}</span> cuisine</h2>;
-        case 'ingredient':
-            return <h2 className="results-section__heading">recipes with <span className="results-section__green-text">{filteredBy}</span> as an ingredient</h2>
-        default:
-            return <h2 className="results-section__heading">{PLURAL_TYPES[resultType]}</h2>;
-    }
-}
 
 const ResultsSection = props => {
     const { filteredBy, filterType, results, resultType } = props;
@@ -30,8 +18,16 @@ const ResultsSection = props => {
     if (results && results.length) {
         return (
             <div className="results-section">
-                {renderHeading(filterType, filteredBy, resultType)}
-                <SearchResults results={results} resultType={resultType} {...props} />
+                <ResultsSectionHeading filterType={filterType} filteredBy={filteredBy} resultType={resultType} />
+                {results.map(result => {
+                    return <SearchResult
+                        {...props} 
+                        key={result[PROP_NAMES[resultType].idProp]} 
+                        resultId={result[PROP_NAMES[resultType].idProp]} 
+                        resultImg={getResultImg(result, resultType)}
+                        resultName={result[PROP_NAMES[resultType].nameProp]}
+                    />
+                })}
             </div>
         );
     }

@@ -1,0 +1,21 @@
+@import '../../sass/colors.scss';
+@import '../../sass/typography.scss';
+
+.letter-filter {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0 3rem 0;
+    &__letter {
+        color: $black;
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: .5rem;
+        &--green {
+            color: $green;
+        }
+        &:hover {
+            cursor: pointer;
+            color: $green;
+        }
+    }
+}

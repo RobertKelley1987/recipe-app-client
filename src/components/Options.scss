@@ -1,0 +1,17 @@
+@import '../sass/colors';
+@import '../sass/typography';
+
+.options {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: .75rem 0 0 0;
+    &__svg {
+        height: 26px;
+        stroke-width: 1.5px;
+        width: 26px;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
