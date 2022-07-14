@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import EditSVG from './../SVGs/EditSVG';
 import Img from './../Img';
+import ListDropdown from './ListDropdown';
 import Options from './../Options';
 import './ListSquare.scss';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 
 const ListSquare = props => {
+    const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
     const [recipe, setRecipe] = useState(null);
     const { searchURL, list } = props;
 
@@ -30,7 +32,7 @@ const ListSquare = props => {
                 <h2 className="list-square__name list-square__name--list">{list.name}</h2>
             </Link>
             <p className="list-square__meta-data">{list.recipes.length} Recipes</p>            
-            <Options {...props} recipe={recipe}>
+            <Options {...props} dropdown={ListDropdown} dropdownIsVisible={dropdownIsVisible} listId={list._id} setDropdownIsVisible={setDropdownIsVisible}>
                 <Link to={`/lists/${list._id}`}>
                     <EditSVG className="list-square__svg" />
                 </Link>

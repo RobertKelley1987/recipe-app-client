@@ -2,8 +2,10 @@ import axios from 'axios';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import { sortIngredients } from './util/sort-functions';
+import AddToList from './components/AddToList';
 import AuthPage from './pages/AuthPage';
-import DeleteRecipe from './pages/EditListPage/DeleteRecipe';
+import DeleteList from './pages/DeleteList';
+import DeleteRecipe from './pages/DeleteRecipe';
 import ErrorMessage from './components/ErrorMessage';
 import EditListPage from './pages/EditListPage';
 import Footer from './components/Footer';
@@ -260,7 +262,9 @@ const App = () => {
           </Routes>
 
           {backgroundLocation && <Routes>
-              <Route path='lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList}/>} />
+              <Route path='/recipes/:recipeId/add' element={<AddToList lists={lists} setErrorMessage={setErrorMessage} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />} />
+              <Route path='/lists/:listId' element={<DeleteList setLists={setLists} userId={userId} />} />
+              <Route path='/lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList}/>} />
           </Routes>}
 
         </div>

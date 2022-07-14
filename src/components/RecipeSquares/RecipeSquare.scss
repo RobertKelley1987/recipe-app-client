@@ -57,7 +57,7 @@
             border: 1px solid $green;
             padding: calc(1.5rem - 1px);
         }
-        & .recipe-square__name, & .recipe-square__meta-data, & a {
+        & .recipe-square__name, & .recipe-square__meta-data {
             color: $green;
         }
         & svg {

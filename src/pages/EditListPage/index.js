@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import Recipes from './Recipes';
 import Search from './Search';
 import ListName from './ListName';
-import './DeleteRecipe.scss';
 import './EditListPage.scss';
 
 

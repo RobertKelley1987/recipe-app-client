@@ -1,0 +1,25 @@
+@import '../../sass/colors';
+@import '../../sass/typography';
+
+.recipe-dropdown {
+    background-color: $green;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: auto;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: max-content;
+    z-index: 1;
+    & a {
+        color: white;
+        padding: 10px;
+        &:last-of-type {
+            border: none;
+        }
+        &:hover {
+            background-color: white;
+            color: $green;
+        }
+    }
+}

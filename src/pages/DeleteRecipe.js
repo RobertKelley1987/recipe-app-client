@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import Modal from '../../components/Modal';
+import Modal from '../components/Modal';
+import './DeleteRecipe.scss';
 
 const deleteRecipe = async (listId, recipeId, navigate, setList) => {
     const { data } = await axios.delete(`/lists/${listId}/recipes/${recipeId}`);

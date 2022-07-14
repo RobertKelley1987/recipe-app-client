@@ -38,7 +38,7 @@ const HomePage = props => {
             </GridWithHeading>
             <GridWithHeading showLink={lists && lists.length > 0} slug='lists' title='your lists'>
                 {/* If user has no lists, display empty message. Otherwise display favorites. */}
-                {lists.length < 1 ? <EmptyMessage message='You have not created any recipe lists yet.' /> : <ListSquares lists={lists.slice(0, 4)} />}
+                {lists.length < 1 ? <EmptyMessage message='You have not created any recipe lists yet.' /> : <ListSquares items={lists.slice(0, 4)} />}
             </GridWithHeading>
             <GridWithHeading showLink={true} slug='categories' title='browse by category'>
                 {categories && <CategorySquares categories={categories.slice(0, 4)} resultType='category' />}

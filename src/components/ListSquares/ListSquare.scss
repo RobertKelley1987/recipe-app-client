@@ -57,7 +57,7 @@
             border: 1px solid $green;
             padding: calc(1.5rem - 1px);
         }
-        & .list-square__name, & .list-square__meta-data, & a {
+        & .list-square__name, & .list-square__meta-data {
             color: $green;
         }
         & svg {

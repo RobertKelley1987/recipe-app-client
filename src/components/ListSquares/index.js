@@ -2,7 +2,7 @@ import ListSquare from './ListSquare';
 import './ListSquares.scss';
 
 const ListSquares = props => {
-    const { lists } = props;
+    const { items: lists } = props;
 
     return (
         <div className="list-squares">

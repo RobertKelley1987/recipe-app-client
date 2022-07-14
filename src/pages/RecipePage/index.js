@@ -1,7 +1,6 @@
 import axios from 'axios';
-import React, { Fragment, useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import AddToList from './AddToList';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import IngredientsSection from './IngredientsSection';
 import PrepSection from './PrepSection';
 import HeartSVG from '../../components/SVGs/HeartSVG';
@@ -21,9 +20,9 @@ const renderTags = ({ strTags }) => {
 
 const RecipePage = props => {
     const [recipe, setRecipe] = useState(null);
-    const [modalIsVisible, setModalIsVisible] = useState(false);
     const { id } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -52,36 +51,29 @@ const RecipePage = props => {
     }, [id]); 
 
     return recipe && (
-        <Fragment>
-            <AddToList 
-                {...props}
-                modalIsVisible={modalIsVisible}
-                recipeId={recipe.idMeal} 
-                recipeName={recipe.strMeal} 
-                setModalIsVisible={setModalIsVisible}
-            />
-            <main className="recipe-page">
-                <header className="recipe-page__header">
-                    <img alt="completed recipe" className="recipe-page__img" src={recipe.strMealThumb}></img>
-                    <div className="recipe-page__header-wrapper">
-                        <h1 className="recipe-page__name">{recipe.strMeal}</h1>
-                        <div className="recipe-page__svg-wrapper">
-                            <HeartSVG {...props} className="recipe-page__svg" recipe={recipe} />
-                            <PlusSVG className="recipe-page__svg"  handleClick={() => setModalIsVisible(true)} />
-                        </div>
-                        <Link className="recipe-page__meta-data" to={`/categories/${recipe.strCategory}`}>
-                            <span className="recipe-page__meta-data--bold">Category</span> - {recipe.strCategory}
+        <main className="recipe-page">
+            <header className="recipe-page__header">
+                <img alt="completed recipe" className="recipe-page__img" src={recipe.strMealThumb}></img>
+                <div className="recipe-page__header-wrapper">
+                    <h1 className="recipe-page__name">{recipe.strMeal}</h1>
+                    <div className="recipe-page__svg-wrapper">
+                        <HeartSVG {...props} className="recipe-page__svg" recipe={recipe} />
+                        <Link to={`/recipes/${recipe.idMeal}/add`} state={{ backgroundLocation: location }}>
+                            <PlusSVG className="recipe-page__svg" />
                         </Link>
-                        <Link className="recipe-page__meta-data" to={`/cuisines/${recipe.strArea}`}>
-                            <span className="recipe-page__meta-data--bold">Cuisine</span> - {recipe.strArea}
-                        </Link>
-                        {renderTags(recipe)}
                     </div>
-                </header>
-                <IngredientsSection recipe={recipe} />
-                <PrepSection recipe={recipe} />
-            </main>
-        </Fragment>
+                    <Link className="recipe-page__meta-data" to={`/categories/${recipe.strCategory}`}>
+                        <span className="recipe-page__meta-data--bold">Category</span> - {recipe.strCategory}
+                    </Link>
+                    <Link className="recipe-page__meta-data" to={`/cuisines/${recipe.strArea}`}>
+                        <span className="recipe-page__meta-data--bold">Cuisine</span> - {recipe.strArea}
+                    </Link>
+                    {renderTags(recipe)}
+                </div>
+            </header>
+            <IngredientsSection recipe={recipe} />
+            <PrepSection recipe={recipe} />
+        </main>
     )
 }
 
