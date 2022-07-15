@@ -1,4 +1,5 @@
-import axios from 'axios';
+import Favorite from '../../services/Favorite';
+import { capitalize } from '../../util/formatting';
 
 const configClassNames = (className, recipeIsFavorite) => {
     // If recipe is on that list, append class name to fill heart svg
@@ -7,24 +8,23 @@ const configClassNames = (className, recipeIsFavorite) => {
 
 const toggleFavoriteStatus = async (recipe, recipeIsFavorite, setErrorMessage, setSuccessMessage, updateFavorites, userId) => {
     // Add or remove recipe from favorites depending on current favorite status 
-    const { data } = await axios.post(`/users/${userId}/favorites`, { recipe: { apiId: recipe.idMeal, name: recipe.strMeal } });
+    const favRecipe = { recipe: { apiId: recipe.idMeal, name: recipe.strMeal } }
+    const data = await Favorite.toggle(favRecipe, userId);
     // Test for server error
     if(data.err) {
         // Display error message
-        setErrorMessage('Failed to change favorite status for recipe');
+        setErrorMessage('Failed to change favorite status for recipe.');
     } else {
         // Update app state to reflect change
         updateFavorites(data.favorites); 
         // Display appropriate success message
-        let successMessage = recipeIsFavorite ? 'Recipe removed from favorites.' : 'Recipe added to favorites!';
+        let successMessage = recipeIsFavorite ? `${capitalize(recipe.strMeal)} is removed from favorites.` : `${capitalize(recipe.strMeal)} is added to favorites!`;
         setSuccessMessage(successMessage);
     }
 }
 
 const HeartSVG = ({ className, favorites, recipe, setErrorMessage, setSuccessMessage, updateFavorites, userId }) => {
-    if(!recipe) {
-        return
-    }
+    if(!recipe) { return }
     
     // Test if recipe is in user's favorites list
     let recipeIsFavorite = favorites && favorites.findIndex(fav => fav.apiId === recipe.idMeal) !== -1;

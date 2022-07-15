@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import EmptyMessage from '../../components/EmptyMessage';
 import GridWithHeading from '../../components/GridWithHeading';
 import CategorySquares from '../../components/CategorySquares';
 import CuisineSquares from '../../components/CuisineSquares';
+import List from '../../services/List';
 import ListSquares from '../../components/ListSquares';
 import RecipeSquares from '../../components/RecipeSquares';
 import WelcomeSection from './WelcomeSection';
@@ -22,12 +22,12 @@ const HomePage = props => {
     // by user
     useEffect(() => {
         const getLists = async userId => {
-            const { data } = await axios.get(`/users/${userId}/lists`);
+            const data = await List.getAll(userId);
             updateLists(data.lists);
         }
 
         getLists(userId);
-    }, []);
+    }, [updateLists, userId]);
    
     return (
         <main className="home-page">

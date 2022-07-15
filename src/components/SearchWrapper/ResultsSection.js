@@ -15,7 +15,7 @@ const ResultsSection = props => {
         );
     }
 
-    if (results && results.length) {
+    if (results && results.length && !filterType) {
         return (
             <div className="results-section">
                 <ResultsSectionHeading filterType={filterType} filteredBy={filteredBy} resultType={resultType} />

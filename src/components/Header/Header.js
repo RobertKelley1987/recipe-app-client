@@ -14,14 +14,15 @@ const AuthLinks = () => {
     )
 }
 
-const Header = ({ userId, setUserId }) => {
+const Header = props => {
+    const { userId } = props;
     return (
         <header className="header">
             {userId && <HamburgerSVG className={"header__svg"}/>}
             <Link to="/">
                 <h1 className="header__app-name">recipe finder</h1>
             </Link>
-            {!userId ? <AuthLinks /> : <UserOptions setUserId={setUserId} />}
+            {!userId ? <AuthLinks /> : <UserOptions {...props} />}
         </header>
     );
 }

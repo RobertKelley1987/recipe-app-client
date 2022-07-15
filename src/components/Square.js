@@ -1,25 +1,22 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Img from './Img';
 import './Square.scss';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 
-const DefaultSquare = props => {
+const Square = props => {
     const [recipe, setRecipe] = useState(null);
-    const { linkURL, searchURL, title } = props;
+    const { fetchFn, linkURL, title } = props;
 
     // On initial render, get recipe using url provided and save to component state
     useEffect(() => {
-        const getRecipe = async searchURL => {
-            if(searchURL) {
-                const { data } = await axios.get(searchURL);
-                data.meals && setRecipe(data.meals[0]);
-            } 
+        const getRecipe = async (fetchFn, title) => {
+            const data = await fetchFn(title);
+            data.meals && setRecipe(data.meals[0]);
         }
 
-        getRecipe(searchURL);
-    }, [searchURL]);
+        getRecipe(fetchFn, title);
+    }, [fetchFn, title]);
 
     return (
         <div className="square">
@@ -31,4 +28,4 @@ const DefaultSquare = props => {
     );
 }
 
-export default DefaultSquare;
+export default Square;

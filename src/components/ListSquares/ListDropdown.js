@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './ListDropdown.scss';
 
 // Options list that appears if user clicks on 'more options' svg in square's options menu

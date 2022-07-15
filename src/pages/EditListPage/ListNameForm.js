@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import CloseSVG from '../../components/SVGs/CloseSVG';
+import List from '../../services/List';
 
-const ListNameForm = ({ editingName, turnOffEditMode, list, listId, updateList }) => {
+const ListNameForm = ({ editingName, list, listId, turnOffEditMode, updateErrorMessage, updateList, userId }) => {
     const [listName, setListName] = useState('');
     const nameInput = useRef(null);
     const nameForm = useRef(null);
@@ -30,20 +30,23 @@ const ListNameForm = ({ editingName, turnOffEditMode, list, listId, updateList }
 
     // In edit mode, save changes as user types
     useEffect(() => {
-        const saveName = async newName => {
-            const { data } = await axios.put(`/lists/${listId}`, { name: newName });
-            console.log(data.list.recipes);
-            updateList(data.list);
+        const saveName = async (listId, newName, userId) => {
+            const data = await List.editName(listId, newName, userId);
+            if(data.err) {
+                updateErrorMessage(data.err);
+            } else {
+                updateList(data.list);
+            }
         }
 
         let timeoutId = setTimeout(() => {
             if(listName) {
-                saveName(listName);
+                saveName(listId, listName, userId);
             }
         }, 100);
 
         return () => clearTimeout(timeoutId);
-    }, [listName, listId, updateList]);
+    }, [listName, listId, updateList, updateErrorMessage, userId]);
 
     useEffect(() => {
         // Set input value to list name when form first renders

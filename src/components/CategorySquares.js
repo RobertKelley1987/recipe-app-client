@@ -1,5 +1,6 @@
 import Square from './Square';
 import './CategorySquares.scss';
+import Recipe from '../services/Recipe';
 
 const CategorySquares = props => {
     const { categories } = props;
@@ -11,7 +12,7 @@ const CategorySquares = props => {
                             {...props} 
                             key={category.idCategory}
                             linkURL={`/categories/${category.strCategory}`}
-                            searchURL={`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.strCategory}`}
+                            fetchFn={Recipe.getAllFilteredByCategory}
                             title={category.strCategory} 
                         />
             })}

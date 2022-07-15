@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import List from '../../services/List';
 import './NewListInput.scss';
 
 const NewListInput = ({ newListInputVisible, setErrorMessage, setNewListInputVisible, updateLists, userId }) => {
@@ -13,9 +13,7 @@ const NewListInput = ({ newListInputVisible, setErrorMessage, setNewListInputVis
         }
 
         // Clear list name input when component dismounts
-        return () => {
-            setNewListName('');
-        }
+        return () => setNewListName('');
     }, [newListInputVisible]);
 
 
@@ -23,7 +21,7 @@ const NewListInput = ({ newListInputVisible, setErrorMessage, setNewListInputVis
         // Prevent page refresh on form submit
         e.preventDefault();
         // Post new list to app server 
-        const { data } = await axios.post(`/users/${userId}/lists`, { name: newListName });
+        const data = await List.create(newListName, userId);
         // Test for server error
         if(data.err) {
             // Display error message
@@ -38,7 +36,13 @@ const NewListInput = ({ newListInputVisible, setErrorMessage, setNewListInputVis
 
     return newListInputVisible && (
         <form onSubmit={handleSubmit}>
-            <input className="new-list-input" ref={newListInput} onChange={e => setNewListName(e.target.value)} placeholder='New list name' value={newListName} />
+            <input 
+                className="new-list-input" 
+                onChange={e => setNewListName(e.target.value)} 
+                placeholder='New list name' 
+                ref={newListInput} 
+                value={newListName} 
+            />
         </form>
     );
 }

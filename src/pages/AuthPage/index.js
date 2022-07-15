@@ -1,10 +1,9 @@
-import axios from 'axios'; 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AuthPage.scss';
 import './AuthForm.scss';
 
-const AuthPage = ({ title, slug, setUserId }) => {
+const AuthPage = ({ authFn, title, setUserId }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -14,18 +13,20 @@ const AuthPage = ({ title, slug, setUserId }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     setSubmitting(true);
-    const { data: { userId, err } } = await axios.post(slug, { email: email, password: password });
+    const { userId, err } = await authFn(email, password);
     if(err) {
       setErrorMessage(err.message);
-      setSubmitting(false);
     } else {
       setUserId(userId);
       navigate('/');
     }
+    setSubmitting(false);
   }
 
-  // Clear error message if switching from log in to sign in screen, or vice versa
+  // Clear form inputs and error message if switching from log in to sign in screen, or vice versa
   useEffect(() => {
+    setEmail('');
+    setPassword('');
     setErrorMessage('')
   }, [title])
 

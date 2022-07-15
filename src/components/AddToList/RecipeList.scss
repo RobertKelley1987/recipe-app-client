@@ -1,0 +1,13 @@
+@import '../../sass/colors.scss';
+@import '../../sass/typography.scss';
+
+.recipe-list {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0 0 .75rem 0;
+    list-style-type: none;
+    &:hover {
+        color: $green;
+        cursor: pointer;
+    }
+}

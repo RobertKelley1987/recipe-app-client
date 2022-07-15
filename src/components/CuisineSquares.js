@@ -1,3 +1,4 @@
+import Recipe from '../services/Recipe';
 import Square from './Square';
 import './CuisineSquares.scss';
 
@@ -11,7 +12,7 @@ const CuisineSquares = props => {
                             {...props} 
                             key={cuisine.strArea}
                             linkURL={`/cuisines/${cuisine.strArea}`}
-                            searchURL={`https://www.themealdb.com/api/json/v1/1/filter.php?a=${cuisine.strArea}`}
+                            fetchFn={Recipe.getAllFilteredByCuisine}
                             title={cuisine.strArea} 
                         />
             })}

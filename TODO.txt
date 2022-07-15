@@ -1,3 +1,7 @@
+* Try to get a handle on mobile / media queries before adding more features.
+* LOOK AT CSS FOR NEW LIST BUTTON ON LISTS PAGE
+* When I make a new list then hit back button, the new list is not on the screen with the
+other lists. Need page to update info on render.
 * id 52905 -- chocolate souffle -- duplicate ingredients. Fix this "edge case"... i hate
 this api. 52992 and 52807 -- both use random \r\n\ in middle of sentences. Fix this "edge case" too.
 * Having this idea to make the hamburger a realistic looking hamburger (like the food)
@@ -7,21 +11,16 @@ on hover... bad idea??? If so, delete 'RealHamburgerSVG' from SVGs folder.
 as an example: 'A Pinch Of Salt'?
 * Inspect for semantic html. Am I just using divs when I could have used something else?
 * Check SASS for alphabetized properties.
-* Need to be able to delete an entire list
 * Revisit my INSTRUCTIONS algorithm if I have time. I feel like it's not as great as it could be.
 * does my add recipe to list route in the routes component need to be formatted the same way as my delete recipe
 route??? Talking about react routes, not the back end.
 * If I get to the show page for a recipe from a list, there should be a "back to list" button 
 or "back" button.
 * Error handling for new list feature on lists page.
-* search section should be surrounded by a main tag on the seach page and a section tag otherwise... how do i do that?
 * CONSISTENT SPACES FORMATTING!!!!! --> ex: if() versus if ()
-* When I browse recipes... do I need to show the favorites heart in the square component?
-* I need a 3 dots symbol and a fav symbol with each recipe
 * Add error message component to auth page.
 *ERROR HANDLING
 * When I visit edit list page, there should be a back button to take me back to all lists
-* Favorites should always appear with most recently added favs at the beginning
 
 MISC EDGE CASES -- RECIPE INSTRUCTIONS:
 52954 - hot and sour soup - single STEP declaration at top.

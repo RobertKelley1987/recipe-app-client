@@ -1,10 +1,10 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import IngredientsSection from './IngredientsSection';
 import PrepSection from './PrepSection';
 import HeartSVG from '../../components/SVGs/HeartSVG';
-import PlusSVG from '../../components/SVGs/PlusSVG';
+import PlusSVG from '../../components/SVGs/PlusSVG'; 
+import Recipe from '../../services/Recipe';
 import './RecipePage.scss';
 
 const renderTags = ({ strTags }) => {
@@ -20,7 +20,7 @@ const renderTags = ({ strTags }) => {
 
 const RecipePage = props => {
     const [recipe, setRecipe] = useState(null);
-    const { id } = useParams();
+    const { recipeId } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -30,25 +30,24 @@ const RecipePage = props => {
 
     // Fetch recipe data on initial load
     useEffect(() => {
-        const getRecipe = async id => {
-            if(!id) { return }
+        const getRecipe = async recipeId => {
+            if(!recipeId) { return }
 
-            // If user navigated to the random recipe page, use random recipe url.
-            // Otherwise get specific recipe using recipe id provided.
-            const slug = id === 'random' ? 'random.php' : `lookup.php?i=${id}`; 
-            const { data } = await axios.get(`https://www.themealdb.com/api/json/v1/1/${slug}`);
+            // If user navigated to the random recipe page, fetch random recipe.
+            // Otherwise get specific recipe using recipe id provided. 
+            const data = recipeId === 'random' ? await Recipe.getRandom() : await Recipe.getOne(recipeId); 
             
             // If user selected a random recipe, navigate to correct page using id from api,
             // so they can return to the same recipe using the back button
-            if(id === 'random') {
-                navigate( `/recipes/${data.meals[0].idMeal}`, { replace: true });
+            if(recipeId === 'random') {
+                navigate(`/recipes/${data.meals[0].idMeal}`, { replace: true });
             }
 
             setRecipe(data.meals[0]);
         }
 
-        getRecipe(id);
-    }, [id]); 
+        getRecipe(recipeId);
+    }, [recipeId, navigate]); 
 
     return recipe && (
         <main className="recipe-page">

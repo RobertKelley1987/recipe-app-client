@@ -1,30 +1,33 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import Recipe from '../../services/Recipe';
 import { filterByFirstLetter, filterBySearchTerm } from '../../util/filter-functions';
+import LoadingWrapper from '../LoadingWrapper';
 import Searchbar from '../Searchbar';
 import './SearchWrapper.scss';
 
 const SearchWrapper = props => {
-    // categories matching search term
+    // Categories matching search term
     const [categoryResults, setCategoryResults] = useState([]);
-    // cuisnies matching search term
+    // Cuisnies matching search term
     const [cuisineResults, setCuisineResults] = useState([]);
-    // ingredients matching search term
+    // Ingredients matching search term
     const [ingredientResults, setIngredientResults] = useState([]);
-    // lists matching search term
+    // Track whether component is waiting for api results
+    const [isLoading, setIsLoading] = useState(false);
+    // Lists matching search term
     const [listResults, setListResults] = useState([]);
-    // track whether results are being filtered by ingredient, category or cuisine
+    // Track whether results are being filtered by ingredient, category or cuisine
     const [filterType, setFilterType] = useState('');
-    // track specific item recipes are being filtered by, ex: chili powder
+    // Track specific item recipes are being filtered by, ex: chili powder
     const [filteredBy, setFilteredBy] = useState('');
-    // recipes filtered by another result type, ex: American recipes, recipes with 
+    // Recipes filtered by another result type, ex: American recipes, recipes with 
     // lettuce as an ingredient
     const [filteredRecipes, setFilteredRecipes] = useState([]);
-    // recipes matching search term
+    // Recipes matching search term
     const [recipeResults, setRecipeResults] = useState([]);
-    // search term entered by user
+    // Search term entered by user
     const [searchTerm, setSearchTerm] = useState('');
-    // ref to search bar element as a point to scroll back to after a filter is applied
+    // Ref to search bar element as a point to scroll back to after a filter is applied
     const searchEl = useRef(null);
 
     const { allCategories, allCuisines, allIngredients, allLists, isSearchPage, list, setSearchIsVisible, updateList } = props;
@@ -50,16 +53,18 @@ const SearchWrapper = props => {
     }
 
     // Get results as user types in the search input
-    useEffect (() => {
+    useEffect(() => {
+        // If there is a search term, set loading status to true
+        searchTerm && setIsLoading(true);
+
         const getResults = async searchTerm => {
-
-            // get recipe results directly from api
+            // Get recipe results directly from api
             const getRecipeResults = async searchTerm => {
-                // find recipe names that match
-                const { data: recipes } = await axios.get(`https:///www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`);
-                let results = recipes.meals;
+                // Find recipe names that match
+                const data = await Recipe.findAll(searchTerm);
+                let results = data.meals;
 
-                // if term is one letter, only show recipes starting with that letter
+                // If term is one letter, only show recipes starting with that letter
                 if(searchTerm.length === 1) {
                     results = filterByFirstLetter(results, searchTerm, 'strMeal');
                 }
@@ -68,25 +73,26 @@ const SearchWrapper = props => {
             }
 
             // find recipe names, ingredients, categories and cuisine types matching search term
-            getRecipeResults (searchTerm);
-            filterBySearchTerm (allIngredients, setIngredientResults, 'strIngredient', searchTerm);
-            filterBySearchTerm (allCategories, setCategoryResults, 'strCategory', searchTerm);
-            filterBySearchTerm (allCuisines, setCuisineResults, 'strArea', searchTerm);
+            await getRecipeResults(searchTerm);
+            filterBySearchTerm(allIngredients, setIngredientResults, 'strIngredient', searchTerm);
+            filterBySearchTerm(allCategories, setCategoryResults, 'strCategory', searchTerm);
+            filterBySearchTerm(allCuisines, setCuisineResults, 'strArea', searchTerm);
         
             // if on search page, also get list results form app server
-            isSearchPage && filterBySearchTerm (allLists, setListResults, 'name', searchTerm);
+            isSearchPage && filterBySearchTerm(allLists, setListResults, 'name', searchTerm);
         }
 
-        let timeoutId = setTimeout(() => {
+        let timeoutId = setTimeout(async () => {
             // test if user typed a search term
             if(searchTerm) {
                 // clear any filtered results and fetch new results from api
                 clearFilter();
-                getResults(searchTerm);
+                await getResults(searchTerm)
             } else {
                 // if search input is empty, clear results from current state
-                clearAllResults();
+                clearAllResults();  
             }
+            setIsLoading(false);
         }, 500);
 
         // clear timeout on each re-render
@@ -106,23 +112,25 @@ const SearchWrapper = props => {
                 setSearchTerm={setSearchTerm} 
             />
             <div className="search-wrapper__results">
-                <DisplayResults 
-                    {...props}
-                    categoryResults={categoryResults}
-                    clearFilter={clearFilter}
-                    cuisineResults={cuisineResults}                    
-                    filterType={filterType}
-                    filteredBy={filteredBy} 
-                    filteredRecipes={filteredRecipes}
-                    ingredientResults={ingredientResults}
-                    list={list}
-                    listResults={listResults}
-                    recipeResults={recipeResults}
-                    searchEl={searchEl} 
-                    setFilter={setFilter} 
-                    searchTerm={searchTerm} 
-                    updateList={updateList}
-                />
+                <LoadingWrapper isLoading={isLoading}>
+                    <DisplayResults 
+                        {...props}
+                        categoryResults={categoryResults}
+                        clearFilter={clearFilter}
+                        cuisineResults={cuisineResults}                    
+                        filterType={filterType}
+                        filteredBy={filteredBy} 
+                        filteredRecipes={filteredRecipes}
+                        ingredientResults={ingredientResults}
+                        list={list}
+                        listResults={listResults}
+                        recipeResults={recipeResults}
+                        searchEl={searchEl} 
+                        setFilter={setFilter} 
+                        searchTerm={searchTerm} 
+                        updateList={updateList}
+                    />
+                </LoadingWrapper>
             </div>
         </div>
     )

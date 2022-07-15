@@ -1,16 +1,19 @@
-import axios from 'axios';
 import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { Fragment, useCallback, useEffect, useState } from 'react';
-import { sortIngredients } from './util/sort-functions';
 import AddToList from './components/AddToList';
 import AuthPage from './pages/AuthPage';
+import Category from './services/Category';
+import Cuisine from './services/Cuisine';
 import DeleteList from './pages/DeleteList';
 import DeleteRecipe from './pages/DeleteRecipe';
 import ErrorMessage from './components/ErrorMessage';
 import EditListPage from './pages/EditListPage';
+import Favorite from './services/Favorite';
 import Footer from './components/Footer';
 import Header from './components/Header/Header';
 import HomePage from './pages/HomePage';
+import Ingredient from './services/Ingredient';
+import List from './services/List';
 import ListSquares from './components/ListSquares';
 import LinksList from './components/LinksList';
 import NewListLink from './components/NewListLink';
@@ -19,7 +22,9 @@ import RecipePage from './pages/RecipePage';
 import RecipesPage from './pages/RecipesPage';
 import RecipeSquares from './components/RecipeSquares';
 import SearchPage from './pages/SearchPage';
+import User from './services/User';
 import './App.scss';
+import Recipe from './services/Recipe';
 
 const App = () => {
   const [categories, setCategories] = useState([]);
@@ -38,12 +43,13 @@ const App = () => {
   const updateList = useCallback(newList => setList(newList), []);
   const updateFavorites = useCallback(newFavorites => setFavorites(newFavorites), []);
   const updateLists = useCallback(newLists => setLists(newLists), []);
+  const updateErrorMessage = useCallback(message => setErrorMessage(message), []);
 
   useEffect(() => {
     // Make request to app server with cookie data to check if user is logged in
     const getSession = async () => {
-      const { data: { userId } } = await axios.get('/sessions');
-      setUserId(userId);
+      const data = await User.validateSession();
+      setUserId(data.userId);
       // Once data is returned from server, set loading status to false
       setIsLoading(false);
     }
@@ -55,33 +61,31 @@ const App = () => {
   useEffect(() => {
     // Fetch all categories from api
     const getCategories = async () => {
-      const { data } = await axios.get('https://www.themealdb.com/api/json/v1/1/categories.php');
+      const data = await Category.getAll();
       setCategories(data.categories);
     }
 
     // Fetch all cuisines from api
     const getCuisines = async () => {
-      const { data } = await axios.get('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
+      const data = await Cuisine.getAll();
       setCuisines(data.meals);
     }
 
     // Fetch all favorites from app server
     const getFavorites = async userId => {      
-      const { data } = await axios.get(`/users/${userId}/favorites`);
+      const data = await Favorite.getAll(userId);
       setFavorites(data.favorites);
     }
 
     // Fetch all ingredients from api
     const getIngredients = async () => {
-      const { data } = await axios.get('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
-      // Sort ingredients alphabetically by name
-      data.meals.sort((a, b) => sortIngredients(a, b));
+      const data = await Ingredient.getAll();
       setIngredients(data.meals);
     }
 
-    // Fetch all lists from app server
+    // Fetch all user lists from app server
     const getLists = async userId => {
-      const { data } = await axios.get(`/users/${userId}/lists`);
+      const data = await List.getAll(userId);
       setLists(data.lists);
     }
 
@@ -131,14 +135,14 @@ const App = () => {
 
       <div className="app">
 
-        <Header userId={userId} setUserId={setUserId} />
+        <Header userId={userId} setUserId={setUserId} setErrorMessage={setErrorMessage} />
 
         <div className="app__content">
         
           <Routes location = { backgroundLocation || location }>
             <Route path='/' element={renderHomePage()} />
-            <Route path='/signup' element={<AuthPage title='sign up' slug='/signup' setUserId={setUserId} />} />
-            <Route path='/login' element={<AuthPage title='log in' slug='/login' setUserId={setUserId} />} />
+            <Route path='/signup' element={<AuthPage title='sign up' authFn={User.signUp} setUserId={setUserId} />} />
+            <Route path='/login' element={<AuthPage title='log in' authFn={User.logIn} setUserId={setUserId} />} />
             <Route path='/favorites' element={
               <PageWithFilter 
                 allItems={favorites} 
@@ -169,7 +173,7 @@ const App = () => {
                 userId={userId} 
               />
             } />
-            <Route path='/recipes/:id' element={
+            <Route path='/recipes/:recipeId' element={
               <RecipePage 
                 favorites={favorites}
                 lists={lists} 
@@ -188,8 +192,8 @@ const App = () => {
                 allIngredients={ingredients} 
                 favorites={favorites} 
                 list={list} 
-                setErrorMessage={setErrorMessage}
                 setSuccessMessage={setSuccessMessage}
+                updateErrorMessage={updateErrorMessage}
                 updateFavorites={updateFavorites} 
                 updateList={updateList} 
                 userId={userId} 
@@ -215,7 +219,8 @@ const App = () => {
             } />
             <Route path='/categories/:name' element={
               <RecipesPage 
-                favorites={favorites} 
+                favorites={favorites}
+                fetchFn={Recipe.getAllFilteredByCategory} 
                 filterType='category'
                 setErrorMessage={setErrorMessage} 
                 setSuccessMessage={setSuccessMessage}
@@ -226,7 +231,8 @@ const App = () => {
             <Route path='/cuisines/:name' element={
               <RecipesPage 
                 favorites={favorites} 
-                filterType='cuisine' 
+                fetchFn={Recipe.getAllFilteredByCuisine}
+                filterType='cuisine'
                 setErrorMessage={setErrorMessage}
                 setSuccessMessage={setSuccessMessage}
                 updateFavorites={updateFavorites} 
@@ -243,7 +249,8 @@ const App = () => {
             } />
             <Route path='/ingredients/:name' element={
               <RecipesPage 
-                favorites={favorites} 
+                favorites={favorites}
+                fetchFn={Recipe.getAllFilteredByIngredient} 
                 filterType='ingredient' 
                 setErrorMessage={setErrorMessage}
                 setSuccessMessage={setSuccessMessage}
@@ -264,7 +271,7 @@ const App = () => {
           {backgroundLocation && <Routes>
               <Route path='/recipes/:recipeId/add' element={<AddToList lists={lists} setErrorMessage={setErrorMessage} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />} />
               <Route path='/lists/:listId' element={<DeleteList setLists={setLists} userId={userId} />} />
-              <Route path='/lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList}/>} />
+              <Route path='/lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList} userId={userId} />} />
           </Routes>}
 
         </div>

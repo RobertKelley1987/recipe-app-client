@@ -1,17 +1,17 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Recipes from './Recipes';
 import Search from './Search';
 import ListName from './ListName';
 import './EditListPage.scss';
+import List from '../../services/List';
 
 
 const EditListPage = props => {
     // Track whether search section is visible on screen
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const { listId } = useParams();
-    const { list, updateList } = props
+    const { list, updateList, userId } = props
 
     // Scroll to top on initial render
     useEffect(() => {
@@ -20,16 +20,16 @@ const EditListPage = props => {
 
     // Get list data when page first renders
     useEffect(() => {
-        const getList = async listId => {
-            const { data } = await axios.get(`/lists/${listId}`);
+        const getList = async (listId, userId) => {
+            const data = await List.getOne(listId, userId);
             updateList(data.list);
         }
 
-        getList(listId);
+        getList(listId, userId);
 
         // Clear list data when component unmounts
         return () => updateList(null);
-    }, [listId, updateList]);
+    }, [listId, updateList, userId]);
 
     // Make search section visible if user's list is empty
     useEffect(() => {

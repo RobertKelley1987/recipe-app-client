@@ -1,17 +1,17 @@
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import List from '../services/List';
 import './NewListLink.scss';
 
 const NewListLink = ({ setErrorMessage, userId }) => {
     const navigate = useNavigate();
 
     const createNewList = async (setErrorMessage, userId) => {
-        // Post new list to database
-        const { data } = await axios.post(`/users/${userId}/lists`);
+        // Post new list to database with no name
+        const data = await List.create('', userId);
         // Test for server error
         if(data.err) {
             // Display error message
-            setErrorMessage('There was an error');
+            setErrorMessage('Failed to create new list.');
         } else {
             // Navigate to edit page for new list
             navigate(`/lists/${data.listId}`) 

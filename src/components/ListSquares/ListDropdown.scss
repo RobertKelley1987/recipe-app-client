@@ -5,7 +5,10 @@
     background-color: $green;
     border-radius: 5px;
     display: grid;
+    font-size: 1rem;
+    font-weight: 500;
     grid-template-columns: auto;
+    letter-spacing: .05rem;
     position: absolute;
     right: 0;
     top: 100%;

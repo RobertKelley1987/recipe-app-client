@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import User from '../../services/User';
 import UserSVG from '../SVGs/UserSVG';
 
-const UserOptions = ({ setUserId }) => {
+const UserOptions = ({ setErrorMessage, setUserId }) => {
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
     const optionsWrapper = useRef(null);
     const navigate = useNavigate();
@@ -15,18 +15,21 @@ const UserOptions = ({ setUserId }) => {
             }
             setDropdownIsOpen(false);
         }
-
         document.body.addEventListener('click',clickOutsideToClose);
-
         return () => document.body.removeEventListener('click', clickOutsideToClose);
     }, []);
 
-    const signOut = async () => {
-        const { data } = await axios.post('/logout');
+    const signOut = async ()  => {
+        const data = await User.logOut();
+        // Test for successful sign out
         if(data.userId === null) {
+            // Update app state to reflect no user and redirect to login
             setUserId(null);
             navigate('/login')
-        }
+        } else {
+            // Otherwise display error message
+            setErrorMessage('Log out failed. Please try again.');
+        }   
     }
 
     return (
