@@ -15,7 +15,7 @@ const Searchbar = ({ extraMargin, filterTerm, placeholder, searchIsVisible, upda
         }
 
         // When component unmounts, clear filter term
-        return () => updateSearchTerm(''); 
+        // return () => updateSearchTerm(''); 
     }, [searchIsVisible, updateSearchTerm]);
 
     if (searchIsVisible) {
