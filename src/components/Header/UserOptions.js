@@ -10,9 +10,14 @@ const UserOptions = ({ setErrorMessage, setUserId }) => {
 
     useEffect(() => {
         const clickOutsideToClose = e => {
-            if(optionsWrapper && optionsWrapper.current && optionsWrapper.current.contains(e.target)) {
+            if(!optionsWrapper || optionsWrapper.current) {
                 return
             }
+
+            if(optionsWrapper.current.contains(e.target)) {
+                return
+            }
+            
             setDropdownIsOpen(false);
         }
         document.body.addEventListener('click',clickOutsideToClose);
