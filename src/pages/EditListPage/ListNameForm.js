@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import CloseSVG from '../../components/SVGs/CloseSVG';
 import List from '../../services/List';
+import './ListNameForm.scss';
 
 const ListNameForm = ({ editingName, list, listId, turnOffEditMode, updateErrorMessage, updateList, userId }) => {
     const [listName, setListName] = useState('');
@@ -60,9 +61,9 @@ const ListNameForm = ({ editingName, list, listId, turnOffEditMode, updateErrorM
     const handleKeyUp = e => e.key === 'Enter' && turnOffEditMode();
 
     return (
-        <form ref={nameForm} className="list-name__form" onKeyUp={handleKeyUp} onSubmit={e => e.preventDefault()}>
-            <input ref={nameInput} className="list-name__input" onChange={e => setListName(e.target.value)} value={listName} />
-            <CloseSVG className="list-name__svg" handleClick={turnOffEditMode} />
+        <form ref={nameForm} className="list-name-form" onKeyUp={handleKeyUp} onSubmit={e => e.preventDefault()}>
+            <input ref={nameInput} className="list-name-form__input" onChange={e => setListName(e.target.value)} value={listName} />
+            <CloseSVG className="list-name-form__svg" handleClick={turnOffEditMode} />
         </form>
     )
 }

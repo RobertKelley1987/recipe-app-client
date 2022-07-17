@@ -9,8 +9,6 @@ const filterInstructions = instructions => instructions.split('\r\n').filter(ins
 });
 
 const PrepSection = ({ recipe }) => {
-    console.log(filterInstructions(recipe.strInstructions));
-
     return (
         <section className="prep-section">
             <h1 className="prep-section__heading">how to prepare</h1>

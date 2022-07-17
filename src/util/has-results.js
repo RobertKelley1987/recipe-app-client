@@ -1,0 +1,1 @@
+export const hasResults = results => results && results.length > 0;

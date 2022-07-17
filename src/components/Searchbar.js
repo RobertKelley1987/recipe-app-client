@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from 'react';
 import CloseSVG from './SVGs/CloseSVG';
 import SearchSVG from './SVGs/SearchSVG';
@@ -26,8 +25,7 @@ const Searchbar = ({ extraMargin, filterTerm, placeholder, searchIsVisible, setS
                     {searchSVG}
                     <input ref={searchInput} className="searchbar__input" onChange={e => setSearchTerm(e.target.value)} placeholder={placeholder} type="text" value={filterTerm} />
                 </div>
-                {/* If component is passed a method to set search mode to off, return a close search button */}
-                {setSearchIsVisible && <CloseSVG className="searchbar__svg searchbar__svg--close" handleClick={() => setSearchIsVisible(false)} />}
+                {searchIsVisible && <CloseSVG className="searchbar__svg searchbar__svg--close" handleClick={() => setSearchIsVisible(false)} />}
             </div>
         )
     } else {

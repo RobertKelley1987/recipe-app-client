@@ -10,10 +10,10 @@ const configLetterClass = (firstLetter, letter) => {
     // if letters are equal, add green class, otherwise return original class name
     return firstLetter === letter ? className += ' letter-filter__letter--green' : className;
 }
-const LetterFilter = ({ resultType, firstLetter, setFirstLetter }) => {
+const LetterFilter = ({ firstLetter, setFirstLetter }) => {
     return (
         <div className="letter-filter">
-            {resultType !== 'ingredient' && <span className={configLetterClass(firstLetter, '')} onClick={() => setFirstLetter('')}>All</span>}
+            {<span className={configLetterClass(firstLetter, '')} onClick={() => setFirstLetter('')}>All</span>}
             {ALPHABET.map(letter => <span className={configLetterClass(firstLetter, letter)} key={letter} onClick={() => setFirstLetter(letter)}>{letter}</span>)}
         </div>
     );

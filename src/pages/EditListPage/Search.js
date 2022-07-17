@@ -4,14 +4,14 @@ import './Search.scss';
 
 const Search = props => {
     const { searchIsVisible, setSearchIsVisible } = props;
-    
+
     // Test if search is visible
     if(searchIsVisible) { 
-        // Display searchbar with results 
+        // Display search section 
         return <SearchWrapper {...props} displayResults={SearchResultsList} />;
     } else {
         // Display link to open searchbar with results
-        return <span onClick={() => setSearchIsVisible(true)} className="search__link">Find Recipes</span>;
+        return <span onClick={() => setSearchIsVisible(true)} className="search__link">Find More Recipes</span>;
     }
 }
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import EditSVG from './../SVGs/EditSVG';
 import Img from './../Img';
 import ListDropdown from './ListDropdown';
@@ -12,6 +12,7 @@ const ListSquare = props => {
     const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
     const [recipe, setRecipe] = useState(null);
     const { searchURL, list } = props;
+    const location = useLocation();
 
     // On initial render, get recipe using url provided and save to component state
     useEffect(() => {
@@ -24,6 +25,13 @@ const ListSquare = props => {
 
         getRecipe(searchURL);
     }, [searchURL]);
+
+    // After clicking a link to a modal, hide dropdown menu
+    useEffect(() => {
+        if(location.state && location.state.backgroundLocation) {
+            setDropdownIsVisible(false);
+        }
+    }, [location]);
 
     return (
         <div className="list-square">

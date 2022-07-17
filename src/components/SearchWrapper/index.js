@@ -16,15 +16,17 @@ const SearchWrapper = props => {
     const [isLoading, setIsLoading] = useState(false);
     // Lists matching search term
     const [listResults, setListResults] = useState([]);
-    // Track whether results are being filtered by ingredient, category or cuisine
+    // Track whether recipe results are being filtered by ingredient, category or cuisine
     const [filterType, setFilterType] = useState('');
-    // Track specific item recipes are being filtered by, ex: chili powder
+    // Track which item recipes are being filtered by, ex: chili powder
     const [filteredBy, setFilteredBy] = useState('');
     // Recipes filtered by another result type, ex: American recipes, recipes with 
     // lettuce as an ingredient
     const [filteredRecipes, setFilteredRecipes] = useState([]);
-    // Recipes matching search term
+    // All recipes matching search term
     const [recipeResults, setRecipeResults] = useState([]);
+    // Track whether one type of result is displayed, ex: only cuisines, only categories, only recipes
+    const [resultTypeVisible, setResultTypeVisible] = useState('');
     // Search term entered by user
     const [searchTerm, setSearchTerm] = useState('');
     // Ref to search bar element as a point to scroll back to after a filter is applied
@@ -52,15 +54,15 @@ const SearchWrapper = props => {
         setFilterType(filterType);
     }
 
-    // Get results as user types in the search input
+    // Get results as user types in search input
     useEffect(() => {
         // If there is a search term, set loading status to true
         searchTerm && setIsLoading(true);
 
         const getResults = async searchTerm => {
-            // Get recipe results directly from api
+            // Get recipe results from api
             const getRecipeResults = async searchTerm => {
-                // Find recipe names that match
+                // Find recipe names that match search term
                 const data = await Recipe.findAll(searchTerm);
                 let results = data.meals;
 
@@ -97,21 +99,24 @@ const SearchWrapper = props => {
 
         // clear timeout on each re-render
         return () => clearTimeout(timeoutId);
-    }, [searchTerm, allCategories, allCuisines, allIngredients, allLists]);
+    }, [searchTerm, allCategories, allCuisines, allIngredients]);
 
-    // Component passed to Search Wrapper to display search results
+    // Component passed to SearchWrapper to display search results
     const DisplayResults = props.displayResults;
-
+    // Component passed to SearchWrapper to filter results by type (search page only)  
+    const FilterOptions = props.filterOptions;
+    
     return (
         <div ref={searchEl} className="search-wrapper">
             <Searchbar 
-                placeholder="search" 
+                placeholder="search for recipes" 
                 searchIsVisible={true} 
                 searchTerm={searchTerm} 
                 setSearchIsVisible={setSearchIsVisible} 
                 setSearchTerm={setSearchTerm} 
             />
-            <div className="search-wrapper__results">
+            {FilterOptions && <FilterOptions resultTypeVisible={resultTypeVisible} setResultTypeVisible={setResultTypeVisible} />}
+            <div className="search-wrapper__results"> 
                 <LoadingWrapper isLoading={isLoading}>
                     <DisplayResults 
                         {...props}
@@ -122,9 +127,11 @@ const SearchWrapper = props => {
                         filteredBy={filteredBy} 
                         filteredRecipes={filteredRecipes}
                         ingredientResults={ingredientResults}
+                        isLoading={isLoading}
                         list={list}
                         listResults={listResults}
                         recipeResults={recipeResults}
+                        resultTypeVisible={resultTypeVisible}
                         searchEl={searchEl} 
                         setFilter={setFilter} 
                         searchTerm={searchTerm} 

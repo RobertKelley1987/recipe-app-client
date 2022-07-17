@@ -42,10 +42,6 @@
                     color: $green;
                 }
         }
-        & .ingredient-square__img--ingredient {
-            border: 1px solid $green;
-            padding: calc(1.5rem - 1px);
-        }
         & .ingredient-square__name, & .ingredient-square__meta-data, & a {
             color: $green;
         }

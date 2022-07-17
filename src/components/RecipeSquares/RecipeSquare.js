@@ -1,29 +1,36 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import HeartSVG from './../SVGs/HeartSVG';
 import Img from './../Img';
 import Options from './../Options';
 import RecipeDropdown from './RecipeDropdown';
 import './RecipeSquare.scss';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
+import Recipe from '../../services/Recipe';
 
 const RecipeSquare = props => {
     const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
     const [recipe, setRecipe] = useState(null);
-    const { searchURL } = props;
+    const { recipeId } = props;
+    const location = useLocation();
 
     // On initial render, get recipe using url provided and save to component state
     useEffect(() => {
-        const getRecipe = async searchURL => {
-            if(searchURL) {
-                const { data } = await axios.get(searchURL);
-                data.meals && setRecipe(data.meals[0]);
-            } 
+        const getRecipe = async recipeId => {
+            const data = await Recipe.getOne(recipeId);
+            data.meals && setRecipe(data.meals[0]);
         }
 
-        getRecipe(searchURL);
-    }, [searchURL]);
+        getRecipe(recipeId);
+    }, [recipeId]);
+
+    // After clicking a link to a modal, hide dropdown menu
+    useEffect(() => {
+        if(location.state && location.state.backgroundLocation) {
+            setDropdownIsVisible(false);
+        }
+    }, [location]);
 
     return recipe && (
         <div className="recipe-square">

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage';
-import List from '../../services/List';
 import LoadingWrapper from '../LoadingWrapper';
 import Recipe from '../../services/Recipe';
 import RecipeList from './RecipeList';
 import Modal from '../Modal';
 import NewListInput from './NewListInput';
 import './AddToList.scss';
+import List from '../../services/List';
 
 const AddToList = props => {
     const [isLoading, setIsLoading] = useState(true);
@@ -18,24 +18,9 @@ const AddToList = props => {
     const { recipeId } = useParams();
     const navigate = useNavigate();
 
-    const { lists, updateLists, userId } = props;
+    const { userId, lists, updateLists } = props;
 
-    // Get all list data when component first loads and save to component's state
-    useEffect(() => {
-        const getLists = async () => {
-            const data = await List.getAll(userId);
-            if(data.err) {
-                setModalErrorMessage('Failed to fetch lists from server. Please try again later.')
-            } else {
-                updateLists(data.lists);
-            }
-            setIsLoading(false);
-        }
-
-        getLists();
-    }, [userId, updateLists]);
-
-    // Fetch recipe data from api
+    // Fetch recipe data from api and update lists
     useEffect(() => {
         const getRecipe = async recipeId => {
             const data = await Recipe.getOne(recipeId);
@@ -45,7 +30,18 @@ const AddToList = props => {
             setRecipe(data.meals[0]);
         }
 
-        getRecipe(recipeId);
+        const getLists = async userId => {
+            const data = await List.getAll(userId);
+            updateLists(data.lists);
+        }
+
+        const getRecipeAndLists = async recipeId => {
+            await getRecipe(recipeId, userId);
+            await getLists(userId);
+            setIsLoading(false);
+        }
+
+        getRecipeAndLists(recipeId)
     }, [recipeId]);
 
     const closeModal = () => {
@@ -66,15 +62,17 @@ const AddToList = props => {
                     newListInputVisible={newListInputVisible} 
                     setErrorMessage={setModalErrorMessage} 
                     setNewListInputVisible={setNewListInputVisible}
-                    updateLists={updateLists} 
+                    updateLists={updateLists}
                     userId={userId} 
                 />
-                <LoadingWrapper isLoading={isLoading}>
+                
+                <LoadingWrapper isLoading={isLoading} textOnly={true} >
                     <ul className="add-to-list__lists">
-                        {recipe && lists.map(list => <RecipeList {...props} list={list} recipe={recipe} setErrorMessage={setModalErrorMessage}/>)}
+                        {lists.map(list => <RecipeList {...props} key={list._id} list={list} recipe={recipe} setErrorMessage={setModalErrorMessage} />)}
                     </ul>
                     {!newListInputVisible && <button className="add-to-list__button" onClick={() => setNewListInputVisible(true)}>New List</button>}
                 </LoadingWrapper>
+
                 {modalErrorMessage && <ErrorMessage errorMessage={modalErrorMessage} setErrorMessage={setModalErrorMessage} />}
             </div>
         </Modal>

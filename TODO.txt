@@ -21,6 +21,7 @@ or "back" button.
 * Add error message component to auth page.
 *ERROR HANDLING
 * When I visit edit list page, there should be a back button to take me back to all lists
+* Go to browse by ingredient and click on black beans. No results. Make an error message for that.
 
 MISC EDGE CASES -- RECIPE INSTRUCTIONS:
 52954 - hot and sour soup - single STEP declaration at top.
@@ -29,3 +30,4 @@ MISC EDGE CASES -- RECIPE INSTRUCTIONS:
 53013 - numbered directions, but '1.' is missing from 1st step.
 53056 - croatian lamb peka - looks wierd... not sure how to fix.
 52998  - corned beef and cabbage
+52817 - missing '1.' followed by '2.' and '3.' steps.

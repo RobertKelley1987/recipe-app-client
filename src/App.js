@@ -4,8 +4,8 @@ import AddToList from './components/AddToList';
 import AuthPage from './pages/AuthPage';
 import Category from './services/Category';
 import Cuisine from './services/Cuisine';
-import DeleteList from './pages/DeleteList';
-import DeleteRecipe from './pages/DeleteRecipe';
+import DeleteList from './components/DeleteList';
+import DeleteRecipe from './components/DeleteRecipe';
 import ErrorMessage from './components/ErrorMessage';
 import EditListPage from './pages/EditListPage';
 import Favorite from './services/Favorite';
@@ -119,7 +119,9 @@ const App = () => {
                 categories={categories}
                 cuisines={cuisines}
                 favorites={favorites} 
+                ingredients={ingredients}
                 lists={lists}
+                setErrorMessage={setErrorMessage}
                 setSuccessMessage={setSuccessMessage}
                 updateFavorites={updateFavorites}
                 updateLists={updateLists}
@@ -269,7 +271,7 @@ const App = () => {
           </Routes>
 
           {backgroundLocation && <Routes>
-              <Route path='/recipes/:recipeId/add' element={<AddToList lists={lists} setErrorMessage={setErrorMessage} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />} />
+              <Route path='/recipes/:recipeId/add' element={<AddToList setErrorMessage={setErrorMessage} lists={lists} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />} />
               <Route path='/lists/:listId' element={<DeleteList setLists={setLists} userId={userId} />} />
               <Route path='/lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList} userId={userId} />} />
           </Routes>}

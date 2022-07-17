@@ -14,7 +14,7 @@ const RecipeList = ({ list, recipe, setErrorMessage, setSuccessMessage, userId }
         if(data.err) {
             setErrorMessage(data.err.message);
         } else {
-            setSuccessMessage(`Recipe added!`);
+            setSuccessMessage(`Recipe added to ${list.name}!`);
             navigate(-1);
         }
     }

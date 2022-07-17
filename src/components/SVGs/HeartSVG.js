@@ -2,7 +2,7 @@ import Favorite from '../../services/Favorite';
 import { capitalize } from '../../util/formatting';
 
 const configClassNames = (className, recipeIsFavorite) => {
-    // If recipe is on that list, append class name to fill heart svg
+    // If recipe is currently on favorites list, append class name to fill heart svg
     return !recipeIsFavorite ? className : `${className} ${className}--fav`; 
 }
 

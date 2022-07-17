@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react';
 import ListNameForm from './ListNameForm';
-import './ListName.scss';
+import Searchbar from '../../components/Searchbar';
+import './ListHeading.scss';
 
-const ListName = props => {
-    const { list } = props;
+const ListHeading = props => {
+    const { list, filterIsVisible, setFilterIsVisible } = props;
     const [editingName, setEditingName] = useState(false);
 
     const turnOnEditMode = e => { 
@@ -16,10 +17,15 @@ const ListName = props => {
     const turnOffEditMode = useCallback(() => setEditingName(false), []);
 
     if (!editingName) {
-        return <h1 onClick={turnOnEditMode} className="list-name__name">{list.name}</h1>
+        return (
+            <header className={filterIsVisible ? "list-heading list-heading--column" : "list-heading"}>
+                <h1 onClick={turnOnEditMode} className="list-heading__name">{list.name}</h1>
+                <Searchbar {...props} searchIsVisible={filterIsVisible} setSearchIsVisible={setFilterIsVisible} placeholder="search within list"/>
+            </header>
+        )
     } else {
         return <ListNameForm {...props} editingName={editingName} turnOffEditMode={turnOffEditMode} />
     }
 }
 
-export default ListName;
+export default ListHeading;

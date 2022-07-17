@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'; 
 import { filterByFirstLetter, filterBySearchTerm } from '../../util/filter-functions';
+import { hasResults } from '../../util/has-results';
 import { PLURAL_TYPES } from '../../util/plural-types';
 import { PROP_NAMES } from '../../util/parse-result-props';
+import LoadingWrapper from '../../components/LoadingWrapper';
 import PageResults from './PageResults';
 import LetterFilter from './LetterFilter';
 import PageHeading from './PageHeading';
@@ -33,7 +35,7 @@ const PageWithFilter = props => {
     const [letterFilterIsVisible, setLetterFilterIsVisible] = useState(true);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const { name } = useParams();
-    const { filterType, allItems, resultType, userId } = props;
+    const { allItems, filterType, isLoading, resultType, userId } = props;
 
     // Scroll to top of page on initial render
     useEffect(() => {
@@ -107,8 +109,10 @@ const PageWithFilter = props => {
                 />
             </header>
             {NewListLink && <NewListLink setErrorMessage={setErrorMessage} userId={userId} />}
-            {letterFilterIsVisible && <LetterFilter resultType={resultType} firstLetter={firstLetter} setFirstLetter={setFirstLetter} />}
-            <PageResults {...props} filterTerm={filterTerm} filterType={filterType} firstLetter={firstLetter} filteredResults={filteredResults} />         
+            {letterFilterIsVisible && hasResults(allItems) && <LetterFilter resultType={resultType} firstLetter={firstLetter} setFirstLetter={setFirstLetter} />}
+            <LoadingWrapper isLoading={isLoading}>
+                <PageResults {...props} filterTerm={filterTerm} filterType={filterType} firstLetter={firstLetter} filteredResults={filteredResults} />
+            </LoadingWrapper>         
         </main>
     )
 }

@@ -1,21 +1,18 @@
-import axios from 'axios';
 import ArrowRightSVG from '../SVGs/ArrowRightSVG';
 import Img from './Img';
 import './SearchResult.scss'; 
 
-const API_CODE_LETTERS = {
-    'ingredient': 'i',
-    'category': 'c',
-    'cuisine': 'a'
-}
-
-const SearchResult = ({ resultImg, resultName, resultType, setFilter, searchEl }) => {
+const SearchResult = ({ fetchRecipesFn, resultImg, resultName, resultType, setFilter, searchEl }) => {
 
     const getFilteredRecipes = async (name, resultType) => {
         const urlSlug = name.toLowerCase().replace(/ /g, '_');
-        const { data } = await axios.get(`https://www.themealdb.com/api/json/v1/1/filter.php?${API_CODE_LETTERS[resultType]}=${urlSlug}`);
+        // Fetch recipes filtered by this result using function from props. 
+        // Ex: If this search result is ingredient mayo, function should fetch all recipes that use mayo. 
+        const data = await fetchRecipesFn(urlSlug);
+        // Set appropriate filter states in SearchWrapper component. 
+        // 3 args are used to set filteredBy, filteredResults and filterType states.
         setFilter(name, data.meals, resultType);
-        // scroll to top of search results after selecting an ingredient / cuisine to filter by
+        // Scroll to top of search results
         searchEl.current.scrollIntoView();
     }
 
