@@ -16,6 +16,7 @@ export const filterBySearchTerm = (allItems, setItems, nameProp, searchTerm) => 
             if(item[nameProp].toLowerCase().includes(searchTerm.toLowerCase())) {
                 return item;
             }
+            return false;
         });
     };
 

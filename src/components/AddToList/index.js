@@ -42,7 +42,7 @@ const AddToList = props => {
         }
 
         getRecipeAndLists(recipeId)
-    }, [recipeId]);
+    }, [recipeId, updateLists, userId]);
 
     const closeModal = () => {
         // Set new list input state to closed

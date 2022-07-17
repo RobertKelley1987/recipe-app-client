@@ -3,7 +3,7 @@ import CloseSVG from './SVGs/CloseSVG';
 import SearchSVG from './SVGs/SearchSVG';
 import './Searchbar.scss';
 
-const Searchbar = ({ extraMargin, filterTerm, placeholder, searchIsVisible, setSearchTerm, setSearchIsVisible }) => {
+const Searchbar = ({ extraMargin, filterTerm, placeholder, searchIsVisible, updateSearchTerm, setSearchIsVisible }) => {
     const searchSVG = <SearchSVG className="searchbar__svg searchbar__svg--search" handleClick={() => setSearchIsVisible(true)}/>;
     const searchInput = useRef(null);
 
@@ -15,15 +15,15 @@ const Searchbar = ({ extraMargin, filterTerm, placeholder, searchIsVisible, setS
         }
 
         // When component unmounts, clear filter term
-        return () => setSearchTerm(''); 
-    }, [searchIsVisible]);
+        return () => updateSearchTerm(''); 
+    }, [searchIsVisible, updateSearchTerm]);
 
     if (searchIsVisible) {
         return (
             <div className={extraMargin ? "searchbar__wrapper searchbar__wrapper--extra-margin" : "searchbar__wrapper"}>
                 <div className="searchbar">
                     {searchSVG}
-                    <input ref={searchInput} className="searchbar__input" onChange={e => setSearchTerm(e.target.value)} placeholder={placeholder} type="text" value={filterTerm} />
+                    <input ref={searchInput} className="searchbar__input" onChange={e => updateSearchTerm(e.target.value)} placeholder={placeholder} type="text" value={filterTerm} />
                 </div>
                 {searchIsVisible && <CloseSVG className="searchbar__svg searchbar__svg--close" handleClick={() => setSearchIsVisible(false)} />}
             </div>

@@ -66,7 +66,7 @@ const EditListPage = props => {
 
         // Clear timeout on each re-render
         return () => clearTimeout(timeoutId);
-    }, [filterTerm]);
+    }, [filterTerm, list.recipes]);
 
     // If user opens 'search within list' filter, close search section
     useEffect(() => {

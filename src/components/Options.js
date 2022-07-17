@@ -23,7 +23,7 @@ const Options = ({ children, dropdown, dropdownIsVisible, listId, recipeId, setD
 
         // Remove this listener when the component unmounts
         return () => window.removeEventListener('click', handleClick);
-    }, []);
+    }, [setDropdownIsVisible]);
 
     return (
         <div className="options">

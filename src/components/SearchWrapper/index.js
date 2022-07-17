@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Recipe from '../../services/Recipe';
 import { filterByFirstLetter, filterBySearchTerm } from '../../util/filter-functions';
 import LoadingWrapper from '../LoadingWrapper';
@@ -33,6 +33,8 @@ const SearchWrapper = props => {
     const searchEl = useRef(null);
 
     const { allCategories, allCuisines, allIngredients, allLists, isSearchPage, list, setSearchIsVisible, updateList } = props;
+
+    const updateSearchTerm = useCallback(searchTerm => setSearchTerm(searchTerm), []);
 
     // HELPER FUNCTIONS
     const clearAllResults = () => {
@@ -99,7 +101,7 @@ const SearchWrapper = props => {
 
         // clear timeout on each re-render
         return () => clearTimeout(timeoutId);
-    }, [searchTerm, allCategories, allCuisines, allIngredients]);
+    }, [allCategories, allCuisines, allIngredients, allLists, isSearchPage, searchTerm]);
 
     // Component passed to SearchWrapper to display search results
     const DisplayResults = props.displayResults;
@@ -111,7 +113,7 @@ const SearchWrapper = props => {
             <Searchbar 
                 placeholder="search for recipes" 
                 searchIsVisible={true} 
-                searchTerm={searchTerm} 
+                updateSearchTerm={updateSearchTerm} 
                 setSearchIsVisible={setSearchIsVisible} 
                 setSearchTerm={setSearchTerm} 
             />

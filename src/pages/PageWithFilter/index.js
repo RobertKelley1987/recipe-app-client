@@ -28,14 +28,13 @@ const configPlaceholder = (filterType, resultType) => {
 
 const PageWithFilter = props => {
     let initialLetterFilter = props.resultType === 'ingredient' ? 'A' : '';
-    const [errorMessage, setErrorMessage] = useState('');
     const [firstLetter, setFirstLetter] = useState(initialLetterFilter);
     const [filteredResults, setFilteredResults] = useState([]);
     const [filterTerm, setFilterTerm] = useState('');
     const [letterFilterIsVisible, setLetterFilterIsVisible] = useState(true);
     const [searchIsVisible, setSearchIsVisible] = useState(false);
     const { name } = useParams();
-    const { allItems, filterType, isLoading, resultType, userId } = props;
+    const { allItems, filterType, isLoading, resultType, setErrorMessage, userId } = props;
 
     // Scroll to top of page on initial render
     useEffect(() => {
