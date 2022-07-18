@@ -9,6 +9,12 @@ const Searchbar = ({ extraMargin, filterTerm, placeholder, searchIsVisible, upda
 
     // Run these events when the component mounts and unmounts
     useEffect(() => {
+        // Trying to fix a bug with this if statement. 
+        // If the ref is not on the page, stop this function. 
+        if(!searchInput || !searchInput.current) {
+            return
+        }
+
         // Add focus to input when searchbar becomes visible
         if(searchIsVisible) {
             searchInput.current.focus();

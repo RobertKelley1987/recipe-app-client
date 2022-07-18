@@ -10,7 +10,7 @@ const UserOptions = ({ setErrorMessage, setUserId }) => {
 
     useEffect(() => {
         const clickOutsideToClose = e => {
-            if(!optionsWrapper || optionsWrapper.current) {
+            if(!optionsWrapper || !optionsWrapper.current) {
                 return
             }
 

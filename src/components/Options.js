@@ -9,7 +9,7 @@ const Options = ({ children, dropdown, dropdownIsVisible, listId, recipeId, setD
 
     useEffect(() => {
         const handleClick = e => {
-            if(!dropdownWrapper || dropdownWrapper.current) {
+            if(!dropdownWrapper || !dropdownWrapper.current) {
                 return
             }
             // Test if user has clicked inside of dropdown wrapper
