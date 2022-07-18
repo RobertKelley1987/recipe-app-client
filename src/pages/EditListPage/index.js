@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Recipes from './Recipes';
 import Search from './Search';
@@ -78,6 +78,8 @@ const EditListPage = props => {
         searchIsVisible && setFilterIsVisible(false)
     }, [searchIsVisible]);
 
+    const updateFilterTerm = useCallback(filterTerm => setFilterTerm(filterTerm), []);
+
     return list && (
         <main className="edit-list-page">
             <ListHeading 
@@ -86,7 +88,7 @@ const EditListPage = props => {
                 filterTerm={filterTerm} 
                 listId={listId} 
                 setFilterIsVisible={setFilterIsVisible}
-                setSearchTerm={setFilterTerm} 
+                updateFilterTerm={updateFilterTerm} 
                 setSearchIsVisible={setSearchIsVisible}
             />
             <LoadingWrapper isLoading={isLoading}>

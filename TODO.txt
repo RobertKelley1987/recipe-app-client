@@ -24,6 +24,8 @@ or "back" button.
 * Go to browse by ingredient and click on black beans. No results. Make an error message for that.
 * When I visit the add to list page in the search modal, I need the list names to update.
 BUT, doing that causes the background to reload... how do I fix this???
+* No error handling for if add-to-list pops up for a user with zero lists
+* 404 page!!!!
 
 
 MISC EDGE CASES -- RECIPE INSTRUCTIONS:

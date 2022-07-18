@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { hasResults} from '../../util/has-results';
 import ErrorMessage from '../ErrorMessage';
 import LoadingWrapper from '../LoadingWrapper';
 import Recipe from '../../services/Recipe';
@@ -68,7 +69,7 @@ const AddToList = props => {
                 
                 <LoadingWrapper isLoading={isLoading} textOnly={true} >
                     <ul className="add-to-list__lists">
-                        {lists.map(list => <RecipeList {...props} key={list._id} list={list} recipe={recipe} setErrorMessage={setModalErrorMessage} />)}
+                        {hasResults(lists) && lists.map(list => <RecipeList {...props} key={list._id} list={list} recipe={recipe} setErrorMessage={setModalErrorMessage} />)}
                     </ul>
                     {!newListInputVisible && <button className="add-to-list__button" onClick={() => setNewListInputVisible(true)}>New List</button>}
                 </LoadingWrapper>
