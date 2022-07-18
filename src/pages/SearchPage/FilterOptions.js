@@ -17,7 +17,7 @@ const FilterOptions = ({ resultTypeVisible, setResultTypeVisible }) => {
             cuisine results, a recipe button to show only recipe results, etc... */}
             {RESULT_TYPES.map(resultType => {
                 return (
-                    <button className={configClassNames(resultType, resultTypeVisible)} onClick={() => setResultTypeVisible(resultType)}>
+                    <button className={configClassNames(resultType, resultTypeVisible)} key={resultType} onClick={() => setResultTypeVisible(resultType)}>
                         {!resultType ? 'All' : PLURAL_TYPES[resultType]}
                     </button>
                 );

@@ -2,14 +2,21 @@ import { useEffect, useRef, useState } from 'react';
 import List from '../../services/List';
 import './NewListInput.scss';
 
-const NewListInput = ({ newListInputVisible, setErrorMessage, setNewListInputVisible, updateLists, userId }) => {
+const NewListInput = ({ addToListWrapper, newListInputVisible, setErrorMessage, setNewListInputVisible, setLists, userId }) => {
     const [newListName, setNewListName] = useState('');
     const newListInput = useRef(null);
 
     useEffect(() => {
-        // When new list input becomes visible, add focus to it
+        // To prevent app from crashing -- if refs to newListInput and addToListWrapper
+        // cannot be found, stop function
+        if(!newListInput || !newListInput.current || !addToListWrapper || !addToListWrapper.current) {
+            return
+        }
+        // When new list input becomes visible, add focus to it.
+        // Also scroll to top of add to list wrapper
         if(newListInputVisible) {
             newListInput.current.focus();
+            addToListWrapper.current.scrollTo(0, 0);
         }
 
         // Clear list name input when component dismounts
@@ -28,7 +35,7 @@ const NewListInput = ({ newListInputVisible, setErrorMessage, setNewListInputVis
             setErrorMessage('Failed to create new list');
         } else {
             // Otherwise save new list of lists to app state
-            updateLists(data.lists);
+            setLists(data.lists);
         }
         // Hide new list name input
         setNewListInputVisible(false);

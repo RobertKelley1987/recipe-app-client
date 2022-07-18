@@ -49,6 +49,8 @@ const App = () => {
     // Make request to app server with cookie data to check if user is logged in
     const getSession = async () => {
       const data = await User.validateSession();
+      console.log('this function ran');
+      console.log('USER ID: ' + data.userId);
       setUserId(data.userId);
       // Once data is returned from server, set loading status to false
       setIsLoading(false);
@@ -271,7 +273,7 @@ const App = () => {
           </Routes>
 
           {backgroundLocation && <Routes>
-              <Route path='/recipes/:recipeId/add' element={<AddToList setErrorMessage={setErrorMessage} lists={lists} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />} />
+              <Route path='/recipes/:recipeId/add' element={<AddToList setErrorMessage={setErrorMessage} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />} />
               <Route path='/lists/:listId' element={<DeleteList setLists={setLists} userId={userId} />} />
               <Route path='/lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList} userId={userId} />} />
           </Routes>}

@@ -15,6 +15,7 @@
         outline: none;
     }
     &__svg {
+        flex-shrink: 0;
         height: 50px;
         margin: 0 1rem 0 0;
         stroke: $black;

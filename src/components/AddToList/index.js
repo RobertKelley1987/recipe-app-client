@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { hasResults} from '../../util/has-results';
 import ErrorMessage from '../ErrorMessage';
@@ -12,14 +12,16 @@ import List from '../../services/List';
 
 const AddToList = props => {
     const [isLoading, setIsLoading] = useState(true);
+    const [lists, setLists] = useState([]);
     const [modalErrorMessage, setModalErrorMessage] = useState('');
     const [newListInputVisible, setNewListInputVisible] = useState(false);
     const [recipe, setRecipe] = useState(null);
+    const addToListWrapper = useRef(null);
 
     const { recipeId } = useParams();
     const navigate = useNavigate();
 
-    const { userId, lists, updateLists } = props;
+    const { updateLists, userId } = props;
 
     // Fetch recipe data from api and update lists
     useEffect(() => {
@@ -33,7 +35,7 @@ const AddToList = props => {
 
         const getLists = async userId => {
             const data = await List.getAll(userId);
-            updateLists(data.lists);
+            setLists(data.lists);
         }
 
         const getRecipeAndLists = async recipeId => {
@@ -43,7 +45,20 @@ const AddToList = props => {
         }
 
         getRecipeAndLists(recipeId)
-    }, [recipeId, updateLists, userId]);
+    }, [recipeId, userId]);
+
+    // When component unmounts, update app state with changes to user's lists
+    useEffect(() => {
+        // Function to get updated lists from app server and update app state
+        const getLists = async userId => {
+            const data = await List.getAll(userId);
+            updateLists(data.lists);
+        }
+
+        // Only run function when component unmounts
+        return () => getLists(userId);
+    }, []);
+
 
     const closeModal = () => {
         // Set new list input state to closed
@@ -57,16 +72,18 @@ const AddToList = props => {
     
     return (
         <Modal onDismiss={closeModal}>
-            <div className="add-to-list">
+            <div ref={addToListWrapper} className="add-to-list">
                 <h2 className="add-to-list__heading">Add To List</h2>
+
                 <NewListInput 
+                    addToListWrapper={addToListWrapper}
                     newListInputVisible={newListInputVisible} 
                     setErrorMessage={setModalErrorMessage} 
                     setNewListInputVisible={setNewListInputVisible}
-                    updateLists={updateLists}
+                    setLists={setLists}
                     userId={userId} 
                 />
-                
+
                 <LoadingWrapper isLoading={isLoading} textOnly={true} >
                     <ul className="add-to-list__lists">
                         {hasResults(lists) && lists.map(list => <RecipeList {...props} key={list._id} list={list} recipe={recipe} setErrorMessage={setModalErrorMessage} />)}
