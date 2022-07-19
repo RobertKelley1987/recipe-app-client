@@ -4,7 +4,7 @@ import Searchbar from '../../components/Searchbar';
 import './ListHeading.scss';
 
 const ListHeading = props => {
-    const { list, filterIsVisible, setFilterIsVisible, updateFilterTerm } = props;
+    const { list, filterIsVisible, setFilterIsVisible, setFilterTerm } = props;
     const [editingName, setEditingName] = useState(false);
 
     const turnOnEditMode = e => { 
@@ -20,7 +20,7 @@ const ListHeading = props => {
         return (
             <header className={filterIsVisible ? "list-heading list-heading--column" : "list-heading"}>
                 <h1 onClick={turnOnEditMode} className="list-heading__name">{list.name}</h1>
-                <Searchbar {...props} searchIsVisible={filterIsVisible} setSearchIsVisible={setFilterIsVisible} placeholder="search within list" updateSearchTerm={updateFilterTerm}/>
+                <Searchbar {...props} searchIsVisible={filterIsVisible} setSearchIsVisible={setFilterIsVisible} placeholder="search within list" setSearchTerm={setFilterTerm}/>
             </header>
         )
     } else {

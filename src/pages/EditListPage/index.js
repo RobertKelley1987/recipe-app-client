@@ -88,7 +88,7 @@ const EditListPage = props => {
                 filterTerm={filterTerm} 
                 listId={listId} 
                 setFilterIsVisible={setFilterIsVisible}
-                updateFilterTerm={updateFilterTerm} 
+                setFilterTerm={setFilterTerm} 
                 setSearchIsVisible={setSearchIsVisible}
             />
             <LoadingWrapper isLoading={isLoading}>

@@ -1,12 +1,16 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import EditSVG from './../SVGs/EditSVG';
 import Img from './../Img';
 import ListDropdown from './ListDropdown';
 import Options from './../Options';
+import Recipe from '../../services/Recipe';
 import './ListSquare.scss';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
+
+const hasRecipes = list => {
+    return list && list.recipes && list.recipes.length > 0;
+}
 
 const ListSquare = props => {
     const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
@@ -16,9 +20,9 @@ const ListSquare = props => {
 
     // On initial render, get recipe using url provided and save to component state
     useEffect(() => {
-        const getRecipe = async searchURL => {
-            if(searchURL) {
-                const { data } = await axios.get(searchURL);
+        const getRecipe = async list => {
+            if(hasRecipes(list)) {
+                const { data } = await Recipe.getOne(list.recipes[0].apiId)
                 data.meals && setRecipe(data.meals[0]);
             } 
         }
@@ -39,7 +43,7 @@ const ListSquare = props => {
                 <Img className="list-square__img" imgAlt={recipe && recipe.strMeal} imgSrc={recipe&& recipe.strMealThumb} />
                 <h2 className="list-square__name list-square__name--list">{list.name}</h2>
             </Link>
-            <p className="list-square__meta-data">{list.recipes.length} Recipes</p>            
+            <p className="list-square__meta-data">{hasRecipes(list) && list.recipes.length} Recipes</p>            
             <Options {...props} dropdown={ListDropdown} dropdownIsVisible={dropdownIsVisible} listId={list._id} setDropdownIsVisible={setDropdownIsVisible}>
                 <Link to={`/lists/${list._id}`}>
                     <EditSVG className="list-square__svg" />

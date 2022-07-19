@@ -10,7 +10,7 @@ import ErrorMessage from './components/ErrorMessage';
 import EditListPage from './pages/EditListPage';
 import Favorite from './services/Favorite';
 import Footer from './components/Footer';
-import Header from './components/Header/Header';
+import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import Ingredient from './services/Ingredient';
 import List from './services/List';
@@ -35,6 +35,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [list, setList] = useState(null);
   const [lists, setLists] = useState([]);
+  const [menuIsVisible, setMenuIsVisible] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [userId, setUserId] = useState(null);
   const location = useLocation();
@@ -49,8 +50,6 @@ const App = () => {
     // Make request to app server with cookie data to check if user is logged in
     const getSession = async () => {
       const data = await User.validateSession();
-      console.log('this function ran');
-      console.log('USER ID: ' + data.userId);
       setUserId(data.userId);
       // Once data is returned from server, set loading status to false
       setIsLoading(false);
@@ -137,9 +136,9 @@ const App = () => {
   return (
     <Fragment>
 
-      <div className="app">
+      <div className={!menuIsVisible ? "app" : "app app--fixed"}>
 
-        <Header userId={userId} setUserId={setUserId} setErrorMessage={setErrorMessage} />
+        <Header userId={userId} menuIsVisible={menuIsVisible} setMenuIsVisible={setMenuIsVisible} setUserId={setUserId} setErrorMessage={setErrorMessage} />
 
         <div className="app__content">
         

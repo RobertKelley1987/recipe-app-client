@@ -30,4 +30,13 @@
             cursor: pointer;
         }
     }
+    &--green {
+        background-color: $green;
+        & .header__app-name {
+            color: white;
+        }
+        & .header__svg {
+            stroke: white;
+        }
+    }
 }

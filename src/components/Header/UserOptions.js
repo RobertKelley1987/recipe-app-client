@@ -3,7 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import User from '../../services/User';
 import UserSVG from '../SVGs/UserSVG';
 
-const UserOptions = ({ setErrorMessage, setUserId }) => {
+const configClassNames = menuIsVisible => {
+    let classNames = 'user-options__svg-wrapper';
+    if(menuIsVisible) {
+        classNames += ` ${classNames}--menu`
+    }
+    return classNames;
+}
+
+const UserOptions = ({ menuIsVisible, setErrorMessage, setUserId }) => {
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
     const optionsWrapper = useRef(null);
     const navigate = useNavigate();
@@ -39,7 +47,7 @@ const UserOptions = ({ setErrorMessage, setUserId }) => {
 
     return (
         <div ref={optionsWrapper} className="user-options">
-            <div onClick={() => setDropdownIsOpen(!dropdownIsOpen)} className="user-options__svg-wrapper">
+            <div onClick={() => setDropdownIsOpen(!dropdownIsOpen)} className={configClassNames(menuIsVisible)}>
                 <UserSVG className="user-options__svg"/>
             </div>
             {dropdownIsOpen && <div className="user-options__dropdown">
