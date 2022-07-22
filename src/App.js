@@ -86,134 +86,162 @@ const App = () => {
             <Route path='/signup' element={<AuthPage title='sign up' authFn={User.signUp} setUserId={setUserId} />} />
             <Route path='/login' element={<AuthPage title='log in' authFn={User.logIn} setUserId={setUserId} />} />
             <Route path='/favorites' element={
-              <PageWithFilter 
-                allItems={favorites} 
-                favorites={favorites} 
-                filterType='favorite' 
-                resultType='favorite'
-                setErrorMessage={setErrorMessage} 
-                setSuccessMessage={setSuccessMessage}
-                updateFavorites={updateFavorites} 
-                userId={userId} 
-                url={`/users/${userId}/favorites`} 
-                listComponent={RecipeSquares} 
-              />
+              <PrivateRoute userId={userId}>
+                <PageWithFilter 
+                  allItems={favorites} 
+                  favorites={favorites} 
+                  filterType='favorite' 
+                  resultType='favorite'
+                  setErrorMessage={setErrorMessage} 
+                  setSuccessMessage={setSuccessMessage}
+                  updateFavorites={updateFavorites} 
+                  userId={userId} 
+                  url={`/users/${userId}/favorites`} 
+                  listComponent={RecipeSquares} 
+                />
+              </PrivateRoute>
             } />
             <Route path='/search' element={
-              <SearchPage 
-                allCategories={categories} 
-                allCuisines={cuisines} 
-                allIngredients={ingredients} 
-                allLists={lists} 
-                favorites={favorites}
-                list={list}
-                setErrorMessage={setErrorMessage} 
-                setSuccessMessage={setSuccessMessage}
-                updateFavorites={updateFavorites}
-                updateList={updateList} 
-                updateLists={updateLists} 
-                userId={userId} 
-              />
+              <PrivateRoute userId={userId}>
+                <SearchPage 
+                  allCategories={categories} 
+                  allCuisines={cuisines} 
+                  allIngredients={ingredients} 
+                  allLists={lists} 
+                  favorites={favorites}
+                  list={list}
+                  setErrorMessage={setErrorMessage} 
+                  setSuccessMessage={setSuccessMessage}
+                  updateFavorites={updateFavorites}
+                  updateList={updateList} 
+                  updateLists={updateLists} 
+                  userId={userId} 
+                />
+              </PrivateRoute>
             } />
             <Route path='/recipes/:recipeId' element={
-              <RecipePage 
-                favorites={favorites}
-                lists={lists} 
-                setErrorMessage={setErrorMessage}
-                setSuccessMessage={setSuccessMessage}
-                successMessage={successMessage}
-                updateFavorites={updateFavorites}  
-                updateLists={updateLists}
-                userId={userId}
-              />
+              <PrivateRoute userId={userId}>
+                <RecipePage 
+                  favorites={favorites}
+                  lists={lists} 
+                  setErrorMessage={setErrorMessage}
+                  setSuccessMessage={setSuccessMessage}
+                  successMessage={successMessage}
+                  updateFavorites={updateFavorites}  
+                  updateLists={updateLists}
+                  userId={userId}
+                />
+              </PrivateRoute>
             } />
             <Route path='/lists/:listId' element={
-              <EditListPage 
-                allCategories={categories} 
-                allCuisines={cuisines} 
-                allIngredients={ingredients} 
-                favorites={favorites} 
-                list={list} 
-                setSuccessMessage={setSuccessMessage}
-                updateErrorMessage={updateErrorMessage}
-                updateFavorites={updateFavorites} 
-                updateList={updateList} 
-                userId={userId} 
-              />
+              <PrivateRoute userId={userId}>
+                <EditListPage 
+                  allCategories={categories} 
+                  allCuisines={cuisines} 
+                  allIngredients={ingredients} 
+                  favorites={favorites} 
+                  list={list} 
+                  setSuccessMessage={setSuccessMessage}
+                  updateErrorMessage={updateErrorMessage}
+                  updateFavorites={updateFavorites} 
+                  updateList={updateList} 
+                  userId={userId} 
+                />
+              </PrivateRoute>
             } />
             <Route path='/lists' element={
-              <PageWithFilter 
-                allItems={lists} 
-                filterType='list' 
-                resultType='list' 
-                userId={userId} 
-                listComponent={ListSquares} 
-                newListLink={NewListLink} 
-              />
+              <PrivateRoute userId={userId}>
+                <PageWithFilter 
+                  allItems={lists} 
+                  filterType='list' 
+                  resultType='list' 
+                  userId={userId} 
+                  listComponent={ListSquares} 
+                  newListLink={NewListLink} 
+                />
+              </PrivateRoute>
             } />
             <Route path='/categories' element={
-              <PageWithFilter 
-                allItems={categories} 
-                filterType='category' 
-                resultType='category' 
-                listComponent={LinksList} 
-              />
+              <PrivateRoute userId={userId}>
+                <PageWithFilter 
+                  allItems={categories} 
+                  filterType='category' 
+                  resultType='category' 
+                  listComponent={LinksList} 
+                />
+              </PrivateRoute>
             } />
             <Route path='/categories/:name' element={
-              <RecipesPage 
-                favorites={favorites}
-                fetchFn={Recipe.getAllFilteredByCategory} 
-                filterType='category'
-                setErrorMessage={setErrorMessage} 
-                setSuccessMessage={setSuccessMessage}
-                updateFavorites={updateFavorites} 
-                userId={userId} 
-              /> 
+              <PrivateRoute userId={userId}>
+                <RecipesPage 
+                  favorites={favorites}
+                  fetchFn={Recipe.getAllFilteredByCategory} 
+                  filterType='category'
+                  setErrorMessage={setErrorMessage} 
+                  setSuccessMessage={setSuccessMessage}
+                  updateFavorites={updateFavorites} 
+                  userId={userId} 
+                />
+              </PrivateRoute> 
             } />
             <Route path='/cuisines/:name' element={
-              <RecipesPage 
-                favorites={favorites} 
-                fetchFn={Recipe.getAllFilteredByCuisine}
-                filterType='cuisine'
-                setErrorMessage={setErrorMessage}
-                setSuccessMessage={setSuccessMessage}
-                updateFavorites={updateFavorites} 
-                userId={userId} 
-              />
+              <PrivateRoute userId={userId}>
+                <RecipesPage 
+                  favorites={favorites} 
+                  fetchFn={Recipe.getAllFilteredByCuisine}
+                  filterType='cuisine'
+                  setErrorMessage={setErrorMessage}
+                  setSuccessMessage={setSuccessMessage}
+                  updateFavorites={updateFavorites} 
+                  userId={userId} 
+                />
+              </PrivateRoute>
             } />
             <Route path='/cuisines' element={
-              <PageWithFilter 
-                allItems={cuisines} 
-                filterType='cuisine' 
-                resultType='cuisine' 
-                listComponent={LinksList} 
-              />
+              <PrivateRoute userId={userId}>
+                <PageWithFilter 
+                  allItems={cuisines} 
+                  filterType='cuisine' 
+                  resultType='cuisine' 
+                  listComponent={LinksList} 
+                />
+              </PrivateRoute>
             } />
             <Route path='/ingredients/:name' element={
-              <RecipesPage 
-                favorites={favorites}
-                fetchFn={Recipe.getAllFilteredByIngredient} 
-                filterType='ingredient' 
-                setErrorMessage={setErrorMessage}
-                setSuccessMessage={setSuccessMessage}
-                updateFavorites={updateFavorites} 
-                userId={userId} 
-              />
+              <PrivateRoute userId={userId}>
+                <RecipesPage 
+                  favorites={favorites}
+                  fetchFn={Recipe.getAllFilteredByIngredient} 
+                  filterType='ingredient' 
+                  setErrorMessage={setErrorMessage}
+                  setSuccessMessage={setSuccessMessage}
+                  updateFavorites={updateFavorites} 
+                  userId={userId} 
+                />
+              </PrivateRoute>
             } />
             <Route path='/ingredients' element={
-              <PageWithFilter 
-                allItems={ingredients} 
-                filterType='ingredient' 
-                resultType='ingredient' 
-                listComponent={LinksList} 
-              />
+              <PrivateRoute userId={userId}>
+                <PageWithFilter 
+                  allItems={ingredients} 
+                  filterType='ingredient' 
+                  resultType='ingredient' 
+                  listComponent={LinksList} 
+                />
+              </PrivateRoute>
             } />
           </Routes>
 
           {backgroundLocation && <Routes>
-              <Route path='/recipes/:recipeId/add' element={<AddToList setErrorMessage={setErrorMessage} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />} />
-              <Route path='/lists/:listId' element={<DeleteList setLists={setLists} userId={userId} />} />
-              <Route path='/lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList} userId={userId} />} />
+              <PrivateRoute userId={userId}>
+                <Route path='/recipes/:recipeId/add' element={<AddToList setErrorMessage={setErrorMessage} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />} />
+              </PrivateRoute>
+              <PrivateRoute userId={userId}>
+                <Route path='/lists/:listId' element={<DeleteList setLists={setLists} userId={userId} />} />
+              </PrivateRoute>
+              <PrivateRoute userId={userId}>
+                <Route path='/lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList} userId={userId} />} />
+              </PrivateRoute>
           </Routes>}
 
         </div>
