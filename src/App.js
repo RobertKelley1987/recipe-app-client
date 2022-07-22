@@ -1,23 +1,24 @@
-import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { Fragment, useCallback, useEffect, useState } from 'react';
+import useCategories from './hooks/useCategories';
+import useCuisines from './hooks/useCuisines';
+import useLists from './hooks/useLists';
+import useSuccessMessage from './hooks/useSuccessMessage';
+import useUserId from './hooks/useUserId';
 import AddToList from './components/AddToList';
 import AuthPage from './pages/AuthPage';
-import Category from './services/Category';
-import Cuisine from './services/Cuisine';
 import DeleteList from './components/DeleteList';
 import DeleteRecipe from './components/DeleteRecipe';
 import ErrorMessage from './components/ErrorMessage';
 import EditListPage from './pages/EditListPage';
-import Favorite from './services/Favorite';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
-import Ingredient from './services/Ingredient';
-import List from './services/List';
 import ListSquares from './components/ListSquares';
 import LinksList from './components/LinksList';
 import NewListLink from './components/NewListLink';
 import PageWithFilter from './pages/PageWithFilter';
+import PrivateRoute from './components/PrivateRoute';
 import RecipePage from './pages/RecipePage';
 import RecipesPage from './pages/RecipesPage';
 import RecipeSquares from './components/RecipeSquares';
@@ -25,113 +26,34 @@ import SearchPage from './pages/SearchPage';
 import User from './services/User';
 import './App.scss';
 import Recipe from './services/Recipe';
+import LoadingWrapper from './components/LoadingWrapper';
+import useIngredients from './hooks/useIngredients';
+import useFavorites from './hooks/useFavorites';
 
-const App = () => {
-  const [categories, setCategories] = useState([]);
-  const [cuisines, setCuisines] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [favorites, setFavorites] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
+const App = () => {  
   const [isLoading, setIsLoading] = useState(true);
+  const [userId, setUserId] = useUserId(setIsLoading);
+  const { categories } = useCategories();
+  const { ingredients } = useIngredients();
+  const { cuisines } = useCuisines();
+  const [favorites, setFavorites] = useFavorites(userId);
+  const [lists, setLists] = useLists(userId);
+
+  const [errorMessage, setErrorMessage] = useState('');
   const [list, setList] = useState(null);
-  const [lists, setLists] = useState([]);
   const [menuIsVisible, setMenuIsVisible] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [userId, setUserId] = useState(null);
+  const [successMessage, setSuccessMessage] = useSuccessMessage();
   const location = useLocation();
   const backgroundLocation = location.state && location.state.backgroundLocation;
 
   const updateList = useCallback(newList => setList(newList), []);
-  const updateFavorites = useCallback(newFavorites => setFavorites(newFavorites), []);
-  const updateLists = useCallback(newLists => setLists(newLists), []);
+  const updateFavorites = useCallback(newFavorites => setFavorites(newFavorites), [setFavorites]);
+  const updateLists = useCallback(newLists => setLists(newLists), [setLists]);
   const updateErrorMessage = useCallback(message => setErrorMessage(message), []);
 
   useEffect(() => {
-    // Make request to app server with cookie data to check if user is logged in
-    const getSession = async () => {
-      const data = await User.validateSession();
-      setUserId(data.userId);
-      // Once data is returned from server, set loading status to false
-      setIsLoading(false);
-    }
-
-    getSession();
-  }, []);
-
-  // Fetch all categories, cuisine types, ingredients, user favorites and user lists on initial render
-  useEffect(() => {
-    // Fetch all categories from api
-    const getCategories = async () => {
-      const data = await Category.getAll();
-      setCategories(data.categories);
-    }
-
-    // Fetch all cuisines from api
-    const getCuisines = async () => {
-      const data = await Cuisine.getAll();
-      setCuisines(data.meals);
-    }
-
-    // Fetch all favorites from app server
-    const getFavorites = async userId => {      
-      const data = await Favorite.getAll(userId);
-      setFavorites(data.favorites);
-    }
-
-    // Fetch all ingredients from api
-    const getIngredients = async () => {
-      const data = await Ingredient.getAll();
-      setIngredients(data.meals);
-    }
-
-    // Fetch all user lists from app server
-    const getLists = async userId => {
-      const data = await List.getAll(userId);
-      setLists(data.lists);
-    }
-
-    if(userId) {
-      getCategories();
-      getCuisines();
-      getIngredients();
-      getFavorites(userId);
-      getLists(userId);
-    }
+    setIsLoading(false);
   }, [userId]);
-
-    // Hide success message from adding recipe to a list after three seconds
-    useEffect(() => {
-      let timeoutId;
-
-      if(successMessage) {
-          timeoutId = setTimeout(() => setSuccessMessage(''), 2000);
-      }
-
-      return () => clearTimeout(timeoutId); 
-    }, [successMessage]);
-
-  // Do not show any content until server returns session confirmation.
-  const renderHomePage = () => {
-    if (isLoading) {
-      return 'Loading...';
-    // If server returns a user id, show user's home page, otherwise redirect to sign in page.
-    } else if (userId) {
-      return <HomePage 
-                categories={categories}
-                cuisines={cuisines}
-                favorites={favorites} 
-                ingredients={ingredients}
-                lists={lists}
-                setErrorMessage={setErrorMessage}
-                setSuccessMessage={setSuccessMessage}
-                updateFavorites={updateFavorites}
-                updateLists={updateLists}
-                userId={userId} 
-              />;
-    } else {
-      return <Navigate to='/signup' />;
-    }
-  }
 
   return (
     <Fragment>
@@ -143,7 +65,24 @@ const App = () => {
         <div className="app__content">
         
           <Routes location = { backgroundLocation || location }>
-            <Route path='/' element={renderHomePage()} />
+            <Route path='/' element={
+              <LoadingWrapper isLoading={isLoading}>
+                <PrivateRoute userId={userId}>
+                  <HomePage 
+                    categories={categories}
+                    cuisines={cuisines}
+                    favorites={favorites} 
+                    ingredients={ingredients}
+                    lists={lists}
+                    setErrorMessage={setErrorMessage}
+                    setSuccessMessage={setSuccessMessage}
+                    updateFavorites={updateFavorites}
+                    updateLists={updateLists}
+                    userId={userId} 
+                  />
+                </PrivateRoute>
+              </LoadingWrapper>
+            } />
             <Route path='/signup' element={<AuthPage title='sign up' authFn={User.signUp} setUserId={setUserId} />} />
             <Route path='/login' element={<AuthPage title='log in' authFn={User.logIn} setUserId={setUserId} />} />
             <Route path='/favorites' element={

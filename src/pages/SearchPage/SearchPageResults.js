@@ -11,7 +11,8 @@ import EmptyMessage from '../../components/EmptyMessage';
 
 const renderResults = (searchResults, searchTerm, zeroResults) => {
     // Test if there are zero results and user has typed a search term
-    if(zeroResults && searchTerm) {
+    console.log("SEARCH: " + searchTerm.length);
+    if(zeroResults && searchTerm && searchTerm.length > 0) {
         // Display message to user that there are no results
         return <EmptyMessage message="There are no results for that search term." />
     } else {
@@ -25,8 +26,6 @@ const SearchPageResults = props => {
     const [zeroResults, setZeroResults] = useState(false);
     // Import each set of results and any result type filter from props
     const { categoryResults, cuisineResults, ingredientResults, listResults, recipeResults, resultTypeVisible, searchTerm } = props;
-
-    console.log(searchTerm);
 
     // Update state of zero results as each set of results changes
     useEffect(() => {

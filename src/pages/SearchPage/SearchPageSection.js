@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import EmptyMessage from '../../components/EmptyMessage';
 import GridWithHeading from '../../components/GridWithHeading';
 
-const renderNoResults = (resultType, resultTypeVisible) => {
+const renderNoResults = (resultType, resultTypeVisible, searchTerm) => {
     // Test if results are filtered to display a single type of result
     if(resultTypeVisible) {
         // Return empty message
@@ -12,7 +12,7 @@ const renderNoResults = (resultType, resultTypeVisible) => {
 }
  
 const renderSection = (isVisible, props) => {
-    const { children, hasResults, resultType, resultTypeVisible, title } = props;
+    const { children, hasResults, resultType, resultTypeVisible, searchTerm, title } = props;
 
     // Test if section is in visible state 
     if(isVisible) {
