@@ -1,11 +1,8 @@
+import { configClassNames } from '../util/config-classnames';
 import './EmptyMessage.scss'; 
 
-const configClassNames = moreMargin => {
-    return moreMargin ? 'empty-message empty-message--more-margin' : 'empty-message';
-}
-
 const EmptyMessage = ({ message, moreMargin }) => {
-    return <div className={configClassNames(moreMargin)}>{message}</div>
+    return <div className={configClassNames('empty-message', moreMargin, 'more-margin')}>{message}</div>
 }
 
 export default EmptyMessage;

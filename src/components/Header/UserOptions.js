@@ -1,15 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { configClassNames } from '../../util/config-classnames';
 import User from '../../services/User';
 import UserSVG from '../SVGs/UserSVG';
-
-const configClassNames = menuIsVisible => {
-    let classNames = 'user-options__svg-wrapper';
-    if(menuIsVisible) {
-        classNames += ` ${classNames}--menu`
-    }
-    return classNames;
-}
 
 const UserOptions = ({ menuIsVisible, setErrorMessage, setUserId }) => {
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
@@ -18,6 +11,7 @@ const UserOptions = ({ menuIsVisible, setErrorMessage, setUserId }) => {
 
     useEffect(() => {
         const clickOutsideToClose = e => {
+            // Added this line in response to production bug
             if(!optionsWrapper || !optionsWrapper.current) {
                 return
             }
@@ -47,7 +41,10 @@ const UserOptions = ({ menuIsVisible, setErrorMessage, setUserId }) => {
 
     return (
         <div ref={optionsWrapper} className="user-options">
-            <div onClick={() => setDropdownIsOpen(!dropdownIsOpen)} className={configClassNames(menuIsVisible)}>
+            <div 
+                onClick={() => setDropdownIsOpen(!dropdownIsOpen)} 
+                className={configClassNames('user-options__svg-wrapper', menuIsVisible, 'menu')}
+            >
                 <UserSVG className="user-options__svg"/>
             </div>
             {dropdownIsOpen && <div className="user-options__dropdown">

@@ -14,7 +14,7 @@ const renderResults = (searchResults, searchTerm, zeroResults) => {
     console.log("SEARCH: " + searchTerm.length);
     if(zeroResults && searchTerm && searchTerm.length > 0) {
         // Display message to user that there are no results
-        return <EmptyMessage message="There are no results for that search term." />
+        return <EmptyMessage message="There are no results for that search term." moreMargin={true} />
     } else {
         // Display results
         return searchResults;

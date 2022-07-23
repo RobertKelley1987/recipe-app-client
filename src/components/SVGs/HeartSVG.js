@@ -1,10 +1,6 @@
 import Favorite from '../../services/Favorite';
 import { capitalize } from '../../util/formatting';
-
-const configClassNames = (className, recipeIsFavorite) => {
-    // If recipe is currently on favorites list, append class name to fill heart svg
-    return !recipeIsFavorite ? className : `${className} ${className}--fav`; 
-}
+import { configClassNames } from '../../util/config-classnames';
 
 const toggleFavoriteStatus = async (recipe, recipeIsFavorite, setErrorMessage, setSuccessMessage, updateFavorites, userId) => {
     // Add or remove recipe from favorites depending on current favorite status 
@@ -24,14 +20,12 @@ const toggleFavoriteStatus = async (recipe, recipeIsFavorite, setErrorMessage, s
 }
 
 const HeartSVG = ({ className, favorites, recipe, setErrorMessage, setSuccessMessage, updateFavorites, userId }) => {
-    if(!recipe) { return }
-    
     // Test if recipe is in user's favorites list
     let recipeIsFavorite = favorites && favorites.findIndex(fav => fav.apiId === recipe.idMeal) !== -1;
 
-    return (
+    return recipe && (
         <svg 
-            className={configClassNames(className, recipeIsFavorite)} 
+            className={configClassNames(className, recipeIsFavorite, 'fav')} 
             fill="none" 
             onClick={() => toggleFavoriteStatus(recipe, recipeIsFavorite, setErrorMessage, setSuccessMessage, updateFavorites, userId)} 
             stroke="currentColor" 

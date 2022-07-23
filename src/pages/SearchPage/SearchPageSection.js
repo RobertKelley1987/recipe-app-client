@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import useSectionIsVisible from '../../hooks/useSectionIsVisible';
 import EmptyMessage from '../../components/EmptyMessage';
 import GridWithHeading from '../../components/GridWithHeading';
 
@@ -6,13 +6,13 @@ const renderNoResults = (resultType, resultTypeVisible, searchTerm) => {
     // Test if results are filtered to display a single type of result
     if(resultTypeVisible) {
         // Return empty message
-        return <EmptyMessage message={`There are no ${resultType} results for this search term.`} />;
+        return <EmptyMessage message={`There are no ${resultType} results for this search term.`} moreMargin={true} />;
     } 
     // If results are not being filtered, return nothing
 }
  
 const renderSection = (isVisible, props) => {
-    const { children, hasResults, resultType, resultTypeVisible, searchTerm, title } = props;
+    const { children, hasResults, resultType, resultTypeVisible, title } = props;
 
     // Test if section is in visible state 
     if(isVisible) {
@@ -30,22 +30,10 @@ const renderSection = (isVisible, props) => {
 }
 
 const SearchPageSection = props => {
-    const [isVisible, setIsVisible] = useState(true);
     const { resultType, resultTypeVisible } = props;
+    const { sectionIsVisible } = useSectionIsVisible(resultType, resultTypeVisible);
 
-    useEffect(() => {
-        // Test if results are filtered for one result type, and if this section will display
-        // that result type
-        if(resultTypeVisible && (resultTypeVisible !== resultType)) {
-            // Set visibility state to false
-            setIsVisible(false);
-        } else {
-            // Set visibility state to true
-            setIsVisible(true);
-        }
-    },[resultType, resultTypeVisible]);
-
-    return renderSection(isVisible, props);
+    return renderSection(sectionIsVisible, props);
 }
 
 export default SearchPageSection;

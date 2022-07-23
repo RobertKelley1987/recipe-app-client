@@ -7,8 +7,8 @@ this api. 52992 and 52807 -- both use random \r\n\ in middle of sentences. Fix t
 * Having this idea to make the hamburger a realistic looking hamburger (like the food)
 on hover... bad idea??? If so, delete 'RealHamburgerSVG' from SVGs folder.
 * In ingredients listing, can I fix awkward wording, ex: 'Pinch Salt', 'Sprinkling Thyme', 
-'For Frying Oil', 'To Taste Salt', 'Garnish Parsley', 'To Glaze Egg', 'To Serve Naan Bread'. Can I replace all with,
-as an example: 'A Pinch Of Salt'?
+'For Frying Oil', 'To Taste Salt', 'Garnish Parsley', 'To Glaze Egg', 'To Serve Naan Bread', 
+'Grated, To Taste Nutmeg'. Can I replace all with, as an example: 'A Pinch Of Salt'?
 * Inspect for semantic html. Am I just using divs when I could have used something else?
 * Check SASS for alphabetized properties.
 * Revisit my INSTRUCTIONS algorithm if I have time. I feel like it's not as great as it could be.

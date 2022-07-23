@@ -32,7 +32,7 @@ const DeleteList = ({ setLists, userId }) => {
 
     return (
         <Modal onDismiss={() => navigate(-1)}>
-            <div className="delete-list__wrapper">
+            <div className="delete-list">
                 <p>{`Delete ${list ? list.name : 'list'}?`}</p>
                 <button onClick={() => deleteList(listId, userId, navigate, setLists)} className="delete-list__button">Delete</button>
                 <button onClick={() => navigate(-1)} className="delete-list__button">Cancel</button>
