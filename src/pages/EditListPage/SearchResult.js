@@ -1,4 +1,4 @@
-import ArrowRightSVG from '../SVGs/ArrowRightSVG';
+import ArrowRightSVG from '../../components/SVGs/ArrowRightSVG';
 import Img from './Img';
 import './SearchResult.scss'; 
 

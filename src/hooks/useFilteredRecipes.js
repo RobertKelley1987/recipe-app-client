@@ -17,6 +17,6 @@ const useFilteredRecipes = (name, fetchFn, setLoadingStatus) => {
     }, [fetchFn, name]);
 
     return { recipes }
-}
+};
 
 export default useFilteredRecipes;

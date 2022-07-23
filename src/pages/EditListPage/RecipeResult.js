@@ -3,7 +3,8 @@ import Img from './Img';
 import RecipeButton from './RecipeButton';
 import './SearchResult.scss'; 
 
-const RecipeResult = ({ list, updateList, recipe, userId }) => {
+const RecipeResult = props => {
+    const { recipe } = props;
     return (
         <div className="search-result">
             <Link className="search-result__wrapper" to={`/recipes/${recipe.idMeal}`}>
@@ -13,7 +14,7 @@ const RecipeResult = ({ list, updateList, recipe, userId }) => {
                     <p className="search-result__type">Recipe</p>
                 </div>
             </Link>
-            <RecipeButton list={list} recipe={recipe} updateList={updateList} userId={userId}/>
+            <RecipeButton {...props} />
         </div>
     )
 }

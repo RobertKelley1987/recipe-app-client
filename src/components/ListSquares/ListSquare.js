@@ -1,34 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { hasRecipes } from '../../util/has-recipes';
+import useRecipeFromList from '../../hooks/useRecipeFromList';
 import EditSVG from './../SVGs/EditSVG';
 import Img from './../Img';
 import ListDropdown from './ListDropdown';
 import Options from './../Options';
-import Recipe from '../../services/Recipe';
 import './ListSquare.scss';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 
-const hasRecipes = list => {
-    return list && list.recipes && list.recipes.length > 0;
-}
-
 const ListSquare = props => {
     const [dropdownIsVisible, setDropdownIsVisible] = useState(false);
-    const [recipe, setRecipe] = useState(null);
-    const { searchURL, list } = props;
+    const { list } = props;
+    const { recipe } = useRecipeFromList(list);
     const location = useLocation();
-
-    // On initial render, get recipe using url provided and save to component state
-    useEffect(() => {
-        const getRecipe = async list => {
-            if(hasRecipes(list)) {
-                const { data } = await Recipe.getOne(list.recipes[0].apiId)
-                data.meals && setRecipe(data.meals[0]);
-            } 
-        }
-
-        getRecipe(searchURL);
-    }, [searchURL]);
 
     // After clicking a link to a modal, hide dropdown menu
     useEffect(() => {

@@ -2,9 +2,12 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { Fragment, useCallback, useEffect, useState } from 'react';
 import useCategories from './hooks/useCategories';
 import useCuisines from './hooks/useCuisines';
+import useList from './hooks/useList';
 import useLists from './hooks/useLists';
 import useSuccessMessage from './hooks/useSuccessMessage';
 import useUserId from './hooks/useUserId';
+import useIngredients from './hooks/useIngredients';
+import useFavorites from './hooks/useFavorites';
 import AddToList from './components/AddToList';
 import AuthPage from './pages/AuthPage';
 import DeleteList from './components/DeleteList';
@@ -27,8 +30,6 @@ import User from './services/User';
 import './App.scss';
 import Recipe from './services/Recipe';
 import LoadingWrapper from './components/LoadingWrapper';
-import useIngredients from './hooks/useIngredients';
-import useFavorites from './hooks/useFavorites';
 
 const App = () => {  
   const [isLoading, setIsLoading] = useState(true);
@@ -37,16 +38,14 @@ const App = () => {
   const { ingredients } = useIngredients();
   const { cuisines } = useCuisines();
   const [favorites, setFavorites] = useFavorites(userId);
+  const [list, getList, setList] = useList(userId);
   const [lists, setLists] = useLists(userId);
-
   const [errorMessage, setErrorMessage] = useState('');
-  const [list, setList] = useState(null);
   const [menuIsVisible, setMenuIsVisible] = useState(false);
   const [successMessage, setSuccessMessage] = useSuccessMessage();
   const location = useLocation();
   const backgroundLocation = location.state && location.state.backgroundLocation;
 
-  const updateList = useCallback(newList => setList(newList), []);
   const updateFavorites = useCallback(newFavorites => setFavorites(newFavorites), [setFavorites]);
   const updateLists = useCallback(newLists => setLists(newLists), [setLists]);
   const updateErrorMessage = useCallback(message => setErrorMessage(message), []);
@@ -109,11 +108,9 @@ const App = () => {
                   allIngredients={ingredients} 
                   allLists={lists} 
                   favorites={favorites}
-                  list={list}
                   setErrorMessage={setErrorMessage} 
                   setSuccessMessage={setSuccessMessage}
                   updateFavorites={updateFavorites}
-                  updateList={updateList} 
                   updateLists={updateLists} 
                   userId={userId} 
                 />
@@ -138,13 +135,15 @@ const App = () => {
                 <EditListPage 
                   allCategories={categories} 
                   allCuisines={cuisines} 
-                  allIngredients={ingredients} 
-                  favorites={favorites} 
-                  list={list} 
+                  allIngredients={ingredients}
+                  allLists={lists} 
+                  favorites={favorites}
+                  getList={getList}
+                  list={list}
+                  setList={setList}
                   setSuccessMessage={setSuccessMessage}
                   updateErrorMessage={updateErrorMessage}
                   updateFavorites={updateFavorites} 
-                  updateList={updateList} 
                   userId={userId} 
                 />
               </PrivateRoute>
@@ -233,15 +232,21 @@ const App = () => {
           </Routes>
 
           {backgroundLocation && <Routes>
-              <PrivateRoute userId={userId}>
-                <Route path='/recipes/:recipeId/add' element={<AddToList setErrorMessage={setErrorMessage} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />} />
-              </PrivateRoute>
-              <PrivateRoute userId={userId}>
-                <Route path='/lists/:listId' element={<DeleteList setLists={setLists} userId={userId} />} />
-              </PrivateRoute>
-              <PrivateRoute userId={userId}>
-                <Route path='/lists/:listId/recipes/:recipeId' element={<DeleteRecipe setList={setList} userId={userId} />} />
-              </PrivateRoute>
+                <Route path='/recipes/:recipeId/add' element={
+                  <PrivateRoute userId={userId}>
+                    <AddToList setErrorMessage={setErrorMessage} setSuccessMessage={setSuccessMessage} updateLists={updateLists} userId={userId} />
+                  </PrivateRoute>
+                } />
+                <Route path='/lists/:listId' element={
+                  <PrivateRoute userId={userId}>
+                    <DeleteList setLists={setLists} userId={userId} />
+                  </PrivateRoute>
+                } />
+                <Route path='/lists/:listId/recipes/:recipeId' element={
+                  <PrivateRoute userId={userId}>
+                    <DeleteRecipe getList={getList} userId={userId} />
+                  </PrivateRoute>
+                } />
           </Routes>}
 
         </div>

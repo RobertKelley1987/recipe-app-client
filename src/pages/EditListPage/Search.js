@@ -1,18 +1,18 @@
-import SearchResultsList from '../../components/SearchWrapper/SearchResultsList';
-import SearchWrapper from '../../components/SearchWrapper';
+import EditListSearch from './EditListSearch';
 import './Search.scss';
 
+const renderSearch = (findRecipesButton, search, searchIsVisible) => {
+    return searchIsVisible ? search : findRecipesButton;
+}
 const Search = props => {
     const { searchIsVisible, setSearchIsVisible } = props;
+    
+    // Button to display search feature
+    const findRecipesButton = <span onClick={() => setSearchIsVisible(true)} className="search__link">Find More Recipes</span>;
+    // Search feature component displayed below list
+    const search = <EditListSearch {...props} />;
 
-    // Test if search is visible
-    if(searchIsVisible) { 
-        // Display search section 
-        return <SearchWrapper {...props} displayResults={SearchResultsList} />;
-    } else {
-        // Display link to open searchbar with results
-        return <span onClick={() => setSearchIsVisible(true)} className="search__link">Find More Recipes</span>;
-    }
+    return renderSearch(findRecipesButton, search, searchIsVisible);
 }
 
 export default Search;

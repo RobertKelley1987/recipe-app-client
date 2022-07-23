@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 import Recipe from '../../services/Recipe';
-import EmptyMessage from '../EmptyMessage';
+import EmptyMessage from '../../components/EmptyMessage';
 import BackButton from './BackButton';
-import RecipeResultsSection from '../../pages/EditListPage/RecipeResultsSection';
+import RecipeResultsSection from './RecipeResultsSection';
 import ResultsSection from './ResultsSection';
 
 const renderEmptyMessage = (searchTerm, categoryResults, cuisineResults, ingredientResults, recipeResults) => {
@@ -16,13 +16,13 @@ const renderEmptyMessage = (searchTerm, categoryResults, cuisineResults, ingredi
     }
 }
 
-const SearchResultsList = props => {
+const SearchResults = props => {
     const { categoryResults, cuisineResults, filteredRecipes, filterType, ingredientResults, recipeResults, searchTerm } = props;
     return (
         <Fragment>
             {/* Display empty message if all results are empty */}
             {renderEmptyMessage(searchTerm, categoryResults, cuisineResults, ingredientResults, recipeResults)}
-            {/* Dsplay back button if filtered results are displayed */}
+            {/* Display back button if filtered results are displayed */}
             {filterType && <BackButton setFilter={props.setFilter} />}
             {/* Recipe results */}
             <RecipeResultsSection {...props} results={filterType ? filteredRecipes : recipeResults} />
@@ -36,4 +36,4 @@ const SearchResultsList = props => {
     );
 }
 
-export default SearchResultsList;
+export default SearchResults;

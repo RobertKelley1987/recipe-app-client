@@ -13,7 +13,7 @@ import List from '../../services/List';
 const AddToList = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [lists, setLists] = useState([]);
-    const [modalErrorMessage, setModalErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const [newListInputVisible, setNewListInputVisible] = useState(false);
     const [recipe, setRecipe] = useState(null);
     const addToListWrapper = useRef(null);
@@ -28,7 +28,7 @@ const AddToList = props => {
         const getRecipe = async recipeId => {
             const data = await Recipe.getOne(recipeId);
             if(data.err) {
-                setModalErrorMessage('Failed to fetch recipe data from server. Please try again later.')
+                setErrorMessage('Failed to fetch recipe data from server. Please try again later.')
             }
             setRecipe(data.meals[0]);
         }
@@ -64,7 +64,7 @@ const AddToList = props => {
         // Set new list input state to closed
         setNewListInputVisible(false);
         // Clear any error message displayed before closing
-        setModalErrorMessage('');
+        setErrorMessage('');
         // Navigate back to page beneath modal
         navigate(-1);
     }
@@ -78,7 +78,7 @@ const AddToList = props => {
                 <NewListInput 
                     addToListWrapper={addToListWrapper}
                     newListInputVisible={newListInputVisible} 
-                    setErrorMessage={setModalErrorMessage} 
+                    setErrorMessage={setErrorMessage} 
                     setNewListInputVisible={setNewListInputVisible}
                     setLists={setLists}
                     userId={userId} 
@@ -86,12 +86,12 @@ const AddToList = props => {
 
                 <LoadingWrapper isLoading={isLoading} textOnly={true} >
                     <ul className="add-to-list__lists">
-                        {hasResults(lists) && lists.map(list => <RecipeList {...props} key={list._id} list={list} recipe={recipe} setErrorMessage={setModalErrorMessage} />)}
+                        {hasResults(lists) && lists.map(list => <RecipeList {...props} key={list._id} list={list} recipe={recipe} setErrorMessage={setErrorMessage} />)}
                     </ul>
                     {!newListInputVisible && <button className="add-to-list__button" onClick={() => setNewListInputVisible(true)}>New List</button>}
                 </LoadingWrapper>
 
-                {modalErrorMessage && <ErrorMessage errorMessage={modalErrorMessage} setErrorMessage={setModalErrorMessage} />}
+                {errorMessage && <ErrorMessage errorMessage={errorMessage} setErrorMessage={setErrorMessage} />}
             </div>
         </Modal>
     );

@@ -4,7 +4,7 @@ export const filterByFirstLetter = (items, letter, nameProp) => {
 }
 
 // Filter a list of items by a specified search term, then update state for that item
-export const filterBySearchTerm = (allItems, setItems, nameProp, searchTerm) => {
+export const filterBySearchTerm = (allItems, nameProp, searchTerm) => {
     let results;
     
      // Test if term is one letter long
@@ -20,5 +20,5 @@ export const filterBySearchTerm = (allItems, setItems, nameProp, searchTerm) => 
         });
     };
 
-    setItems(results);
+   return results;
 }

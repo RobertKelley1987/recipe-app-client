@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ImgPlaceholder from "../ImgPlaceholder";
+import ImgPlaceholder from "../../components/ImgPlaceholder";
 
 const Img = ({ resultImg, resultName }) => {
     // track whether the img for this result could not be found
