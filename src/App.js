@@ -162,12 +162,7 @@ const App = () => {
             } />
             <Route path='/categories' element={
               <PrivateRoute userId={userId}>
-                <PageWithFilter 
-                  allItems={categories} 
-                  filterType='category' 
-                  resultType='category' 
-                  listComponent={LinksList} 
-                />
+                <PageWithFilter allItems={categories} filterType='category' resultType='category' listComponent={LinksList} />
               </PrivateRoute>
             } />
             <Route path='/categories/:name' element={
@@ -198,12 +193,7 @@ const App = () => {
             } />
             <Route path='/cuisines' element={
               <PrivateRoute userId={userId}>
-                <PageWithFilter 
-                  allItems={cuisines} 
-                  filterType='cuisine' 
-                  resultType='cuisine' 
-                  listComponent={LinksList} 
-                />
+                <PageWithFilter allItems={cuisines} filterType='cuisine' resultType='cuisine' listComponent={LinksList} />
               </PrivateRoute>
             } />
             <Route path='/ingredients/:name' element={
@@ -221,16 +211,12 @@ const App = () => {
             } />
             <Route path='/ingredients' element={
               <PrivateRoute userId={userId}>
-                <PageWithFilter 
-                  allItems={ingredients} 
-                  filterType='ingredient' 
-                  resultType='ingredient' 
-                  listComponent={LinksList} 
-                />
+                <PageWithFilter allItems={ingredients} filterType='ingredient' resultType='ingredient' listComponent={LinksList} />
               </PrivateRoute>
             } />
           </Routes>
 
+          {/* MODAL ROUTES */}
           {backgroundLocation && <Routes>
                 <Route path='/recipes/:recipeId/add' element={
                   <PrivateRoute userId={userId}>

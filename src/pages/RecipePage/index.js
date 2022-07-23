@@ -1,47 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import useRecipe from '../../hooks/useRecipe';
 import IngredientsSection from './IngredientsSection';
+import LoadingWrapper from '../../components/LoadingWrapper';
 import PrepSection from './PrepSection';
-import Recipe from '../../services/Recipe';
 import RecipeCardXL from '../../components/RecipeCardXL'; 
 import './RecipePage.scss';
 
 const RecipePage = props => {
-    const [recipe, setRecipe] = useState(null);
     const { recipeId } = useParams();
-    const navigate = useNavigate();
+    const { recipe } = useRecipe(recipeId);
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
-    // Fetch recipe data on initial load
-    useEffect(() => {
-        const getRecipe = async recipeId => {
-            if(!recipeId) { return }
-
-            // If user navigated to the random recipe page, fetch random recipe.
-            // Otherwise get specific recipe using recipe id provided. 
-            const data = recipeId === 'random' ? await Recipe.getRandom() : await Recipe.getOne(recipeId); 
-            
-            // If user selected a random recipe, navigate to correct page using id from api,
-            // so they can return to the same recipe using the back button
-            if(recipeId === 'random') {
-                navigate(`/recipes/${data.meals[0].idMeal}`, { replace: true });
-            }
-
-            setRecipe(data.meals[0]);
-        }
-
-        getRecipe(recipeId);
-    }, [recipeId, navigate]); 
-
-    return recipe && (
-        <main className="recipe-page">
-            <RecipeCardXL {...props} isHeader={true} recipe={recipe} />
-            <IngredientsSection recipe={recipe} />
-            <PrepSection recipe={recipe} />
-        </main>
+    return (
+        <LoadingWrapper isLoading={!recipe}>
+            <main className="recipe-page">
+                <RecipeCardXL {...props} isHeader={true} recipe={recipe} />
+                <IngredientsSection recipe={recipe} />
+                <PrepSection recipe={recipe} />
+            </main>
+        </LoadingWrapper>
     )
 }
 

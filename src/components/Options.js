@@ -1,32 +1,11 @@
-import { useEffect, useRef } from 'react';
+import useDropdown from '../hooks/useDropdown';
 import MoreSVG from './SVGs/MoreSVG';
 import './Options.scss';
 
 const Options = ({ children, dropdown, dropdownIsVisible, listId, recipeId, setDropdownIsVisible }) => {
-    const dropdownWrapper = useRef(null);
+    const { dropdownWrapper } = useDropdown(setDropdownIsVisible);
 
     const Dropdown = dropdown;
-
-    useEffect(() => {
-        const handleClick = e => {
-            if(!dropdownWrapper || !dropdownWrapper.current) {
-                return
-            }
-            // Test if user has clicked inside of dropdown wrapper
-            if(dropdownWrapper.current.contains(e.target)) {
-                // Do nothing
-                return
-            }
-            // Close dropdown menu
-            setDropdownIsVisible(false);
-        }
-
-        // Add listener to window when this component renders
-        window.addEventListener('click', handleClick);
-
-        // Remove this listener when the component unmounts
-        return () => window.removeEventListener('click', handleClick);
-    }, [setDropdownIsVisible]);
 
     return (
         <div className="options">

@@ -15,7 +15,7 @@ const SearchPage = props => {
     const [searchTerm, setSearchTerm] = useState('');
     // Ref to search bar element as a point to scroll back to after a filter is applied
     const searchEl = useRef(null);
-    const { allCategories, allCuisines, allIngredients, allLists, setSearchIsVisible } = props;
+    const { allCategories, allCuisines, allIngredients, allLists } = props;
     const { categoryResults, 
             cuisineResults, 
             ingredientResults, 

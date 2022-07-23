@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import List from '../services/List';
 
-const useList = (userId) => {
+const useList = (listId, userId) => {
     const [list, setList] = useState(null);
-    const { listId } = useParams; 
 
     useEffect(() => {
         if(listId) {

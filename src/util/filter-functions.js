@@ -13,6 +13,7 @@ export const filterBySearchTerm = (allItems, nameProp, searchTerm) => {
         results = filterByFirstLetter(allItems, searchTerm, nameProp);
     } else { // ... otherwise show all results that include search term
         results = allItems.filter(item => {
+            console.log(item);
             if(item[nameProp].toLowerCase().includes(searchTerm.toLowerCase())) {
                 return item;
             }
